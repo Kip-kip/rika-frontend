@@ -471,11 +471,11 @@ Target: **50 pts** = the platform is a *real* acquisition machine, not a demo. *
 | Group | Weight | Earned | % |
 |-------|--------|--------|---|
 | Acquisition Foundation | 30 | LEAD-1 ✅ + LEAD-3 ✅ + QUOTE-1 ✅ + MEAS-2 ✅ ≈ 20 | 67% |
-| Engagement Depth | 20 | CALC-2 ✅ + MEAS-4 ✅ (10) + SAVE-1 ✅ (5) + WASAPP-1 🟨 (2.5) ≈ 17.5 | 88% |
+| Engagement Depth | 20 | CALC-2 ✅ + MEAS-4 ✅ (10) + SAVE-1 ✅ (5) + WASAPP-1 ✅ (5) = 20 | 100% |
 | SEO & Content | 15 | 0 | 0% |
 | Customer App | 20 | 0 | 0% |
 | Operations | 15 | 0 | 0% |
-| **Total** | **100** | **≈ 37.5** | **≈ 38%** |
+| **Total** | **100** | **≈ 42.5** | **≈ 43%** |
 
 > The *existing* tools (visualizer, measurement, quotation) are **pre-roadmap** work — the proof-of-concept the acquisition engine is built on. They don't score under the scheme (the scheme measures the *business platform*, not the MVP). They are the strongest asset we have.
 

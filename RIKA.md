@@ -652,3 +652,24 @@ All tools are tested with **Playwright** (headless Chromium):
 ---
 
 *This document is the project brain. Read it before touching code. Update it after changing anything.*
+## Backend (Frappe)
+
+The lead-capture backend lives in the `rika` Frappe app at `~/frappe-bench/apps/rika/`.
+
+**Guest API endpoints** (all `allow_guest=True`, proxied via nginx on port 8000):
+
+| Route | Frappe endpoint | DocType |
+|-------|----------------|---------|
+| `POST /rika/api/quote` | `rika.rika.api.quotations.create_quotation` | `Rika Quotation` + auto `Rika Lead` |
+| `POST /rika/api/booking` | `rika.rika.api.bookings.create_booking` | `Rika Booking` |
+| `POST /rika/api/lead` | `rika.rika.api.leads.create_lead` | `Rika Lead` |
+
+**Nginx note:** the Frappe module path is `rika.rika.api.*` (double `rika`) — not `rika.api.*`. The `before_request` hook in `rika/hook_setup.py` whitelists `/api/method/rika.rika.api/` for guest access.
+
+**DocTypes** (all in the live `rika` app, created 2026-10-02):
+- `Rika Lead` — 17 fields, autoname=hash, auto-created by the quote endpoint
+- `Rika Quotation` — 13 fields, `RIKA-QUOTE-` series, tier, `line_items` JSON, KSh range
+- `Rika Booking` — 12 fields, autoname=hash, time-slot validation (`Morning/Midday/Afternoon`)
+- `Rika Project` — 12 fields, `RIKA-PROJ-` series, 6-stage tracker
+- `Rika Design` — 10 fields, `RIKA-DESIGN-` series, config JSON
+

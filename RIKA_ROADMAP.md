@@ -231,9 +231,9 @@ build it, verify the DoD, flip the status. Batches end in a *shippable, demo-abl
 | T-B0-04 | LEAD-1 — Frappe doc types: `Rika Lead`, `Rika Quotation`, `Rika Project` | ✅ 2026-10-02 | A | All 5 DocTypes created in the live `rika` app (Lead+Booking already existed; added Quotation, Project, Design); Rika Lead enriched with `design_config`/`created_from`; `bench migrate` clean; test inserts passed (`RIKA-QUOTE-00001`, `RIKA-PROJ-00001`, `RIKA-DESIGN-00001`) |
 | T-B0-05 | LEAD-3 — wire quote form to `Rika Quotation` (guest endpoint) | ✅ 2026-10-02 | A | `/rika/api/quote` → `rika.rika.api.quotations.create_quotation` (guest-whitelisted); auto-creates linked `Rika Lead`; verified live via nginx (`RIKA-QUOTE-00004`); nginx module path fixed to `rika.rika.api.*` |
 | T-B0-06 | QUOTE-1 fix — quote form persists server-side | ✅ 2026-10-02 | A | Quote persists in Frappe `Rika Quotation` doc; verified end-to-end via nginx; auto-linked to `Rika Lead`; test data cleaned |
-| T-B0-07 | MEAS-2 — free measurement *booking* (date/time/location form) | 🔧 2026-10-02 | A | Backend done: `/rika/api/booking` → `rika.rika.api.bookings.create_booking` (guest-whitelisted); time-slot validation fixed; verified live. Remaining: frontend CTA + booking form UI in `/rika/tools/measurement/` |
+| T-B0-07 | MEAS-2 — free measurement *booking* (date/time/location form) | ✅ 2026-10-02 | A | Frontend CTA + modal form (already built in `shared/js/booking.js`) → `/rika/api/booking` → `rika.rika.api.bookings.create_booking` (guest-whitelisted). Fixed: en-dash normalization in time slots, nginx module path. Verified live end-to-end; test data cleaned |
 
-**Remaining Batch 0 when resuming:** T-B0-07 frontend (booking form UI) — backend already done. Then Batch 1.
+**Batch 0: ✅ COMPLETE (all 7 tasks done). Next: Batch 1 — Conversion engine (T-B1-03 first).**
 
 ---
 

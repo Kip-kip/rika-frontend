@@ -4,6 +4,8 @@
 // Pure logic is imported from geometry.js, templates.js, image.js.
 // ============================================================
 import { state, CORNER_ORDER, CORNER_NUM, cornerMarkers, FINISHES, GLASSES, T_W, T_H, FRAME_W } from './state.js';
+import { RIKA_CONFIG } from '../../shared/js/rika-config.js';
+const WA_NUMBER = RIKA_CONFIG.whatsapp.number;
 import { computeHomography, applyH, validateQuad } from './geometry.js';
 import { renderTemplate, templateThumbSvg, DESIGNS } from './templates.js';
 import { loadImageWithOrientation, downscale, validateImageFile } from './image.js';
@@ -466,6 +468,20 @@ function openQuote() {
   const summary = document.getElementById('quoteSummary');
   const d = DESIGNS[state.design];
   summary.innerHTML = `<b>Design:</b> ${d.label}<br><b>Frame:</b> ${FINISHES[state.finish].label}<br><b>Glass:</b> ${GLASSES[state.glass].label}`;
+
+  // WASAPP-1: pre-fill WhatsApp with the current design state
+  const qty = parseInt(document.getElementById('qQty').value, 10) || 1;
+  const lines = [
+    'Hi Rika! I designed this window in your 3D visualizer:',
+    `• Design: ${d.label}`,
+    `• Frame: ${FINISHES[state.finish].label}`,
+    `• Glass: ${GLASSES[state.glass].label}`,
+    qty > 1 ? `• Quantity: ${qty}` : null,
+    'I\'d like a firm quote / free measurement.',
+  ].filter(Boolean);
+  const wa = document.getElementById('btnQuoteWa');
+  if (wa) wa.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
+
   document.getElementById('quoteModal').classList.remove('hidden');
 }
 function closeQuote() {

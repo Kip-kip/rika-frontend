@@ -133,6 +133,7 @@
         <button class="btn btn-ghost" id="btnStartOver">↺ Start Over</button>
         <a id="btnMeasureCalc" href="/rika/tools/calculator/" class="btn btn-ghost">💰 Estimate My Price</a>
         <button class="btn btn-primary" data-book-measurement data-source="Measurement Tool">📅 Book a Free Measurement</button>
+        <a id="btnMeasureWa" class="btn btn-success" target="_blank" rel="noopener" href="#">💬 Chat Me on WhatsApp</a>
         <a href="/rika/tools/visualizer/" class="btn btn-ghost">Visualize This Opening</a>
       </div>
     </section>
@@ -164,6 +165,20 @@
           } else {
             window.location.href = '/rika/tools/calculator/';
           }
+        });
+      }
+      // WASAPP-1: pre-populated WhatsApp from measured dimensions
+      const waBtn = document.getElementById('btnMeasureWa');
+      if (waBtn) {
+        waBtn.addEventListener('click', (e) => {
+          const w = document.getElementById('resWidthCm') ? document.getElementById('resWidthCm').textContent.trim() : '';
+          const h = document.getElementById('resHeightCm') ? document.getElementById('resHeightCm').textContent.trim() : '';
+          const area = document.getElementById('resArea') ? document.getElementById('resArea').textContent.trim() : '';
+          const lines = ['Hi Rika! I just measured my window with your tool:'];
+          if (w && h) lines.push(`• Opening: approx ${w} × ${h}`);
+          if (area) lines.push(`• Area: ${area}`);
+          lines.push("I'd like a free site measurement / firm quote.");
+          waBtn.href = `https://wa.me/${RIKA_CONFIG.whatsapp.number}?text=${encodeURIComponent(lines.join('\n'))}`;
         });
       }
     });

@@ -1,5 +1,6 @@
 // ============================================================
 // Rika Quotation — app (form validation, submission, success)
+import { waLink } from '../../shared/js/rika-config.js';
 // ============================================================
 
 // --- DOM refs ---
@@ -146,6 +147,12 @@ async function handleSubmit(e) {
     // Show success
     $('successName').textContent = data.name;
     $('successRef').textContent = data.ref;
+
+    // WASAPP-1: follow-up WhatsApp pre-filled with the submitted quote
+    const waMsg = `Hi Rika! I just submitted a quote request (ref ${data.ref}). Type: ${data.type || '—'}, qty ${data.quantity}, ${data.width ? data.width + ' × ' + data.height + ' cm' : 'no size yet'}. My name is ${data.name}.`;
+    const sw = $('successWa');
+    if (sw) sw.href = waLink(waMsg);
+
     form.classList.add('hidden');
     success.classList.remove('hidden');
     window.scrollTo(0, 0);

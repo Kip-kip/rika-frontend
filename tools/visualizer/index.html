@@ -60,6 +60,7 @@
           <button class="btn btn-ghost" id="btnAdjustOpening">✏ Adjust Opening</button>
           <button class="btn btn-ghost" id="btnBeforeAfter">🆚 Before / After</button>
           <button class="btn btn-success" id="btnQuote">💰 Get a Quote</button>
+          <button class="btn btn-primary" data-save-design data-source="Designer">📥 Save My Design</button>
         </div>
       </div>
     </section>
@@ -105,6 +106,7 @@
     <div class="modal-actions">
       <button class="btn btn-ghost" id="btnCancelQuote">Cancel</button>
       <button class="btn btn-primary" id="btnSubmitQuote">Submit Request</button>
+      <a id="btnQuoteWa" class="btn btn-success" target="_blank" rel="noopener">💬 Send on WhatsApp</a>
     </div>
   </div>
 </div>
@@ -117,6 +119,35 @@ initVisualizer();
 const menuBtn = document.getElementById('menuBtn');
 const mainNav = document.getElementById('mainNav');
 menuBtn.addEventListener('click', () => mainNav.classList.toggle('open'));
+</script>
+
+<script type="module">
+  import '../../shared/js/save-design.js';
+  import { state, FINISHES, GLASSES } from './js/state.js';
+  import { DESIGNS } from './js/templates.js';
+  // Register the visualizer's design state for the Save My Design modal
+  window.__rikaSetDesignSnapshot = () => {
+    const d = DESIGNS[state.design] || {};
+    const finishLabel = FINISHES[state.finish] ? FINISHES[state.finish].label : null;
+    const glassLabel = GLASSES[state.glass] ? GLASSES[state.glass].label : null;
+    const lines = [];
+    lines.push('<b>Design:</b> ' + (d.label || state.design));
+    if (finishLabel) lines.push('<b>Frame:</b> ' + finishLabel);
+    if (glassLabel) lines.push('<b>Glass:</b> ' + glassLabel);
+    return {
+      product: d.label || state.design,
+      finish: finishLabel,
+      glass: glassLabel,
+      addons: [],
+      tier: null,
+      width_cm: null,
+      height_cm: null,
+      quantity: 1,
+      estimate_low: null,
+      estimate_high: null,
+      summaryHtml: lines.join('<br>'),
+    };
+  };
 </script>
 </body>
 </html>

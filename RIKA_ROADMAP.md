@@ -228,12 +228,12 @@ build it, verify the DoD, flip the status. Batches end in a *shippable, demo-abl
 | T-B0-01 | MEAS-4 — measurement disclaimer (C1) | ✅ 2026-10-02 | A | Results screen says "Approximate — confirmed at site visit"; wording from `rika-config.js` |
 | T-B0-02 | HOME-2/HOME-3 — reframe homepage, flagship CTA (C2) | 🟨 | A | Homepage leads with "Design Your Windows" hero CTA → opens studio; product cards present (SEO-1 fills content) |
 | T-B0-03 | D3/D4/D5 — confirm backend=Frappe, pricing rates, WhatsApp number | ✅ 2026-10-02 | C | D3=Frappe · D4=real Nairobi market rates in `rika-config.js` · D5=`254718700519` |
-| T-B0-04 | LEAD-1 — Frappe doc types: `Rika Lead`, `Rika Quotation`, `Rika Project` | ⬜ | A | Three DocTypes created in `rika_backend`; fields per §7 data model; `bench migrate` clean |
+| T-B0-04 | LEAD-1 — Frappe doc types: `Rika Lead`, `Rika Quotation`, `Rika Project` | ✅ 2026-10-02 | A | All 5 DocTypes created in the live `rika` app (Lead+Booking already existed; added Quotation, Project, Design); Rika Lead enriched with `design_config`/`created_from`; `bench migrate` clean; test inserts passed (`RIKA-QUOTE-00001`, `RIKA-PROJ-00001`, `RIKA-DESIGN-00001`) |
 | T-B0-05 | LEAD-3 — wire quote form to `Rika Quotation` (guest endpoint) | ⬜ | A | `/rika/api/quote` POSTs to a Frappe guest-whitelisted endpoint that inserts a `Rika Quotation`; localStorage kept as offline fallback |
 | T-B0-06 | QUOTE-1 fix — quote form persists server-side | ⬜ | A | Quote survives browser close; retrievable in Frappe Desk |
 | T-B0-07 | MEAS-2 — free measurement *booking* (date/time/location form) | ⬜ | A | `/rika/tools/measurement/` gets a "Book a Free Measurement" CTA → booking form (name/phone/location/project-type/date/time) → `Rika Measurement Booking` DocType; confirmation shown |
 
-**Remaining Batch 0 when resuming:** T-B0-04 → T-B0-05 → T-B0-06 → T-B0-07 (sequential; 04 unblocks the rest).
+**Remaining Batch 0 when resuming:** T-B0-05 → T-B0-06 → T-B0-07 (sequential; 04 done).
 
 ---
 
@@ -480,8 +480,8 @@ Target: **50 pts** = the platform is a *real* acquisition machine, not a demo. *
 > The *existing* tools (visualizer, measurement, quotation) are **pre-roadmap** work — the proof-of-concept the acquisition engine is built on. They don't score under the scheme (the scheme measures the *business platform*, not the MVP). They are the strongest asset we have.
 
 ### Current build state
-- **Done:** CALC-1, CALC-2, MEAS-4, WASAPP-1 (partial), DATA-1, all Batch 0 decisions (D3/D4/D5), homepage reframe (partial).
-- **In flight:** Batch 0 code tasks T-B0-04 → T-B0-07 (Frappe doc types → lead wiring → measurement booking).
+- **Done:** CALC-1, CALC-2, MEAS-4, WASAPP-1 (partial), DATA-1, T-B0-04 (Frappe doc types), all Batch 0 decisions (D3/D4/D5), homepage reframe (partial).
+- **In flight:** Batch 0 code tasks T-B0-05 → T-B0-07 (lead wiring → measurement booking). T-B0-04 (Frappe doc types) ✅ done.
 - **Next up after Batch 0:** Batch 1 (SAVE-1, QUOTE-2, WASAPP-1 completion) → Batch 2 (SEO spine) → Batch 3 (the "feels like AI" layer) → Batch 4 (customer app) → Batch 5 (operations flywheel).
 
 ### How to pick up at any time

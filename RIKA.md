@@ -527,6 +527,27 @@ Each card is an `<a>` with `.tool-card` class:
 - **Protocol:** HTTP/1.1, threaded (handles concurrent requests)
 - **Start:** `python3 threaded-server.py` (run in background or via systemd)
 
+### 8.1b Backend — Frappe DocTypes (the data core)
+
+All five Rika DocTypes live in the **`rika`** Frappe app on `frappe-bench` (site `dev.local`),
+not in the `rika_backend` scaffold (that's a separate, unused GitHub repo).
+
+| DocType | Purpose | Autoname | Fields |
+|---------|---------|----------|--------|
+| `Rika Lead` | A person who shows interest (from any tool) | hash | 17 — name, phone, email, location, window_type, qty, dims, finish, glass, notes, source, status, lead_value, **design_config** (JSON), **created_from** |
+| `Rika Booking` | Free measurement booking (MEAS-2) | hash | 12 — name, phone, location, project_type, preferred_date, preferred_time, dims, qty, notes, source, status |
+| `Rika Quotation` | A formal quote (from calculator/design) | `RIKA-QUOTE-` | 13 — lead, customer_name, phone, location, tier, line_items (JSON), total_low/high, ref_code, status, submitted_at, notes |
+| `Rika Project` | An accepted quotation → installed project | `RIKA-PROJ-` | 12 — quotation, customer, project_name, location, stage, stage_dates (JSON), deposit_paid, install_date, handover_date, warranty_expires, notes |
+| `Rika Design` | A saved-at-intent design (SAVE-1) | `RIKA-DESIGN-` | 10 — owner_name, phone, source_tool, config (JSON), estimate_low/high, saved_at, status, notes |
+
+**API endpoints (already in the `rika` app):**
+- `POST /api/method/rika/rika/api/leads/create_lead` — guest, maps form → `Rika Lead`
+- `POST /api/method/rika/rika/api/bookings/create_booking` — guest, maps form → `Rika Booking`
+- (Quotation/Project/Design endpoints come in T-B0-05)
+
+> **Rule:** every tool that captures a lead or saves a design must hit these endpoints.
+> `localStorage` is a fallback only, never the primary store.
+
 ### 8.2 Nginx
 
 - **Config:** `/etc/nginx/sites-enabled/frappe-dev`
@@ -602,6 +623,7 @@ All tools are tested with **Playwright** (headless Chromium):
 | 2026-10-02 | Homepage reframed; WhatsApp pre-fill wired (`254718700519`) |
 | 2026-10-02 | Migrated from `house-demo/rika/` to `~/Rika/frontend/` (repo root served at `/rika/`); `house-demo/` deleted; legacy routes retired |
 | 2026-10-02 | RIKA_ROADMAP.md rewritten as a detailed, resumable coding plan (feature register + per-batch tasks + data model) |
+| 2026-10-02 | T-B0-04 ✅ — 5 Frappe DocTypes built in the live `rika` app: Rika Lead (enriched +design_config/+created_from), Rika Booking (already existed), Rika Quotation, Rika Project, Rika Design. `bench migrate` clean, test inserts passed (`RIKA-QUOTE-00001`, `RIKA-PROJ-00001`, `RIKA-DESIGN-00001`). |
 
 ### Pending / Future
 

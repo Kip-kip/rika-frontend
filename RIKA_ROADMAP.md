@@ -246,9 +246,9 @@ build it, verify the DoD, flip the status. Batches end in a *shippable, demo-abl
 | T-B1-02 | CALC-2 — three-tier packages (Essential/Comfort/Premium) | ✅ 2026-10-02 | A | 3 tiers in calculator with spec + price deltas; tap-to-apply per-m² |
 | T-B1-03 | SAVE-1 — "Save My Design" lead capture at moment of intent | ✅ 2026-10-02 | A | Shared `save-design.js` modal + CTA in calculator & visualizer; POSTs to `/rika/api/save-design` → `rika.rika.api.designs.save_design` (guest-whitelisted); stores `Rika Design` (config JSON + estimates) + linked `Rika Lead` (`created_from=save_design`); confirmation with ref + WhatsApp follow-up + exact-quote CTA; verified live end-to-end |
 | T-B1-04 | QUOTE-2 — exact-quote flow from calculator | ✅ 2026-10-02 | A | "Get Exact Quote" button in calculator → pre-fills quote form via URL params (`?type=&w=&h=&qty=&finish=&glass=&addons=&est=&from=calculator`) with finish-id mapping (black→matte-black) → `Rika Quotation` created with calculator estimate as total_low/total_high → reference code returned. Verified live end-to-end via nginx (RIKA-QUOTE-00008) |
-| T-B1-05 | WASAPP-1 completion — pre-populate WhatsApp from design state | ⬜ | A | Every major CTA (calculator, designer, compare, second-quote) generates a `wa.me/254718700519` link with the current config + price pre-filled |
+| T-B1-05 | WASAPP-1 completion — pre-populate WhatsApp from design state | ✅ 2026-10-02 | A | Every major CTA generates a `wa.me/254718700519` link with the current config + price pre-filled. Added: visualizer "Send on WhatsApp" (design+frame+glass+qty), measurement "Chat Me on WhatsApp" (measured W×H+area), quote-success "Chat us on WhatsApp" (ref+type+qty+dims). Calculator's 2 CTAs + Save-My-Design follow-up already did this. Verified live (all 3 buttons present, wa.me links built from state). |
 
-**When resuming:** T-B1-05 (WhatsApp pre-fill everywhere).
+**When resuming:** Batch 2 (SEO spine) — T-B2-01 (5 product catalog pages).
 
 ---
 
@@ -480,8 +480,8 @@ Target: **50 pts** = the platform is a *real* acquisition machine, not a demo. *
 > The *existing* tools (visualizer, measurement, quotation) are **pre-roadmap** work — the proof-of-concept the acquisition engine is built on. They don't score under the scheme (the scheme measures the *business platform*, not the MVP). They are the strongest asset we have.
 
 ### Current build state
-- **Done:** All of Batch 0 (T-B0-01 → T-B0-07), T-B1-03 (Save My Design), T-B1-04 (exact-quote flow), CALC-1, CALC-2, MEAS-4, DATA-1, all Batch 0 decisions (D3/D4/D5), homepage reframe (partial).
-- **Next up:** T-B1-05 (WhatsApp pre-fill everywhere) → Batch 2 (SEO spine) → Batch 3 → Batch 4 → Batch 5.
+- **Done:** All of Batch 0 (T-B0-01 → T-B0-07), T-B1-03 (Save My Design), T-B1-04 (exact-quote flow), T-B1-05 (WhatsApp pre-fill everywhere), CALC-1, CALC-2, MEAS-4, DATA-1, all Batch 0 decisions (D3/D4/D5), homepage reframe (partial).
+- **Next up:** Batch 2 (SEO spine) — T-B2-01 (5 product catalog pages) → T-B2-02 → Batch 3 → Batch 4 → Batch 5.
 - **Key backend state:** All 5 DocTypes live in the `rika` Frappe app. 3 guest API endpoints active: `/rika/api/quote`, `/rika/api/booking`, `/rika/api/save-design`. All verified end-to-end through nginx.
 
 ### How to pick up at any time

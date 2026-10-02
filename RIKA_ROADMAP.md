@@ -229,11 +229,11 @@ build it, verify the DoD, flip the status. Batches end in a *shippable, demo-abl
 | T-B0-02 | HOME-2/HOME-3 — reframe homepage, flagship CTA (C2) | 🟨 | A | Homepage leads with "Design Your Windows" hero CTA → opens studio; product cards present (SEO-1 fills content) |
 | T-B0-03 | D3/D4/D5 — confirm backend=Frappe, pricing rates, WhatsApp number | ✅ 2026-10-02 | C | D3=Frappe · D4=real Nairobi market rates in `rika-config.js` · D5=`254718700519` |
 | T-B0-04 | LEAD-1 — Frappe doc types: `Rika Lead`, `Rika Quotation`, `Rika Project` | ✅ 2026-10-02 | A | All 5 DocTypes created in the live `rika` app (Lead+Booking already existed; added Quotation, Project, Design); Rika Lead enriched with `design_config`/`created_from`; `bench migrate` clean; test inserts passed (`RIKA-QUOTE-00001`, `RIKA-PROJ-00001`, `RIKA-DESIGN-00001`) |
-| T-B0-05 | LEAD-3 — wire quote form to `Rika Quotation` (guest endpoint) | ⬜ | A | `/rika/api/quote` POSTs to a Frappe guest-whitelisted endpoint that inserts a `Rika Quotation`; localStorage kept as offline fallback |
-| T-B0-06 | QUOTE-1 fix — quote form persists server-side | ⬜ | A | Quote survives browser close; retrievable in Frappe Desk |
-| T-B0-07 | MEAS-2 — free measurement *booking* (date/time/location form) | ⬜ | A | `/rika/tools/measurement/` gets a "Book a Free Measurement" CTA → booking form (name/phone/location/project-type/date/time) → `Rika Measurement Booking` DocType; confirmation shown |
+| T-B0-05 | LEAD-3 — wire quote form to `Rika Quotation` (guest endpoint) | ✅ 2026-10-02 | A | `/rika/api/quote` → `rika.rika.api.quotations.create_quotation` (guest-whitelisted); auto-creates linked `Rika Lead`; verified live via nginx (`RIKA-QUOTE-00004`); nginx module path fixed to `rika.rika.api.*` |
+| T-B0-06 | QUOTE-1 fix — quote form persists server-side | ✅ 2026-10-02 | A | Quote persists in Frappe `Rika Quotation` doc; verified end-to-end via nginx; auto-linked to `Rika Lead`; test data cleaned |
+| T-B0-07 | MEAS-2 — free measurement *booking* (date/time/location form) | 🔧 2026-10-02 | A | Backend done: `/rika/api/booking` → `rika.rika.api.bookings.create_booking` (guest-whitelisted); time-slot validation fixed; verified live. Remaining: frontend CTA + booking form UI in `/rika/tools/measurement/` |
 
-**Remaining Batch 0 when resuming:** T-B0-05 → T-B0-06 → T-B0-07 (sequential; 04 done).
+**Remaining Batch 0 when resuming:** T-B0-07 frontend (booking form UI) — backend already done. Then Batch 1.
 
 ---
 

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Get a Quotation — Rika</title>
+  <link rel="stylesheet" href="/rika/shared/css/rika.css" />
+  <link rel="stylesheet" href="/rika/tools/quotation/css/quotation.css" />
+</head>
+<body>
+  <header class="header">
+    <a href="/rika/" class="logo">Ri<span>ka</span></a>
+    <nav class="nav">
+      <a href="/rika/" class="nav-link">Home</a>
+      <a href="/rika/tools/visualizer/" class="nav-link">Visualizer</a>
+      <a href="/rika/tools/measurement/" class="nav-link">Measurement</a>
+      <a href="/rika/tools/quotation/" class="nav-link active">Quotation</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main class="main">
+    <section class="quote-section">
+      <div class="quote-header">
+        <h1>Get a Free Quotation</h1>
+        <p class="quote-sub">Tell us about your project and we'll get back to you with a no-obligation quote within 24 hours.</p>
+      </div>
+
+      <form id="quoteForm" class="quote-form" novalidate>
+        <!-- Contact -->
+        <fieldset>
+          <legend>Your Details</legend>
+
+          <div class="field-row">
+            <label class="field">
+              <span class="field-label">Full Name *</span>
+              <input type="text" id="fName" name="name" required autocomplete="name" placeholder="Jane Doe" />
+              <span class="field-error" id="err-name"></span>
+            </label>
+            <label class="field">
+              <span class="field-label">Phone *</span>
+              <input type="tel" id="fPhone" name="phone" required autocomplete="tel" placeholder="+254 7XX XXX XXX" />
+              <span class="field-error" id="err-phone"></span>
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="field-label">Email</span>
+            <input type="email" id="fEmail" name="email" autocomplete="email" placeholder="you@example.com" />
+            <span class="field-error" id="err-email"></span>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Location / Suburb *</span>
+            <input type="text" id="fLocation" name="location" required placeholder="e.g. Westlands, Nairobi" />
+            <span class="field-error" id="err-location"></span>
+          </label>
+        </fieldset>
+
+        <!-- Project -->
+        <fieldset>
+          <legend>Your Project</legend>
+
+          <div class="field-row">
+            <label class="field">
+              <span class="field-label">Window Type *</span>
+              <select id="fType" name="type" required>
+                <option value="">Select a type…</option>
+                <option value="fixed">Fixed Pane</option>
+                <option value="2-panel">2-Panel Sliding</option>
+                <option value="3-panel">3-Panel Sliding</option>
+                <option value="4-panel">4-Panel Sliding</option>
+                <option value="casement">Casement</option>
+                <option value="other">Other</option>
+              </select>
+              <span class="field-error" id="err-type"></span>
+            </label>
+
+            <label class="field">
+              <span class="field-label">Quantity *</span>
+              <input type="number" id="fQty" name="quantity" required min="1" max="999" value="1" />
+              <span class="field-error" id="err-quantity"></span>
+            </label>
+          </div>
+
+          <div class="field-row">
+            <label class="field">
+              <span class="field-label">Approx. Width (cm)</span>
+              <input type="number" id="fWidth" name="width" min="10" max="300" placeholder="e.g. 120" />
+              <span class="field-error" id="err-width"></span>
+            </label>
+
+            <label class="field">
+              <span class="field-label">Approx. Height (cm)</span>
+              <input type="number" id="fHeight" name="height" min="10" max="300" placeholder="e.g. 150" />
+              <span class="field-error" id="err-height"></span>
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="field-label">Frame Finish</span>
+            <select id="fFinish" name="finish">
+              <option value="">No preference</option>
+              <option value="matte-black">Matte Black</option>
+              <option value="silver">Silver</option>
+              <option value="bronze">Bronze</option>
+              <option value="white">White</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Glass Type</span>
+            <select id="fGlass" name="glass">
+              <option value="">No preference</option>
+              <option value="clear">Clear</option>
+              <option value="light-tint">Light Tint</option>
+              <option value="dark-tint">Dark Tint</option>
+              <option value="frosted">Frosted</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Additional Notes</span>
+            <textarea id="fNotes" name="notes" rows="3" placeholder="Anything else we should know? (e.g. access, timeline, special requirements)"></textarea>
+          </label>
+        </fieldset>
+
+        <!-- Consent -->
+        <label class="consent">
+          <input type="checkbox" id="fConsent" name="consent" required />
+          <span>I agree to be contacted about my quotation request. *</span>
+          <span class="field-error" id="err-consent"></span>
+        </label>
+
+        <button type="submit" class="btn btn-primary quote-submit" id="btnSubmit">
+          Submit Request
+        </button>
+
+        <p class="quote-fineprint">
+          We'll use your details to prepare and deliver your quote. No spam, no sharing.
+        </p>
+      </form>
+
+      <!-- Success -->
+      <div id="quoteSuccess" class="quote-success hidden">
+        <div class="success-icon">✅</div>
+        <h2>Request Received!</h2>
+        <p>Thank you, <strong id="successName"></strong>. We'll get back to you within 24 hours.</p>
+        <div class="success-ref">
+          <span>Reference: </span><strong id="successRef"></strong>
+        </div>
+        <div class="success-actions">
+          <a href="/rika/" class="btn btn-ghost">Back to Home</a>
+          <button class="btn btn-ghost" id="btnNewRequest">Submit Another</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© 2026 Rika</span>
+    <a href="/rika/">Home</a>
+  </footer>
+
+  <script type="module" src="/rika/tools/quotation/js/app.js"></script>
+</body>
+</html>

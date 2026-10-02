@@ -31,10 +31,10 @@ All rendering is Canvas 2D + SVG.
 - Measurement: `http://51.44.11.18:8000/rika/tools/measurement/`
 - Quotation: `http://51.44.11.18:8000/rika/tools/quotation/`
 
-**Project root:** `/home/ubuntu/house-demo/rika/`
+**Project root:** `/home/ubuntu/Rika/frontend/` (this is also the repo root and the served root).
 
-**Served by:** `threaded-server.py` on port 3101 (serves `/home/ubuntu/house-demo/`).
-**Proxied by:** Nginx on port 8000, route `/rika/` → `http://127.0.0.1:3101/rika/`.
+**Served by:** `threaded-server.py` on port 3101 (serves the repo root).
+**Proxied by:** Nginx on port 8000, route `/rika/` → `http://127.0.0.1:3101/` (repo root).
 **Nginx config:** `/etc/nginx/sites-enabled/frappe-dev`.
 
 ---
@@ -65,41 +65,48 @@ All rendering is Canvas 2D + SVG.
 ### 2.3 Directory Structure
 
 ```
-house-demo/
+Rika/frontend/                  # ★ The Rika project (repo root = the served root)
 ├── threaded-server.py          # Static file server on :3101
-├── index.html                  # Old AluFix window-demo (legacy, separate from Rika)
-├── visualizer/                 # Legacy single-file visualizer (pre-restructure, kept as backup)
-│   └── index.html
-└── rika/                     # ★ The Rika project
-    ├── index.html              # Homepage (hero, tools grid, about, stats)
-    ├── shared/
-    │   └── css/
-    │       └── rika.css      # Design system: CSS variables, app shell, buttons, cards
-    └── tools/
-        ├── visualizer/
-        │   ├── index.html      # Tool page (upload → corner select → preview → before/after)
-        │   ├── css/
-        │   │   └── visualizer.css
-        │   └── js/
-        │       ├── state.js    # State model + constants (single source of truth)
-        │       ├── geometry.js # Homography, solve8, applyH, validateQuad (pure, testable)
-        │       ├── templates.js# SVG window generators, renderTemplate, templateThumbSvg
-        │       ├── image.js    # EXIF orientation, downscale, file validation
-        │       └── app.js      # UI wiring, step navigation, corner editor, preview, BA, quote
-        ├── measurement/
-        │   ├── index.html      # Tool page (upload → mark A4 → mark opening → results)
-        │   ├── css/
-        │   │   └── measurement.css
-        │   └── js/
-        │       ├── geometry.js # Homography + invertH + measureOpening (pure, testable)
-        │       ├── image.js    # EXIF orientation, downscale (slightly different API from visualizer)
-        │       └── app.js      # 4-step UI flow, corner selection, drag, results
-        └── quotation/
-            ├── index.html      # Tool page (form → validation → submission → success)
-            ├── css/
-            │   └── quotation.css
-            └── js/
-                └── app.js      # Form validation, submission, localStorage fallback
+├── index.html                  # Homepage (hero, tools grid, about, stats)
+├── shared/
+│   ├── css/
+│   │   ├── rika.css      # Design system: CSS variables, app shell, buttons, cards
+│   │   └── booking.css
+│   └── js/
+│       ├── rika-config.js# SINGLE SOURCE OF TRUTH: price rates, 3 tiers, WhatsApp number,
+│       │                 # disclaimer wording, design specs. All tools read from here.
+│       └── booking.js
+└── tools/
+    ├── calculator/
+    │   ├── index.html      # Price calculator (type, dims, qty, profile, glass → KSh range)
+    │   ├── css/
+    │   │   └── calculator.css
+    │   └── js/
+    │       └── app.js      # Calculator UI + pricing engine (rates from rika-config.js)
+    ├── visualizer/
+    │   ├── index.html      # Tool page (upload → corner select → preview → before/after)
+    │   ├── css/
+    │   │   └── visualizer.css
+    │   └── js/
+    │       ├── state.js    # State model + constants (single source of truth)
+    │       ├── geometry.js # Homography, solve8, applyH, validateQuad (pure, testable)
+    │       ├── templates.js# SVG window generators, renderTemplate, templateThumbSvg
+    │       ├── image.js    # EXIF orientation, downscale, file validation
+    │       └── app.js      # UI wiring, step navigation, corner editor, preview, BA, quote
+    ├── measurement/
+    │   ├── index.html      # Tool page (upload → mark A4 → mark opening → results)
+    │   ├── css/
+    │   │   └── measurement.css
+    │   └── js/
+    │       ├── geometry.js # Homography + invertH + measureOpening (pure, testable)
+    │       ├── image.js    # EXIF orientation, downscale (slightly different API from visualizer)
+    │       └── app.js      # 4-step UI flow, corner selection, drag, results
+    └── quotation/
+        ├── index.html      # Tool page (form → validation → submission → success)
+        ├── css/
+        │   └── quotation.css
+        └── js/
+            └── app.js      # Form validation, submission, localStorage fallback
 ```
 
 ### 2.4 Adding a New Tool
@@ -109,6 +116,10 @@ house-demo/
 3. Use the same header/footer markup (copy from an existing tool)
 4. Add a card in the homepage's `tools-grid` section
 5. No changes to the server or nginx needed — the `/rika/` route already covers everything
+
+> **Pricing single-source:** any tool that shows a KSh number must pull rates from
+> `shared/js/rika-config.js` (the one place prices/tiers/WhatsApp/disclaimer live).
+> Never hard-code a price in a tool file.
 
 ---
 
@@ -512,14 +523,14 @@ Each card is an `<a>` with `.tool-card` class:
 ### 8.1 Static Server
 
 - **File:** `threaded-server.py` (Python, runs on `127.0.0.1:3101`)
-- **Serves:** `/home/ubuntu/house-demo/` directory
+- **Serves:** `/home/ubuntu/Rika/frontend/` directory (the repo root)
 - **Protocol:** HTTP/1.1, threaded (handles concurrent requests)
 - **Start:** `python3 threaded-server.py` (run in background or via systemd)
 
 ### 8.2 Nginx
 
 - **Config:** `/etc/nginx/sites-enabled/frappe-dev`
-- **Route:** `/rika/` → `http://127.0.0.1:3101/rika/`
+- **Route:** `/rika/` → `http://127.0.0.1:3101/` (the server's root is the repo root, so the `/rika/` prefix maps straight onto it)
 - **Port:** 8000 (public)
 - **Reload:** `sudo nginx -s reload`
 
@@ -527,10 +538,7 @@ Each card is an `<a>` with `.tool-card` class:
 
 `http://51.44.11.18:8000/rika/` (and sub-paths)
 
-### 8.4 Legacy Routes
-
-- `/visualizer/` → old single-file visualizer (backup, still works)
-- `/window-demo/` → AluFix window demo (separate project, not Rika)
+> Legacy `/visualizer/` and `/window-demo/` routes were retired 2026-10-02 when `house-demo/` was deleted — the Rika tools fully replace them.
 
 ---
 
@@ -589,11 +597,16 @@ All tools are tested with **Playwright** (headless Chromium):
 | 2026-10-01 | Quotation tool built (form + validation + localStorage) |
 | 2026-10-01 | All 3 tools verified end-to-end with Playwright |
 | 2026-10-01 | RIKA.md project brain created |
+| 2026-10-02 | Price calculator + 3-tier pricing built (CALC-1/CALC-2), live at `/rika/tools/calculator/` |
+| 2026-10-02 | Measurement disclaimer fixed ("Approximate — confirmed at site visit") |
+| 2026-10-02 | Homepage reframed; WhatsApp pre-fill wired (`254718700519`) |
+| 2026-10-02 | Migrated from `house-demo/rika/` to `~/Rika/frontend/` (repo root served at `/rika/`); `house-demo/` deleted; legacy routes retired |
+| 2026-10-02 | RIKA_ROADMAP.md rewritten as a detailed, resumable coding plan (feature register + per-batch tasks + data model) |
 
 ### Pending / Future
 
-- [ ] Wire quotation form to real backend (Frappe doc type or JSON API)
-- [ ] Set up GitHub repository (deferred by user, do separately)
+- [ ] Wire quotation form to real backend (Frappe doc type or JSON API) — now a tracked task: `LEAD-3` / `T-B0-05` in the roadmap
+- [ ] All future feature work is tracked in `RIKA_ROADMAP.md` (§6 Detailed Coding Plan). This brain documents *what exists*; the roadmap tracks *what to build next and its state*.
 - [ ] Add more window designs (arched, bay, panoramic, etc.)
 - [ ] Mobile testing on real device (Playwright tests pass, but real touch is different)
 - [ ] Consider WebGL for smoother warp rendering

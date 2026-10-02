@@ -115,6 +115,9 @@ async function handleSubmit(e) {
     height: $('fHeight').value ? parseFloat($('fHeight').value) : null,
     finish: $('fFinish').value || null,
     glass: $('fGlass').value || null,
+    tier: window.__rikaTier || null,
+    total_low: window.__rikaEstimate || null,
+    total_high: window.__rikaEstimate || null,
     notes: $('fNotes').value.trim() || null,
     ref: generateRef(),
     submittedAt: new Date().toISOString(),
@@ -154,8 +157,55 @@ async function handleSubmit(e) {
   }
 }
 
+// --- Pre-fill from calculator (?type=&w=&h=&qty=&finish=&glass=&addons=&est=&from=) ---
+function applyPrefill() {
+  const p = new URLSearchParams(location.search);
+  if (!p.get('from')) return;
+
+  const type = p.get('type');
+  if (type && $('fType')) $('fType').value = type;
+
+  const w = parseInt(p.get('w'), 10);
+  const h = parseInt(p.get('h'), 10);
+  const qty = parseInt(p.get('qty'), 10);
+  if (w >= 10 && w <= 400 && $('fWidth')) $('fWidth').value = String(w);
+  if (h >= 10 && h <= 400 && $('fHeight')) $('fHeight').value = String(h);
+  if (qty >= 1 && qty <= 50 && $('fQty')) $('fQty').value = String(qty);
+
+  const finish = p.get('finish');
+  if (finish && $('fFinish') && [...$('fFinish').options].some((o) => o.value === finish)) {
+    $('fFinish').value = finish;
+  }
+  const glass = p.get('glass');
+  if (glass && $('fGlass') && [...$('fGlass').options].some((o) => o.value === glass)) {
+    $('fGlass').value = glass;
+  }
+
+  const addons = p.get('addons');
+  const est = parseInt(p.get('est'), 10);
+  window.__rikaEstimate = est > 0 ? est : null;
+  window.__rikaTier = p.get('tier') || null;
+
+  // Notes: carry over the exact configuration so the quote is reproducible
+  const notesParts = [];
+  const tier = p.get('tier');
+  if (tier) notesParts.push(`Calculator: ${tier} tier package`);
+  else if (type) notesParts.push(`Calculator: ${type} window`);
+  if (w && h) notesParts.push(`${w} × ${h} cm`);
+  if (qty > 1) notesParts.push(`× ${qty}`);
+  if (finish) notesParts.push(`finish: ${finish}`);
+  if (glass) notesParts.push(`glass: ${glass}`);
+  if (addons) notesParts.push(`extras: ${addons.split(',').map((s) => s.trim()).join(', ')}`);
+  if (window.__rikaEstimate) notesParts.push(`calculator estimate: KSh ${window.__rikaEstimate.toLocaleString()}`);
+  if (notesParts.length && $('fNotes')) {
+    const existing = $('fNotes').value.trim();
+    $('fNotes').value = (existing ? existing + '\n' : '') + 'From calculator: ' + notesParts.join(' · ');
+  }
+}
+
 // --- Wire up ---
 function initQuotation() {
+  applyPrefill();
   form.addEventListener('submit', handleSubmit);
 
   // Live validation on blur

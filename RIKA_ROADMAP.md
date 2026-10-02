@@ -244,11 +244,11 @@ build it, verify the DoD, flip the status. Batches end in a *shippable, demo-abl
 |----|------|--------|-------|-----|
 | T-B1-01 | CALC-1 — price calculator (per-m² engine, KSh range) | ✅ 2026-10-02 | A | `/rika/tools/calculator/` live; type+dims+qty+profile+glass → KSh *range* in <1s, no login, "Get Exact Quote" CTA; rates from `rika-config.js` |
 | T-B1-02 | CALC-2 — three-tier packages (Essential/Comfort/Premium) | ✅ 2026-10-02 | A | 3 tiers in calculator with spec + price deltas; tap-to-apply per-m² |
-| T-B1-03 | SAVE-1 — "Save My Design" lead capture at moment of intent | ⬜ | A | After calculator *or* designer use, a "Save My Design" prompt asks name/WhatsApp/email; stores design config + lead in `Rika Lead` (not localStorage); shows confirmation + "get exact quote" CTA |
-| T-B1-04 | QUOTE-2 — exact-quote flow from calculator | ⬜ | A | "Get Exact Quote" from calculator → pre-fills quote form (type/dims/qty) → `Rika Quotation` created → reference code returned |
+| T-B1-03 | SAVE-1 — "Save My Design" lead capture at moment of intent | ✅ 2026-10-02 | A | Shared `save-design.js` modal + CTA in calculator & visualizer; POSTs to `/rika/api/save-design` → `rika.rika.api.designs.save_design` (guest-whitelisted); stores `Rika Design` (config JSON + estimates) + linked `Rika Lead` (`created_from=save_design`); confirmation with ref + WhatsApp follow-up + exact-quote CTA; verified live end-to-end |
+| T-B1-04 | QUOTE-2 — exact-quote flow from calculator | ✅ 2026-10-02 | A | "Get Exact Quote" button in calculator → pre-fills quote form via URL params (`?type=&w=&h=&qty=&finish=&glass=&addons=&est=&from=calculator`) with finish-id mapping (black→matte-black) → `Rika Quotation` created with calculator estimate as total_low/total_high → reference code returned. Verified live end-to-end via nginx (RIKA-QUOTE-00008) |
 | T-B1-05 | WASAPP-1 completion — pre-populate WhatsApp from design state | ⬜ | A | Every major CTA (calculator, designer, compare, second-quote) generates a `wa.me/254718700519` link with the current config + price pre-filled |
 
-**When resuming:** T-B1-03 (biggest gap) → T-B1-04 → T-B1-05.
+**When resuming:** T-B1-05 (WhatsApp pre-fill everywhere).
 
 ---
 
@@ -470,19 +470,19 @@ Target: **50 pts** = the platform is a *real* acquisition machine, not a demo. *
 
 | Group | Weight | Earned | % |
 |-------|--------|--------|---|
-| Acquisition Foundation | 30 | 0 | 0% |
-| Engagement Depth | 20 | CALC-2 ✅ + MEAS-4 ✅ (10) + WASAPP-1 🟨 (2.5) ≈ 12.5 | 62% |
+| Acquisition Foundation | 30 | LEAD-1 ✅ + LEAD-3 ✅ + QUOTE-1 ✅ + MEAS-2 ✅ ≈ 20 | 67% |
+| Engagement Depth | 20 | CALC-2 ✅ + MEAS-4 ✅ (10) + SAVE-1 ✅ (5) + WASAPP-1 🟨 (2.5) ≈ 17.5 | 88% |
 | SEO & Content | 15 | 0 | 0% |
 | Customer App | 20 | 0 | 0% |
 | Operations | 15 | 0 | 0% |
-| **Total** | **100** | **≈ 12.5** | **≈ 13%** |
+| **Total** | **100** | **≈ 37.5** | **≈ 38%** |
 
 > The *existing* tools (visualizer, measurement, quotation) are **pre-roadmap** work — the proof-of-concept the acquisition engine is built on. They don't score under the scheme (the scheme measures the *business platform*, not the MVP). They are the strongest asset we have.
 
 ### Current build state
-- **Done:** CALC-1, CALC-2, MEAS-4, WASAPP-1 (partial), DATA-1, T-B0-04 (Frappe doc types), all Batch 0 decisions (D3/D4/D5), homepage reframe (partial).
-- **In flight:** Batch 0 code tasks T-B0-05 → T-B0-07 (lead wiring → measurement booking). T-B0-04 (Frappe doc types) ✅ done.
-- **Next up after Batch 0:** Batch 1 (SAVE-1, QUOTE-2, WASAPP-1 completion) → Batch 2 (SEO spine) → Batch 3 (the "feels like AI" layer) → Batch 4 (customer app) → Batch 5 (operations flywheel).
+- **Done:** All of Batch 0 (T-B0-01 → T-B0-07), T-B1-03 (Save My Design), T-B1-04 (exact-quote flow), CALC-1, CALC-2, MEAS-4, DATA-1, all Batch 0 decisions (D3/D4/D5), homepage reframe (partial).
+- **Next up:** T-B1-05 (WhatsApp pre-fill everywhere) → Batch 2 (SEO spine) → Batch 3 → Batch 4 → Batch 5.
+- **Key backend state:** All 5 DocTypes live in the `rika` Frappe app. 3 guest API endpoints active: `/rika/api/quote`, `/rika/api/booking`, `/rika/api/save-design`. All verified end-to-end through nginx.
 
 ### How to pick up at any time
 1. Read this snapshot + the **Rules of this file** at the top.

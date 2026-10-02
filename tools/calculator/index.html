@@ -77,6 +77,12 @@
           <div class="disclaimer-box" id="disclaimerBox"></div>
 
           <div class="price-actions">
+            <button class="btn btn-primary" id="exactQuoteBtn" type="button">
+              🧾 Get Exact Quote
+            </button>
+            <button class="btn btn-primary" data-save-design data-source="Calculator">
+              📥 Save My Design
+            </button>
             <a id="waBtn" class="btn btn-success" target="_blank" rel="noopener" href="#">
               💬 Chat us this quote on WhatsApp
             </a>
@@ -103,6 +109,52 @@
     <span>© 2026 Rika — Aluminium &amp; Glass, Fitted Right</span>
     <a href="/rika/">Home</a>
   </footer>
+
+  <script type="module">
+    import '../../shared/js/save-design.js';
+    // Register the calculator's design state for the Save My Design modal
+    window.__rikaSetDesignSnapshot = () => {
+      const w = Math.round(parseFloat(document.getElementById('widthCm').value) || 0);
+      const h = Math.round(parseFloat(document.getElementById('heightCm').value) || 0);
+      const qty = Math.max(1, parseInt(document.getElementById('qty').value, 10) || 1);
+      const productEl = document.querySelector('#productRow .opt-chip.selected');
+      const finishEl = document.querySelector('#finishRow .opt-chip.selected');
+      const glassEl = document.querySelector('#glassRow .opt-chip.selected');
+      const tierEl = document.querySelector('#tiersBox .tier.selected');
+      const addons = [];
+      document.querySelectorAll('#addonsBox .addon-row input:checked').forEach((cb) => {
+        const label = cb.parentElement.querySelector('.addon-label');
+        if (label) addons.push(label.textContent.trim());
+      });
+      const priceText = document.getElementById('priceValue').textContent;
+      const loMatch = priceText.match(/KSh\s?([\d,]+)/);
+      const hiMatch = priceText.match(/KSh\s?([\d,]+)$/);
+      const estimate_low = loMatch ? parseInt(loMatch[1].replace(/,/g, ''), 10) : null;
+      const estimate_high = hiMatch ? parseInt(hiMatch[1].replace(/,/g, ''), 10) : null;
+      const summaryLines = [];
+      if (tierEl) summaryLines.push('<b>Product:</b> ' + tierEl.querySelector('.tier-name').textContent);
+      else if (productEl) summaryLines.push('<b>Product:</b> ' + productEl.textContent.trim().split('\n')[0]);
+      if (w && h) summaryLines.push('<b>Size:</b> ' + w + ' × ' + h + ' cm');
+      if (qty > 1) summaryLines.push('<b>Quantity:</b> ' + qty);
+      if (finishEl) summaryLines.push('<b>Finish:</b> ' + finishEl.textContent.trim().split('\n')[0]);
+      if (glassEl) summaryLines.push('<b>Glass:</b> ' + glassEl.textContent.trim().split('\n')[0]);
+      if (addons.length) summaryLines.push('<b>Extras:</b> ' + addons.join(', '));
+      if (estimate_low && estimate_high) summaryLines.push('<b>Estimate:</b> KSh ' + estimate_low.toLocaleString() + ' – ' + estimate_high.toLocaleString());
+      return {
+        product: productEl ? productEl.textContent.trim().split('\n')[0] : null,
+        finish: finishEl ? finishEl.textContent.trim().split('\n')[0] : null,
+        glass: glassEl ? glassEl.textContent.trim().split('\n')[0] : null,
+        addons,
+        tier: tierEl ? tierEl.querySelector('.tier-name').textContent : null,
+        width_cm: w || null,
+        height_cm: h || null,
+        quantity: qty,
+        estimate_low,
+        estimate_high,
+        summaryHtml: summaryLines.join('<br>'),
+      };
+    };
+  </script>
 
   <script>
     // Sync script: read ?w=&h= (mm, seeded by the measurement tool) into the cm inputs

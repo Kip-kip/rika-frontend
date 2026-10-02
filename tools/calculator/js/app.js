@@ -174,6 +174,29 @@ function updateLinks(area, total) {
   $('visLink').href = `/rika/tools/visualizer/?w=${w}&h=${h}`;
 }
 
+// --- Exact Quote CTA (T-B1-04) ---
+function buildExactQuoteHref() {
+  const p = RIKA_CONFIG.pricing.products[ui.product];
+  const tier = ui.tier ? RIKA_CONFIG.pricing.tiers[ui.tier] : null;
+  const w = Math.round(parseFloat($('widthCm').value) || 0);
+  const h = Math.round(parseFloat($('heightCm').value) || 0);
+  const qty = Math.max(1, parseInt($('qty').value, 10) || 1);
+  const { total } = compute();
+  const params = new URLSearchParams({ from: 'calculator' });
+  if (tier) params.set('tier', ui.tier);
+  else params.set('type', ui.product);
+  params.set('w', String(w));
+  params.set('h', String(h));
+  params.set('qty', String(qty));
+  // Map calculator finish ids to quote-form option values
+  const finishMap = { black: 'matte-black', silver: 'silver', bronze: 'bronze', white: 'white' };
+  params.set('finish', finishMap[ui.finish] || ui.finish);
+  params.set('glass', ui.glass);
+  if (ui.addOns.size) params.set('addons', [...ui.addOns].join(','));
+  params.set('est', String(Math.round(total)));
+  return `/rika/tools/quotation/?${params.toString()}`;
+}
+
 // --- Init ---
 function init() {
   // Disclaimer wording from config (C1 — single source)
@@ -216,6 +239,14 @@ function init() {
       const nav = document.querySelector('.nav');
       nav.classList.toggle('open');
       burger.classList.toggle('open');
+    });
+  }
+
+  // Get Exact Quote (T-B1-04) — jump to the quote form pre-filled with this config
+  const eq = $('exactQuoteBtn');
+  if (eq) {
+    eq.addEventListener('click', () => {
+      window.location.href = buildExactQuoteHref();
     });
   }
 

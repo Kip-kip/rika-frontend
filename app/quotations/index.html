@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>My Quotations — Rika</title>
+<meta name="description" content="Your Rika quotations and price breakdowns." />
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/app/css/app.css" />
+</head>
+<body>
+<div class="app app-shell">
+  <header class="app-top">
+    <a class="brand" href="/rika/">rika<span>.</span></a>
+    <span class="app-user" id="topUser"></span>
+  </header>
+
+  <div class="page-head">
+    <a class="back-link" href="/rika/app/">&larr; My Project</a>
+    <h1>My Quotations</h1>
+    <p class="sub">Every quote you've requested, with the full line-item breakdown. Re-quote any of them to adjust and lock in a price.</p>
+  </div>
+
+  <!-- Loading -->
+  <div class="list-state" id="loading">Loading your quotations&hellip;</div>
+
+  <!-- Empty -->
+  <div class="list-state" id="empty" hidden>
+    <p>You don't have any quotations yet. Build a design in the calculator, then request a quote.</p>
+    <div class="dash-actions">
+      <a class="btn btn-primary" href="/rika/tools/calculator/">Open the calculator</a>
+      <a class="btn btn-ghost" href="/rika/app/">Back to My Project</a>
+    </div>
+  </div>
+
+  <!-- List -->
+  <div class="card-list" id="list"></div>
+</div>
+
+<script type="module">
+import { me, logout, isLoggedIn } from '/rika/app/js/app-auth.js';
+
+const $ = (s) => document.querySelector(s);
+
+function authHeaders() {
+  const s = JSON.parse(localStorage.getItem('rika_app_session') || 'null');
+  const h = {};
+  if (s?.access_token) h['Authorization'] = 'Bearer ' + s.access_token;
+  return h;
+}
+
+function fmtKsh(v) {
+  return v == null ? '' : 'KSh ' + Number(v).toLocaleString();
+}
+
+function fmtDate(v) {
+  if (!v) return '';
+  try { return new Date(v).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' }); }
+  catch { return v; }
+}
+
+function statusClass(s) {
+  s = (s || '').toLowerCase();
+  if (s === 'submitted' || s === 'accepted' || s === 'approved') return 'ok';
+  if (s === 'rejected' || s === 'declined') return 'bad';
+  return 'neutral';
+}
+
+// Pick a plausible window line-item to seed a re-quote deep-link.
+function requoteHref(q) {
+  const p = new URLSearchParams();
+  if (q.tier) p.set('tier', q.tier);
+  const items = Array.isArray(q.line_items) ? q.line_items : [];
+  const win = items.find(it => /window|aluminum|aluminium|uvc|uvc/i.test((it.desc || it.item || '') + ''));
+  const desc = (win && (win.desc || win.item)) || (items[0] && (items[0].desc || items[0].item)) || '';
+  const m = /(\d{2,3})\s*[x×]\s*(\d{2,3})/i.exec(String(desc));
+  if (m) { p.set('w', m[1]); p.set('h', m[2]); }
+  const qm = /(\d+)\s*(?:windows|units|pcs)/i.exec(String(desc)) || /^\s*(\d+)/.exec(String(desc));
+  if (qm) p.set('qty', qm[1]);
+  return '/rika/tools/calculator/?' + p.toString();
+}
+
+function cardHTML(q, i) {
+  const items = Array.isArray(q.line_items) ? q.line_items : [];
+  const rows = items.map(it => {
+    const desc = it.desc || it.item || 'Item';
+    const qty = it.qty != null ? it.qty : 1;
+    const amount = it.amount != null ? fmtKsh(it.amount) : (it.unit_price ? fmtKsh(it.unit_price * qty) : '');
+    return `<tr><td>${desc}</td><td class="num">${qty}</td><td class="num">${amount}</td></tr>`;
+  }).join('');
+  const lo = q.total_low != null ? fmtKsh(q.total_low) : '';
+  const hi = q.total_high != null ? fmtKsh(q.total_high) : '';
+  const total = (lo || hi) ? (lo && hi && String(lo) !== String(hi) ? `${lo}–${hi.replace('KSh ','')}` : (lo || hi)) : '';
+  const loc = q.location ? ` · ${q.location}` : '';
+  const status = q.status ? `<span class="chip chip-${statusClass(q.status)}">${q.status}</span>` : '';
+  return `
+  <div class="card" id="qcard${i}">
+    <div class="card-head">
+      <div class="card-title">
+        <strong>${q.ref_code || q.name || 'Quotation'}</strong>
+        <span class="card-dims">${fmtDate(q.submitted_at) || 'recent'}${loc}</span>
+      </div>
+      ${status}
+    </div>
+    ${total ? `<div class="card-est">${total}</div>` : ''}
+    <button class="link-btn expand" type="button" data-i="${i}">View line items</button>
+    <div class="card-detail hidden" id="qdetail${i}">
+      <table class="item-table">
+        <thead><tr><th>Item</th><th class="num">Qty</th><th class="num">Amount</th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="3">No line items</td></tr>'}</tbody>
+      </table>
+    </div>
+    <div class="card-actions">
+      <a class="btn btn-ghost btn-sm" href="${requoteHref(q)}">Re-quote</a>
+    </div>
+  </div>`;
+}
+
+async function loadQuotes() {
+  try {
+    const res = await fetch('/rika/api/my-quotations', { headers: authHeaders() });
+    let r = await res.json().catch(() => ({}));
+    if (r && typeof r === 'object' && 'message' in r) r = r.message;
+    const quotes = (r && r.quotations) || [];
+    if (!quotes.length) {
+      $('#loading').hidden = true;
+      $('#empty').hidden = false;
+      return;
+    }
+    $('#loading').hidden = true;
+    $('#list').innerHTML = quotes.map((q, i) => cardHTML(q, i)).join('');
+    document.querySelectorAll('.expand').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const det = document.getElementById('qdetail' + btn.dataset.i);
+        det.classList.toggle('hidden');
+        btn.textContent = det.classList.contains('hidden') ? 'View line items' : 'Hide line items';
+      });
+    });
+  } catch {
+    $('#loading').hidden = true;
+    $('#empty').hidden = false;
+  }
+}
+
+function doLogout() { logout().then(() => { location.href = '/rika/app/'; }); }
+
+async function boot() {
+  if (!isLoggedIn()) { location.replace('/rika/app/'); return; }
+  try {
+    const u = await me();
+    $('#topUser').innerHTML = `<button class="link-btn" id="btnLogout" type="button">Log out</button>`;
+    document.getElementById('btnLogout').addEventListener('click', doLogout);
+    await loadQuotes();
+  } catch {
+    location.replace('/rika/app/');
+  }
+}
+
+boot();
+</script>
+</body>
+</html>

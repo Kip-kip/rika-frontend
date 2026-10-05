@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>My Designs — Rika</title>
+<meta name="description" content="Your saved Rika window designs." />
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/app/css/app.css" />
+</head>
+<body>
+<div class="app app-shell">
+  <header class="app-top">
+    <a class="brand" href="/rika/">rika<span>.</span></a>
+    <span class="app-user" id="topUser"></span>
+  </header>
+
+  <div class="page-head">
+    <a class="back-link" href="/rika/app/">&larr; My Project</a>
+    <h1>My Designs</h1>
+    <p class="sub">Everything you've saved from the calculator and design studio. Re-open any design or re-quote it with one tap.</p>
+  </div>
+
+  <!-- Loading -->
+  <div class="list-state" id="loading">Loading your designs&hellip;</div>
+
+  <!-- Empty -->
+  <div class="list-state" id="empty" hidden>
+    <p>You haven't saved any designs yet.</p>
+    <div class="dash-actions">
+      <a class="btn btn-primary" href="/rika/tools/calculator/">Open the calculator</a>
+      <a class="btn btn-ghost" href="/rika/app/">Back to My Project</a>
+    </div>
+  </div>
+
+  <!-- List -->
+  <div class="card-list" id="list"></div>
+</div>
+
+<script type="module">
+import { me, logout, isLoggedIn } from '/rika/app/js/app-auth.js';
+import { toast } from '/rika/shared/js/rika-toast.js';
+
+const $ = (s) => document.querySelector(s);
+
+function authHeaders() {
+  const s = JSON.parse(localStorage.getItem('rika_app_session') || 'null');
+  const h = {};
+  if (s?.access_token) h['Authorization'] = 'Bearer ' + s.access_token;
+  return h;
+}
+
+function fmtKsh(v) {
+  return v == null ? '' : 'KSh ' + Number(v).toLocaleString();
+}
+
+function fmtDate(v) {
+  if (!v) return '';
+  try { return new Date(v).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' }); }
+  catch { return v; }
+}
+
+function requoteHref(d) {
+  const p = new URLSearchParams();
+  if (d.product) p.set('type', d.product);
+  if (d.width_cm) p.set('w', d.width_cm);
+  if (d.height_cm) p.set('h', d.height_cm);
+  if (d.quantity) p.set('qty', d.quantity);
+  if (d.tier) p.set('tier', d.tier);
+  if (d.finish) p.set('finish', d.finish);
+  if (d.glass) p.set('glass', d.glass);
+  return '/rika/tools/calculator/?' + p.toString();
+}
+
+function cardHTML(d, i) {
+  const dims = (d.width_cm && d.height_cm) ? `${d.width_cm} × ${d.height_cm} cm` : '';
+  const chips = [];
+  if (d.product) chips.push(d.product);
+  if (d.finish) chips.push(d.finish);
+  if (d.glass) chips.push(d.glass);
+  if (d.tier) chips.push(d.tier);
+  if (d.quantity) chips.push(`Qty ${d.quantity}`);
+  const est = (d.estimate_low || d.estimate_high)
+    ? `Estimate ${fmtKsh(d.estimate_low)}${d.estimate_high ? '–' + fmtKsh(d.estimate_high).replace('KSh ', '') : ''}`
+    : '';
+  const notes = d.notes ? `<p class="d-notes">${d.notes}</p>` : '';
+  return `
+  <div class="card" id="card${i}">
+    <div class="card-head">
+      <div class="card-title">
+        <strong>${d.product || 'Design'}</strong>
+        ${dims ? `<span class="card-dims">${dims}</span>` : ''}
+      </div>
+      <span class="card-date">${fmtDate(d.saved_at) || 'recent'}</span>
+    </div>
+    <div class="card-chips">${chips.map(c => `<span class="chip">${c}</span>`).join('')}</div>
+    ${est ? `<div class="card-est">${est}</div>` : ''}
+    ${notes}
+    <div class="card-actions">
+      <a class="btn btn-ghost btn-sm" href="${requoteHref(d)}">Re-quote</a>
+    </div>
+  </div>`;
+}
+
+async function loadDesigns() {
+  try {
+    const res = await fetch('/rika/api/my-designs', { headers: authHeaders() });
+    let r = await res.json().catch(() => ({}));
+    if (r && typeof r === 'object' && 'message' in r) r = r.message;
+    const designs = (r && r.designs) || [];
+    if (!designs.length) {
+      $('#loading').hidden = true;
+      $('#empty').hidden = false;
+      return;
+    }
+    $('#loading').hidden = true;
+    $('#list').innerHTML = designs.map((d, i) => cardHTML(d, i)).join('');
+  } catch {
+    $('#loading').hidden = true;
+    $('#empty').hidden = false;
+  }
+}
+
+function doLogout() { logout().then(() => { location.href = '/rika/app/'; }); }
+
+async function boot() {
+  if (!isLoggedIn()) { location.replace('/rika/app/'); return; }
+  try {
+    const u = await me();
+    $('#topUser').innerHTML = `<button class="link-btn" id="btnLogout" type="button">Log out</button>`;
+    document.getElementById('btnLogout').addEventListener('click', doLogout);
+    await loadDesigns();
+  } catch {
+    location.replace('/rika/app/');
+  }
+}
+
+boot();
+</script>
+</body>
+</html>

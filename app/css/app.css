@@ -86,3 +86,48 @@
 .proj-notes { color: #9aa4af; font-size: 13px; text-align: left; margin-bottom: 18px; }
 
 .hidden { display: none !important; }
+
+/* ---- My Designs / My Quotations (T-B4-03) ---- */
+.page-head { margin: 0 0 28px; }
+.page-head h1 { color: #fff; font-size: 26px; margin: 8px 0 6px; }
+.page-head .sub { color: #9aa4af; font-size: 15px; max-width: 640px; margin: 0; }
+.back-link { color: #9aa4af; font-size: 13px; text-decoration: none; }
+.back-link:hover { color: #e6e8eb; }
+.list-state {
+  background: #161b22; border: 1px solid #2a313c; border-radius: 14px;
+  padding: 40px 28px; text-align: center; color: #9aa4af; font-size: 15px;
+}
+.card-list { display: flex; flex-direction: column; gap: 14px; }
+.card {
+  background: #161b22; border: 1px solid #2a313c; border-radius: 12px;
+  padding: 18px 20px;
+}
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.card-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.card-title strong { color: #fff; font-size: 16px; }
+.card-dims { color: #9aa4af; font-size: 13px; }
+.card-date { color: #9aa4af; font-size: 12px; }
+.card-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.chip {
+  background: #0d1117; border: 1px solid #2a313c; border-radius: 20px;
+  padding: 3px 11px; font-size: 12px; color: #cdd3da;
+}
+.chip-ok { background: #1f6f3a; border-color: #2a9d54; color: #fff; }
+.chip-bad { background: #6f2a2a; border-color: #b85050; color: #fff; }
+.chip-neutral { background: #2a313c; border-color: #3a424e; color: #cdd3da; }
+.card-est { color: #e6e8eb; font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+.d-notes { color: #9aa4af; font-size: 13px; margin: 0 0 10px; }
+.card-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.btn-sm { padding: 7px 14px !important; font-size: 13px !important; }
+.link-btn {
+  background: none; border: none; color: #9aa4af; cursor: pointer;
+  font-size: 13px; font-family: inherit; padding: 0; text-decoration: underline;
+}
+.link-btn:hover { color: #e6e8eb; }
+.expand { margin: 4px 0 10px; }
+.card-detail { margin-top: 12px; }
+.item-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.item-table th, .item-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #2a313c; color: #cdd3da; }
+.item-table th { color: #9aa4af; font-weight: 600; }
+.item-table .num { text-align: right; }
+.item-table td.num { text-align: right; }

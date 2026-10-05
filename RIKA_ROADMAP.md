@@ -111,9 +111,9 @@ Priorities: **P0** = do now (unblocks everything) · **P1** = build next · **P2
 
 | ID | Feature | Src | Priority | Status |
 |----|---------|-----|----------|--------|
-| **APP-1** | Auth (customer accounts) | Platform §11, §17 | P1 | ⬜ |
-| **APP-2** | "My Project" (stage tracker: measure → design → approve → fabricate → install → handover) | Business §8, Platform §11, §13 | P1 | ⬜ |
-| **APP-3** | My Designs / My Quotations | Platform §11 | P1 | ⬜ |
+| **APP-1** | Auth (customer accounts) | Platform §11, §17 | P1 | ✅ |
+| **APP-2** | "My Project" (stage tracker: measure → design → approve → fabricate → install → handover) | Business §8, Platform §11, §13 | P1 | ✅ |
+| **APP-3** | My Designs / My Quotations | Platform §11 | P1 | ✅ |
 | **APP-4** | Payments + install schedule + documents | Platform §11, §21 | P2 | ⬜ |
 | **APP-5** | Warranty + messages | Platform §11, §21 | P2 | ⬜ |
 | **APP-6** | Naming: call it "My Project", never "Customer Portal" | Platform §12 | P1 | ⬜ (terminology, applied when the app is built) |
@@ -294,7 +294,7 @@ build it, verify the DoD, flip the status. Batches end in a *shippable, demo-abl
 |----|------|--------|-------|-----|
 | T-B4-01 | APP-1 — auth (customer accounts, Frappe) | ✅ | A | Login/signup at `/rika/app/`; Frappe User + Rika Customer; session via existing JWT flow — live: signup/login/me/logout verified over HTTP |
 | T-B4-02 | APP-2 — "My Project" stage tracker | ✅ 2026-10-05 | A | Logged-in customer sees project with stage tracker (measure→design→approve→fabricate→install→handover), current stage highlighted, dates per stage. `/rika/api/projects` + `/rika/api/projects/demo` (auto-seed demo on first visit); tracker UI in `app/index.html` dashboard; verified end-to-end (signup→login→projects→demo seed→tracker render) |
-| T-B4-03 | APP-3 — My Designs / My Quotations | ⬜ | A | `/rika/app/designs` + `/rika/app/quotations`: list of saved designs + quotations; open/edit; re-quote |
+| T-B4-03 | APP-3 — My Designs / My Quotations | ✅ 2026-10-05 | A | `/rika/app/designs` + `/rika/app/quotations`: auth-gated list of saved designs + quotations with config/line-item detail; re-quote deep-links to the calculator (prefills type/w/h/qty/tier/finish/glass). Read APIs `list_my_designs` / `list_my_quotations` (Bearer → customer phone → designs/quotes, JSON parsed to flat fields); dashboard nav links. Verified end-to-end (seed design+quote for a test customer, both APIs return full parsed config/line_items) |
 | T-B4-04 | APP-4 — payments + install schedule + documents | ⬜ | A | `/rika/app/payments`: deposit status, payment history (M-Pesa); install schedule; downloadable documents (quote, contract, warranty) |
 | T-B4-05 | APP-5 — warranty + messages | ⬜ | A | `/rika/app/warranty`: warranty details + status; `/rika/app/messages`: thread with the company |
 | T-B4-06 | APP-6 — naming: "My Project", never "Customer Portal" | ⬜ | A | All customer-facing copy uses "My Project" / "Open My Project" (not "Portal") |

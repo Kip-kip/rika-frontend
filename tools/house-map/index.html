@@ -1,1 +1,88 @@
-m��
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>House Window Map — Plan Every Opening — Rika</title>
+<meta name="description" content="Click every window and door on your floor plan, pick types and sizes, and get a full window schedule with a live budget estimate. Free, from Rika." />
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/tools/house-map/css/house-map.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"House Window Map","url":"http://51.44.11.18:8000/rika/tools/house-map/","applicationCategory":"DesignTool","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"KES"},"description":"Click every opening on a sample floor plan, assign window types and sizes, and get a complete schedule with a live budget estimate."}
+</script>
+</head>
+<body>
+<div class="app hm-app">
+  <header class="hm-hero">
+    <div class="hm-container">
+      <span class="hm-tag">Free · No signup · All on-device</span>
+      <h1>House Window Map</h1>
+      <p>Walk through your floor plan, click every opening, and get a full window schedule with a live budget estimate.</p>
+    </div>
+  </header>
+
+  <main class="hm-container">
+    <!-- Step 1: pick a plan -->
+    <section class="hm-section">
+      <h2 class="hm-h"><span class="hm-step">1</span> Pick your floor plan</h2>
+      <div class="hm-chips" id="planChips"></div>
+    </section>
+
+    <!-- Step 2: the map -->
+    <section class="hm-section">
+      <h2 class="hm-h"><span class="hm-step">2</span> Click every opening</h2>
+      <div class="hm-map-wrap" id="mapWrap"></div>
+      <p class="hm-map-hint">Tap a numbered marker to add that opening to your schedule. Click again on a <span class="hm-placed">●</span> marker to remove it.</p>
+    </section>
+
+    <!-- Step 3: style + schedule -->
+    <section class="hm-section">
+      <h2 class="hm-h"><span class="hm-step">3</span> Your schedule</h2>
+      <div class="hm-controls">
+        <div class="hm-ctrl">
+          <span class="hm-ctrl-label">Default window style</span>
+          <div class="hm-chips" id="styleChips"></div>
+        </div>
+        <div class="hm-ctrl">
+          <span class="hm-ctrl-label">Frame colour</span>
+          <div class="hm-chips" id="finishChips"></div>
+        </div>
+        <div class="hm-ctrl">
+          <span class="hm-ctrl-label">Default glass</span>
+          <div class="hm-chips" id="glassChips"></div>
+        </div>
+      </div>
+
+      <div class="hm-sched">
+        <table class="hm-table">
+          <thead>
+            <tr><th>Ref</th><th>Room</th><th>Type</th><th>Size (cm)</th><th>Qty</th><th>Area</th><th>Price</th><th></th></tr>
+          </thead>
+          <tbody id="schedBody"></tbody>
+          <tfoot>
+            <tr class="hm-totals">
+              <td colspan="5" class="hm-tot-label">Total — <span id="totCount">0</span> openings · <span id="totArea">0.0</span> m²</td>
+              <td class="hm-tot-price" id="totPrice">KSh 0</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="hm-ctas">
+        <a class="btn btn-primary" id="ctaQuote" href="#">Get an exact quote</a>
+        <a class="btn btn-success" id="ctaWa" href="#" target="_blank" rel="noopener">💬 WhatsApp your schedule</a>
+        <a class="btn btn-ghost" id="ctaCalc" href="/rika/tools/calculator/">Open the calculator</a>
+        <button class="btn btn-danger" id="btnClear" type="button">Clear all</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="hm-footer">
+    <p>Rika · Aluminium windows &amp; doors · Ruiru, Nairobi · <a href="https://wa.me/254718700519" target="_blank" rel="noopener">WhatsApp</a></p>
+  </footer>
+</div>
+<script type="module" src="/rika/tools/house-map/js/house-map.js"></script>
+</body>
+</html>

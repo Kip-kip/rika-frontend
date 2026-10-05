@@ -1,1 +1,122 @@
-m��
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Build My House Windows — Rika</title>
+<meta name="description" content="5 quick questions and Rika plans the full window schedule for your house — every room, size, glass and tier — with a live total estimate. No signup, all on-device." />
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/tools/build/css/build.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Build My House Windows","url":"http://51.44.11.18:8000/rika/tools/build/","applicationCategory":"DesignTool","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"KES"},"description":"A 5-question guided flow that plans the full window schedule for a house — per-room types, sizes, glass and tier — with a live total estimate."}
+</script>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a class="logo" href="/rika/">Ri<span>ka</span></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+    <nav class="nav" id="mainNav">
+      <a href="/rika/">Home</a>
+      <a href="/rika/products/windows/">Windows</a>
+      <a href="/rika/products/doors/">Doors</a>
+      <a href="/rika/products/glass/">Glass</a>
+      <a href="/rika/tools/calculator/">Calculator</a>
+      <a href="/rika/tools/design/">Design Studio</a>
+      <a href="/rika/tools/house-windows/">Your House, Your Windows</a>
+      <a href="/rika/tools/house-map/">House Window Map</a>
+      <a href="/rika/tools/build/">Build My House</a>
+      <a href="/rika/tools/visualizer/">Visualizer</a>
+      <a href="/rika/tools/measurement/">Measurement</a>
+      <a href="/rika/tools/quotation/">Quote</a>
+      <a href="/rika/prices/">Prices</a>
+      <a href="/rika/costs/3-bedroom-house/">Cost Guides</a>
+      <a href="/rika/guide/">Buying Guide</a>
+    </nav>
+  </header>
+
+  <main class="flow-main">
+    <div class="flow-shell">
+      <div class="flow-intro">
+        <h1>Build My House Windows</h1>
+        <p>5 questions. Rika plans the full window schedule for your house — every room, size, glass and tier — with a live total estimate. All on-device, no signup.</p>
+      </div>
+
+      <div class="flow-body" id="flowBody">
+        <!-- progress -->
+        <div class="flow-progress" id="flowProgress">
+          <div class="flow-progress-bar" id="flowProgressBar"></div>
+        </div>
+
+        <!-- question card -->
+        <div class="flow-card" id="flowCard">
+          <div class="flow-qnum" id="flowQNum">1 / 5</div>
+          <h2 class="flow-qtitle" id="flowQTitle">—</h2>
+          <p class="flow-qsub" id="flowQSub"></p>
+          <div class="flow-answers" id="flowAnswers"></div>
+        </div>
+
+        <!-- result card -->
+        <div class="flow-result" id="flowResult" hidden>
+          <div class="result-head">
+            <div class="result-eyebrow">Your window schedule</div>
+            <h2 id="resultTitle">—</h2>
+            <p class="result-sub" id="resultSub"></p>
+          </div>
+
+          <!-- summary facts -->
+          <div class="flow-facts">
+            <div class="fact-row"><span>Rooms</span><b id="totRooms">—</b></div>
+            <div class="fact-row"><span>Total glazing</span><b id="totArea">—</b></div>
+            <div class="fact-row"><span>Tier</span><b id="sumTier">—</b></div>
+            <div class="fact-row"><span>Finish</span><b id="sumFinish">—</b></div>
+            <div class="fact-row"><span>Glass</span><b id="sumGlass">—</b></div>
+            <div class="fact-row"><span>Security</span><b id="sumSecurity">—</b></div>
+          </div>
+
+          <!-- schedule table -->
+          <div class="flow-schedule">
+            <table class="sched-table">
+              <thead>
+                <tr>
+                  <th>Room</th>
+                  <th>Type</th>
+                  <th>Size</th>
+                  <th>Area</th>
+                  <th>Glass</th>
+                  <th>Est. price</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="scheduleBody"></tbody>
+            </table>
+          </div>
+
+          <!-- total -->
+          <div class="flow-total">
+            <span class="total-lbl">Estimated total (supply)</span>
+            <span class="total-num" id="totPrice">—</span>
+            <span class="total-range" id="totRange"></span>
+            <p class="total-note">Range ±8% · excludes installation &amp; delivery. Confirmed at the free site measurement.</p>
+          </div>
+
+          <div class="stage-ctas">
+            <button type="button" data-save-design data-source="Build My House Windows" class="btn btn-primary btn-full">📥 Save My Plan</button>
+            <a class="btn btn-ghost btn-full" id="flowQuote" href="/rika/tools/quotation/">Get an exact quote</a>
+            <a class="btn btn-ghost btn-full" id="flowWa" href="#" target="_blank" rel="noopener">💬 WhatsApp this plan</a>
+          </div>
+
+          <button class="btn-link flow-restart" id="flowRestart">↺ Start over</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <p>© 2026 Rika · Aluminium &amp; Glass, Ruiru, Kenya. Estimates are approximate and confirmed at the free site measurement.</p>
+  </footer>
+</div>
+<script type="module" src="/rika/tools/build/js/build.js"></script>
+</body>
+</html>

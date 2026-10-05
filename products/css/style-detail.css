@@ -1,1 +1,84 @@
-m«ë
+/* ============================================================
+   Rika â€” style-detail pages (one per product style)
+   /rika/products/<cat>/<slug>/
+   Dark theme, matches rika.css + products.css.
+   ============================================================ */
+
+/* Big render card */
+.style-hero-card {
+  background: var(--surface-2, #14171f);
+}
+.style-hero-img {
+  display: block;
+  width: 100%;
+  height: clamp(260px, 42vw, 460px);
+  object-fit: cover;
+}
+.style-hero-cap {
+  padding: 14px 18px;
+  color: var(--muted);
+  font-size: 14px;
+  border-top: 1px solid var(--border);
+}
+
+/* Spec + options two columns */
+.style-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 12px;
+}
+@media (max-width: 720px) {
+  .style-two { grid-template-columns: 1fr; }
+}
+
+.spec-item,
+.opt-item {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.spec-item:last-child,
+.opt-item:last-child { border-bottom: none; }
+.spec-k, .opt-k {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+.spec-v, .opt-v {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Price band */
+.price-band {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.price-tag {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.price-tag[data-key] { /* filled by JS at runtime */ }
+.price-band .card-title { margin-bottom: 0; }
+
+/* Back link */
+.back-link {
+  display: inline-block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 14px;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.back-link:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}

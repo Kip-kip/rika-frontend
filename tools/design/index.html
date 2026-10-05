@@ -1,1 +1,129 @@
-m��
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Window Design Studio — Rika</title>
+<meta name="description" content="Design your aluminium window in real time. Pick the type, size, panels, frame finish, glass and opening — the price updates live. From Rika, Ruiru." />
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/tools/design/css/design.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Rika Window Design Studio","url":"http://51.44.11.18:8000/rika/tools/design/","applicationCategory":"DesignTool","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"KES"},"description":"Parametric window/door editor with live SVG preview and live pricing."}
+</script>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a class="logo" href="/rika/">Ri<span>ka</span></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+    <nav class="nav" id="mainNav">
+      <a href="/rika/">Home</a>
+      <a href="/rika/products/windows/">Windows</a>
+      <a href="/rika/products/doors/">Doors</a>
+      <a href="/rika/products/glass/">Glass</a>
+      <a href="/rika/tools/calculator/">Calculator</a>
+      <a href="/rika/tools/quiz/">Find Your Window</a>
+      <a href="/rika/tools/design/">Design Studio</a>
+      <a href="/rika/tools/house-windows/">Your House, Your Windows</a>
+      <a href="/rika/tools/house-map/">House Window Map</a>
+      <a href="/rika/tools/visualizer/">Visualizer</a>
+      <a href="/rika/tools/measurement/">Measurement</a>
+      <a href="/rika/tools/quotation/">Quote</a>
+      <a href="/rika/prices/">Prices</a>
+      <a href="/rika/costs/3-bedroom-house/">Cost Guides</a>
+      <a href="/rika/guide/">Buying Guide</a>
+    </nav>
+  </header>
+
+  <main class="design-main">
+    <div class="design-hero">
+      <h1>Design Your Window</h1>
+      <p>Pick the type, size, glass, frame and opening — the preview and price update live. A deterministic editor (no AI, no uploads): everything is computed locally from Rika's live rates.</p>
+    </div>
+
+    <div class="design-grid">
+      <!-- LEFT: controls -->
+      <div class="design-controls">
+        <section class="ctl-group">
+          <h2 class="ctl-label">Type</h2>
+          <div class="chips" id="typeRow"></div>
+        </section>
+
+        <section class="ctl-group">
+          <h2 class="ctl-label">Size <small>(per unit, cm)</small></h2>
+          <div class="dim-row">
+            <label class="dim-field"><span>W</span><input id="wCm" type="number" min="30" max="400" value="120" /><em>cm</em></label>
+            <label class="dim-field"><span>H</span><input id="hCm" type="number" min="30" max="300" value="100" /><em>cm</em></label>
+            <div class="area-chip" id="areaChip">— m²</div>
+          </div>
+        </section>
+
+        <section class="ctl-group">
+          <h2 class="ctl-label">Panels / sections</h2>
+          <div class="chips" id="panelRow"></div>
+        </section>
+
+        <section class="ctl-group">
+          <h2 class="ctl-label">Frame finish</h2>
+          <div class="chips" id="finishRow"></div>
+        </section>
+
+        <section class="ctl-group">
+          <h2 class="ctl-label">Glass</h2>
+          <div class="chips" id="glassRow"></div>
+        </section>
+
+        <section class="ctl-group">
+          <h2 class="ctl-label">Opening</h2>
+          <div class="chips" id="openingRow"></div>
+        </section>
+
+        <section class="ctl-group">
+          <h2 class="ctl-label">Tier package</h2>
+          <div class="chips" id="tierRow"></div>
+        </section>
+
+        <section class="ctl-group">
+          <h2 class="ctl-label">Extras</h2>
+          <div class="addons" id="addonBox"></div>
+        </section>
+      </div>
+
+      <!-- RIGHT: live preview + price -->
+      <div class="design-stage">
+        <div class="stage-preview">
+          <div class="stage-label">Live preview</div>
+          <div class="stage-box" id="stageBox"></div>
+          <div class="stage-cap" id="stageCap">—</div>
+        </div>
+
+        <div class="stage-price">
+          <div class="price-row"><span class="price-lbl">Area (per unit)</span><span class="price-val" id="pArea">—</span></div>
+          <div class="price-row"><span class="price-lbl">Quantity</span><span class="price-val" id="pQty">1</span></div>
+          <div class="price-total">
+            <span class="price-lbl">Estimated total</span>
+            <span class="price-num" id="pTotal">—</span>
+            <span class="price-range" id="pRange"></span>
+          </div>
+          <p class="price-note" id="priceNote">≈ range · confirmed at the free site measurement.</p>
+
+          <div class="stage-ctas">
+            <button type="button" data-save-design data-source="Design Studio" class="btn btn-primary btn-full">📥 Save My Design</button>
+            <a class="btn btn-ghost btn-full" id="quoteBtn" href="/rika/tools/quotation/">Get an exact quote</a>
+            <a class="btn btn-ghost btn-full" id="waBtn" href="#" target="_blank" rel="noopener">💬 WhatsApp the design</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <p>© 2026 Rika · Aluminium &amp; Glass, Ruiru, Kenya. Estimates are approximate and confirmed at the free site measurement.</p>
+  </footer>
+</div>
+
+<script type="module" src="/rika/tools/design/js/design.js"></script>
+<script type="module" src="/rika/shared/js/save-design.js"></script>
+</body>
+</html>

@@ -1,1 +1,179 @@
-m«ë
+/* Rika â€” cost-guide pages (T-B2-05) */
+
+.cg-main {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 40px 20px 60px;
+}
+
+.cg-section { max-width: 1100px; margin: 0 auto; width: 100%; }
+
+.cg-h2 {
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.cg-intro {
+  color: var(--muted, #9aa3af);
+  font-size: 16px;
+  margin-bottom: 24px;
+  max-width: 760px;
+  line-height: 1.5;
+}
+
+/* tier cards */
+.cg-tier-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.cg-tier-card {
+  position: relative;
+  background: var(--surface-2, #14171f);
+  border: 1px solid var(--border, #262b33);
+  border-radius: var(--radius, 12px);
+  padding: 24px 22px;
+}
+.cg-tier-card.featured {
+  border-color: var(--accent, #3b82f6);
+  box-shadow: 0 0 0 1px var(--accent, #3b82f6);
+}
+.ct-badge {
+  position: absolute;
+  top: -11px;
+  left: 22px;
+  background: var(--accent, #3b82f6);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.ct-label {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.ct-price {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.ct-note {
+  color: var(--muted, #9aa3af);
+  font-size: 13px;
+  margin: 4px 0 14px;
+}
+.ct-feats {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ct-feats li {
+  font-size: 14px;
+  color: var(--muted, #9aa3af);
+  padding: 5px 0 5px 20px;
+  position: relative;
+}
+.ct-feats li::before {
+  content: "âœ“";
+  position: absolute;
+  left: 0;
+  color: var(--accent, #3b82f6);
+  font-weight: 700;
+}
+
+/* assumptions table */
+.cg-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 18px;
+  font-size: 15px;
+}
+.cg-table th, .cg-table td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border, #262b33);
+}
+.cg-table th {
+  color: var(--muted, #9aa3af);
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.cg-table td:last-child {
+  font-weight: 700;
+}
+
+/* drivers */
+.cg-drivers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+.driver {
+  background: var(--surface-2, #14171f);
+  border: 1px solid var(--border, #262b33);
+  border-radius: var(--radius, 12px);
+  padding: 20px;
+}
+.driver-t {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+.driver-b {
+  color: var(--muted, #9aa3af);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* CTA */
+.cg-cta {
+  background: var(--surface-2, #14171f);
+  border: 1px solid var(--border, #262b33);
+  border-radius: var(--radius, 12px);
+  padding: 32px;
+  text-align: center;
+}
+.cg-cta .cg-intro { margin: 0 auto 20px; max-width: 640px; }
+.cg-cta-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* FAQ */
+.cg-faq { display: flex; flex-direction: column; gap: 10px; }
+.cg-faq details {
+  background: var(--surface-2, #14171f);
+  border: 1px solid var(--border, #262b33);
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+.cg-faq summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+}
+.cg-faq summary::-webkit-details-marker { display: none; }
+.cg-faq summary::before { content: "+ "; color: var(--accent, #3b82f6); font-weight: 700; }
+.cg-faq details[open] summary::before { content: "â€“ "; }
+.cg-faq p { margin-top: 10px; color: var(--muted, #9aa3af); font-size: 14px; line-height: 1.6; }
+
+.cg-note { color: var(--muted, #9aa3af); font-size: 14px; }
+.cg-note a { color: var(--accent, #3b82f6); }
+
+@media (max-width: 640px) {
+  .cg-main { gap: 36px; }
+  .cg-cta { padding: 24px 18px; }
+}

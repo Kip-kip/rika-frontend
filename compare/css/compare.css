@@ -1,1 +1,146 @@
-m��
+/* Rika — Aluminium vs UPVC comparison page (T-B2-06) */
+.cmp-main {
+  display: flex; flex-direction: column; gap: 48px; padding: 40px 20px 60px;
+}
+.cmp-section { max-width: 1100px; margin: 0 auto; width: 100%; }
+.cmp-h2 { font-size: clamp(24px,3vw,34px); font-weight: 800; letter-spacing: -0.01em; margin-bottom: 8px; }
+.cmp-intro { color: var(--muted,#9aa3af); font-size: 16px; margin-bottom: 24px; max-width: 760px; line-height: 1.5; }
+
+/* TL;DR */
+.cmp-tldr {
+  background: var(--surface-2,#14171f); border: 1px solid var(--border,#262b33);
+  border-radius: var(--radius,12px); padding: 28px;
+}
+.tldr-badge {
+  display: inline-block; background: var(--accent,#3b82f6); color: #fff;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 999px; margin-bottom: 16px;
+}
+.cmp-tldr p { font-size: 17px; line-height: 1.6; color: var(--fg,#e8eaed); margin-bottom: 20px; }
+.tldr-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* tables */
+.cmp-table { width: 100%; border-collapse: collapse; font-size: 15px; margin-bottom: 16px; }
+.cmp-table th, .cmp-table td {
+  text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--border,#262b33); vertical-align: top;
+}
+.cmp-table th {
+  color: var(--muted,#9aa3af); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.4px;
+}
+.cmp-table tr.featured { background: rgba(59,130,246,0.06); }
+.cmp-table tr.featured td { font-weight: 600; }
+.cmp-table td strong { color: var(--fg,#e8eaed); }
+.cmp-price { font-weight: 700; }
+.cmp-delta { color: var(--accent,#3b82f6); font-weight: 700; }
+.cmp-note { color: var(--muted,#9aa3af); font-size: 13px; line-height: 1.5; }
+
+/* pick grid */
+.cmp-pick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 20px; }
+.pick-card {
+  background: var(--surface-2,#14171f); border: 1px solid var(--border,#262b33);
+  border-radius: var(--radius,12px); padding: 28px 24px; position: relative;
+}
+.pick-card.alu { border-color: var(--accent,#3b82f6); }
+.pick-badge {
+  position: absolute; top: -11px; left: 24px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 999px;
+}
+.alu-badge { background: var(--accent,#3b82f6); color: #fff; }
+.upvc-badge { background: #374151; color: #d1d5db; }
+.pick-title { font-size: 18px; font-weight: 700; margin-bottom: 14px; }
+.pick-list { list-style: none; padding: 0; margin: 0; }
+.pick-list li { font-size: 14px; color: var(--muted,#9aa3af); padding: 6px 0 6px 22px; position: relative; line-height: 1.5; }
+.pick-list li::before { content: "•"; position: absolute; left: 4px; color: var(--accent,#3b82f6); font-weight: 700; }
+
+/* FAQ */
+.cmp-faq { display: flex; flex-direction: column; gap: 10px; }
+.cmp-faq details {
+  background: var(--surface-2,#14171f); border: 1px solid var(--border,#262b33);
+  border-radius: 10px; padding: 14px 18px;
+}
+.cmp-faq summary { cursor: pointer; font-weight: 600; list-style: none; }
+.cmp-faq summary::-webkit-details-marker { display: none; }
+.cmp-faq summary::before { content: "+ "; color: var(--accent,#3b82f6); font-weight: 700; }
+.cmp-faq details[open] summary::before { content: "– "; }
+.cmp-faq p { margin-top: 10px; color: var(--muted,#9aa3af); font-size: 14px; line-height: 1.6; }
+
+/* CTA */
+.cmp-cta {
+  background: var(--surface-2,#14171f); border: 1px solid var(--border,#262b33);
+  border-radius: var(--radius,12px); padding: 32px; text-align: center;
+}
+.cmp-cta .cmp-intro { margin: 0 auto 20px; max-width: 640px; }
+.cmp-cta-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+@media (max-width: 640px) {
+  .cmp-main { gap: 36px; }
+  .cmp-cta { padding: 24px 18px; }
+  .cmp-table { font-size: 13px; }
+  .cmp-table th, .cmp-table td { padding: 10px 10px; }
+  .tier-grid { grid-template-columns: 1fr; }
+  .tier-ctrl { flex-direction: column; align-items: flex-start; }
+}
+
+/* ================================================================
+   CMP-1 — tier comparison (Essential vs Comfort vs Premium)
+   ================================================================ */
+.cmp-tiers { display: flex; flex-direction: column; gap: 24px; }
+
+/* Project-size control */
+.tier-ctrl { display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  background: var(--surface2, #14171f); border: 1px solid var(--border, #262b33);
+  border-radius: 10px; padding: 14px 18px;
+}
+.tier-ctrl-label { font-size: 14px; font-weight: 600; color: var(--fg, #e8eaed); }
+.tier-ctrl-input { width: 90px; font-size: 16px; font-weight: 700; text-align: center;
+  background: var(--surface, #0f1117); color: var(--fg, #e8eaed);
+  border: 1px solid var(--border, #262b33); border-radius: 8px; padding: 8px;
+}
+.tier-ctrl-unit { color: var(--muted, #9aa3af); font-size: 14px; font-weight: 600; }
+
+/* Tier cards */
+.tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.tier-card { background: var(--surface2, #14171f); border: 1px solid var(--border, #262b33);
+  border-radius: var(--radius, 12px); padding: 24px 22px; position: relative;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.tier-card.featured { border-color: var(--accent, #3b82f6); }
+.tier-badge { position: absolute; top: -11px; left: 22px;
+  background: var(--accent, #3b82f6); color: #fff; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.4px; text-transform: uppercase; padding: 4px 12px; border-radius: 999px;
+}
+.tier-head h3 { font-size: 20px; font-weight: 800; margin: 0; }
+.tier-price { display: flex; flex-direction: column; }
+.tier-perm2 { font-size: 26px; font-weight: 800; color: var(--fg, #e8eaed); letter-spacing: -0.01em; }
+.tier-perm2-lbl { font-size: 12px; color: var(--muted, #9aa3af); margin-top: 2px; }
+.tier-project { display: flex; flex-direction: column; padding: 12px 14px;
+  background: var(--surface, #0f1117); border: 1px solid var(--border, #262b33); border-radius: 10px;
+}
+.tier-proj-num { font-size: 15px; font-weight: 700; color: var(--accent, #3b82f6); line-height: 1.4; }
+.tier-proj-lbl { font-size: 11px; color: var(--muted, #9aa3af); margin-top: 2px; }
+.tier-list { list-style: none; margin: 0; padding: 0; }
+.tier-list li { font-size: 14px; color: var(--muted, #9aa3af); padding: 5px 0 5px 20px; position: relative; line-height: 1.5; }
+.tier-list li::before { content: "✓"; position: absolute; left: 0; color: var(--accent, #3b82f6); font-weight: 700; }
+.tier-best { font-size: 13px; color: var(--muted, #9aa3af); font-style: italic; margin-top: auto; }
+
+/* Spec delta table */
+.tier-col-comfort { background: rgba(59,130,246,0.06); font-weight: 600; }
+.tier-spec .tier-col-comfort { border-left: 1px solid rgba(59,130,246,0.2); border-right: 1px solid rgba(59,130,246,0.2); }
+
+/* Live delta bars */
+.tier-delta { background: var(--surface2, #14171f); border: 1px solid var(--border, #262b33);
+  border-radius: var(--radius, 12px); padding: 26px 24px;
+}
+.tier-delta-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
+.tier-delta-head h3 { font-size: 18px; font-weight: 800; margin: 0; }
+.tier-delta-size { font-size: 14px; font-weight: 700; color: var(--accent, #3b82f6); }
+.tier-delta-bars { display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px; }
+.delta-row { display: grid; grid-template-columns: 90px 1fr 150px; align-items: center; gap: 12px; }
+.delta-lbl { font-size: 14px; font-weight: 600; color: var(--muted, #9aa3af); }
+.delta-bar-wrap { height: 14px; background: var(--surface, #0f1117); border-radius: 999px; overflow: hidden; border: 1px solid var(--border, #262b33); }
+.delta-bar { display: block; height: 100%; width: 0; background: var(--border, #262b33); border-radius: 999px; transition: width 0.35s ease; }
+.delta-bar-feat { background: var(--accent, #3b82f6); }
+.delta-val { font-size: 13px; font-weight: 700; color: var(--fg, #e8eaed); text-align: right; white-space: nowrap; }
+.tier-delta-note { font-size: 14px; color: var(--muted, #9aa3af); line-height: 1.5; margin: 4px 0 16px; max-width: 760px; }
+.tier-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }

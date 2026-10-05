@@ -1,1 +1,69 @@
-m«ë
+/* Rika â€” "House Window Map" (T-B3-06) */
+.hm-app { background: #0d1117; color: #e6e8eb; min-height: 100vh; }
+.hm-container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+/* hero */
+.hm-hero { background: linear-gradient(135deg, #10151c, #1a222d); padding: 56px 0 40px; }
+.hm-hero h1 { font-size: clamp(28px, 5vw, 46px); margin: 0 0 10px; color: #fff; line-height: 1.15; }
+.hm-hero p { color: #9aa4af; max-width: 720px; font-size: 17px; line-height: 1.6; margin: 0; }
+.hm-tag { display: inline-block; background: #b8741a; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+
+/* sections */
+.hm-section { margin: 32px 0; }
+.hm-h { font-size: 20px; color: #fff; display: flex; align-items: center; gap: 10px; margin: 0 0 14px; }
+.hm-step { background: #b8741a; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+
+/* chips */
+.hm-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.hm-chip { background: #161b22; border: 1.5px solid #2a313c; color: #e6e8eb; border-radius: 8px; padding: 9px 14px; cursor: pointer; font-size: 14px; font-family: inherit; display: inline-flex; align-items: center; gap: 8px; transition: border-color .15s, background .15s; }
+.hm-chip:hover { border-color: #4a5568; }
+.hm-chip.active { border-color: #b8741a; background: #241c0f; }
+.hm-plan-chip { font-size: 15px; font-weight: 600; padding: 12px 18px; }
+.hm-swatch { width: 14px; height: 14px; border-radius: 4px; border: 1px solid rgba(255,255,255,.3); display: inline-block; }
+
+/* map */
+.hm-map-wrap { background: #161b22; border: 1px solid #2a313c; border-radius: 12px; padding: 16px; }
+.hm-map-wrap svg { display: block; }
+.hm-marker { cursor: pointer; }
+.hm-marker:hover circle { stroke: #b8741a; }
+.hm-placed { }
+.hm-map-hint { font-size: 13px; color: #8b95a1; margin: 10px 0 0; }
+.hm-map-hint .hm-placed { color: #b8741a; }
+
+/* controls */
+.hm-controls { display: flex; flex-direction: column; gap: 14px; background: #161b22; border: 1px solid #2a313c; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+.hm-ctrl-label { font-size: 13px; font-weight: 600; color: #9aa4af; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 8px; }
+
+/* schedule table */
+.hm-sched { overflow-x: auto; margin-bottom: 20px; }
+.hm-table { width: 100%; border-collapse: collapse; background: #161b22; border: 1px solid #2a313c; border-radius: 12px; overflow: hidden; font-size: 14px; }
+.hm-table thead th { background: #1c222b; color: #9aa4af; text-align: left; padding: 12px 14px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid #2a313c; }
+.hm-table tbody td { padding: 12px 14px; border-bottom: 1px solid #1f252e; color: #c7cdd4; }
+.hm-table tbody tr:hover { background: #1a2029; }
+.hm-table tbody td strong { color: #fff; }
+.hm-totals td { background: #1c222b; font-weight: 700; color: #fff; padding: 14px; border-top: 2px solid #b8741a; }
+.hm-tot-label { font-size: 14px !important; }
+.hm-tot-price { font-size: 18px !important; color: #b8741a !important; }
+.hm-del { background: transparent; border: none; color: #8b95a1; cursor: pointer; font-size: 14px; padding: 4px 8px; border-radius: 6px; }
+.hm-del:hover { background: #2a313c; color: #ff6b6b; }
+
+/* CTAs */
+.hm-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+.hm-ctas .btn { padding: 12px 22px; border-radius: 8px; font-size: 15px; font-weight: 600; text-decoration: none; text-align: center; cursor: pointer; font-family: inherit; border: none; }
+.hm-ctas .btn-primary { background: #b8741a; color: #fff; }
+.hm-ctas .btn-primary:hover { background: #a06310; }
+.hm-ctas .btn-success { background: #1f8a4c; color: #fff; }
+.hm-ctas .btn-success:hover { background: #176e3c; }
+.hm-ctas .btn-ghost { background: transparent; color: #9aa4af; border: 1px solid #2a313c; }
+.hm-ctas .btn-ghost:hover { border-color: #4a5568; color: #e6e8eb; }
+.hm-ctas .btn-danger { background: transparent; color: #8b95a1; border: 1px solid #2a313c; }
+.hm-ctas .btn-danger:hover { color: #ff6b6b; border-color: #ff6b6b; }
+
+/* footer */
+.hm-footer { padding: 30px 20px; text-align: center; color: #8b95a1; font-size: 13px; border-top: 1px solid #1c222b; margin-top: 40px; }
+.hm-footer a { color: #b8741a; text-decoration: none; }
+
+@media (max-width: 720px) {
+  .hm-table { font-size: 12px; }
+  .hm-table thead th, .hm-table tbody td { padding: 8px 8px; }
+}

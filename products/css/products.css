@@ -1,1 +1,200 @@
-m«ë
+/* ============================================================
+   Rika â€” product catalog pages (Batch 2)
+   Shared across /rika/products/* (windows, doors, glass,
+   shopfronts, partitions). Dark theme, matches rika.css.
+   ============================================================ */
+
+/* Hero */
+.prod-hero {
+  padding: 56px 0 40px;
+  background:
+    radial-gradient(1200px 400px at 80% -10%, rgba(59, 130, 246, 0.18), transparent 60%),
+    var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.prod-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.prod-hero h1 {
+  font-size: 40px;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  max-width: 720px;
+}
+.prod-sub {
+  font-size: 17px;
+  color: var(--muted);
+  max-width: 680px;
+  margin-bottom: 24px;
+}
+.prod-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.prod-body {
+  padding: 40px 20px 24px;
+}
+.prod-section {
+  margin-bottom: 28px;
+}
+
+/* Price table */
+.prod-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  margin-top: 12px;
+}
+.prod-table th,
+.prod-table td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.prod-table th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.prod-table td:last-child,
+.prod-table th:last-child {
+  text-align: right;
+  white-space: nowrap;
+}
+.prod-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Product photo grid (LV-style cards) */
+.prod-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+@media (max-width: 900px) {
+  .prod-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .prod-grid { grid-template-columns: 1fr; }
+}
+.prod-card {
+  display: block;
+  background: var(--surface-2, #14171f);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.prod-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.prod-card-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.prod-card-label {
+  padding: 12px 14px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.prod-card-label .card-desc {
+  display: block;
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+/* Feature card grid */
+.card-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+@media (max-width: 720px) {
+  .card-grid-3 { grid-template-columns: 1fr; }
+}
+.feature-card h3 {
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+.feature-icon {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* CTA band */
+.cta-band {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  border-radius: var(--radius);
+  background: linear-gradient(120deg, rgba(59, 130, 246, 0.18), rgba(37, 99, 235, 0.08));
+  border: 1px solid var(--border);
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.cta-band h2 {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+.cta-band p {
+  color: var(--muted);
+  font-size: 14px;
+}
+.cta-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* FAQ */
+.faq details {
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+}
+.faq summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  list-style: none;
+  position: relative;
+  padding-right: 24px;
+}
+.faq summary::after {
+  content: '+';
+  position: absolute;
+  right: 0;
+  color: var(--accent);
+  font-size: 18px;
+}
+.faq details[open] summary::after {
+  content: 'â€“';
+}
+.faq p {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 8px;
+  max-width: 760px;
+}
+
+@media (max-width: 640px) {
+  .prod-hero h1 {
+    font-size: 30px;
+  }
+}

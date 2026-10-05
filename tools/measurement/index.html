@@ -1,1 +1,202 @@
-m��
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Measure Your Opening — Rika</title>
+  <link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+  <link rel="stylesheet" href="/rika/shared/css/booking.css" />
+  <link rel="stylesheet" href="/rika/tools/measurement/css/measurement.css" />
+</head>
+<body>
+  <header class="header">
+    <a href="/rika/" class="logo">Ri<span>ka</span></a>
+    <nav class="nav">
+      <a href="/rika/" class="nav-link">Home</a>
+      <a href="/rika/products/windows/" class="nav-link">Windows</a>
+      <a href="/rika/products/doors/" class="nav-link">Doors</a>
+      <a href="/rika/products/glass/" class="nav-link">Glass</a>
+      <a href="/rika/products/shopfronts/" class="nav-link">Shopfronts</a>
+      <a href="/rika/products/partitions/" class="nav-link">Partitions</a>
+      <a href="/rika/tools/calculator/" class="nav-link">Calculator</a>
+      <a href="/rika/tools/quiz/">Find Your Window</a>
+        <a href="/rika/tools/design/" class="nav-link">Design Studio</a>
+      <a href="/rika/tools/house-windows/">Your House, Your Windows</a>
+      <a href="/rika/tools/house-map/">House Window Map</a>
+        <a href="/rika/locations/nairobi/" class="nav-link">Locations</a>
+        <a href="/rika/costs/3-bedroom-house/" class="nav-link">Cost Guides</a>
+        <a href="/rika/guide/" class="nav-link">Buying Guide</a>
+      <a href="/rika/tools/visualizer/" class="nav-link">Visualizer</a>
+      <a href="/rika/tools/measurement/" class="nav-link active">Measurement</a>
+      <a href="/rika/tools/quotation/" class="nav-link">Quote</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main class="main">
+    <!-- STEP 0: Upload -->
+    <section id="stepUpload" class="step">
+      <div class="step-header">
+        <span class="step-num">1</span>
+        <h1>Measure Your Opening</h1>
+        <p class="step-sub">
+          Get an accurate measurement of your window opening from a photo.
+          Place an <strong>A4 sheet of paper</strong> against the opening, take a photo,
+          and we'll calculate the real dimensions.
+        </p>
+      </div>
+
+      <label class="upload-zone" id="uploadZone">
+        <input type="file" id="fileInput" accept="image/*" hidden />
+        <div class="upload-icon">📐</div>
+        <div class="upload-text">Tap to upload a photo</div>
+        <div class="upload-hint">Take a photo of the opening with an A4 paper placed inside it</div>
+      </label>
+
+      <div class="tip-box">
+        <strong>💡 Tips for an accurate photo:</strong>
+        <ul>
+          <li>Place an <strong>A4 sheet</strong> (210 × 297 mm) flat inside the opening</li>
+          <li>Make sure the full paper is visible and not folded</li>
+          <li>Stand back ~1–2 m, keep the camera level with the opening</li>
+          <li>Good even lighting, avoid glare on the paper</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- STEP 1: Mark reference (A4 paper) -->
+    <section id="stepReference" class="step hidden">
+      <div class="step-header">
+        <span class="step-num">2</span>
+        <h2>Mark the A4 Paper</h2>
+        <p class="step-sub">Tap the <strong>4 corners of the A4 paper</strong> in the photo — start top-left, then top-right, bottom-right, bottom-left.</p>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="refCanvas"></canvas>
+        <div id="refHint" class="corner-hint">
+          <span class="hint-badge">①</span> Tap the top-left corner of the paper
+        </div>
+      </div>
+
+      <div class="step-actions">
+        <button class="btn btn-ghost" id="btnRefBack">← Change Photo</button>
+        <button class="btn btn-ghost" id="btnRefClear">↺ Clear</button>
+      </div>
+    </section>
+
+    <!-- STEP 2: Mark opening -->
+    <section id="stepOpening" class="step hidden">
+      <div class="step-header">
+        <span class="step-num">3</span>
+        <h2>Mark the Window Opening</h2>
+        <p class="step-sub">Now tap the <strong>4 corners of the window opening</strong> (the actual hole in the wall).</p>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="openCanvas"></canvas>
+        <div id="openHint" class="corner-hint">
+          <span class="hint-badge">①</span> Tap the top-left corner of the opening
+        </div>
+      </div>
+
+      <div class="step-actions">
+        <button class="btn btn-ghost" id="btnOpenBack">← Reference</button>
+        <button class="btn btn-ghost" id="btnOpenClear">↺ Clear</button>
+      </div>
+    </section>
+
+    <!-- STEP 3: Results -->
+    <section id="stepResults" class="step hidden">
+      <div class="step-header">
+        <span class="step-num">4</span>
+        <h2>Your Measurement</h2>
+        <p class="step-sub">Estimated dimensions of your window opening.</p>
+      </div>
+
+      <div class="result-preview">
+        <canvas id="resultCanvas"></canvas>
+      </div>
+
+      <div class="result-cards">
+        <div class="result-card">
+          <div class="result-label">Width</div>
+          <div class="result-value" id="resWidth">—</div>
+          <div class="result-sub" id="resWidthCm">—</div>
+        </div>
+        <div class="result-card">
+          <div class="result-label">Height</div>
+          <div class="result-value" id="resHeight">—</div>
+          <div class="result-sub" id="resHeightCm">—</div>
+        </div>
+      </div>
+
+      <div class="result-detail" id="resDetail">
+        <p><strong>Diagonal:</strong> <span id="resDiagonal">—</span></p>
+        <p><strong>Area:</strong> <span id="resArea">—</span></p>
+        <p><strong>Aspect ratio (W:H):</strong> <span id="resAspect">—</span></p>
+      </div>
+
+      <div class="result-disclaimer" id="measureDisclaimer">
+        <!-- Wording injected from shared/js/rika-config.js (single source) -->
+      </div>
+
+      <div class="step-actions">
+        <button class="btn btn-ghost" id="btnStartOver">↺ Start Over</button>
+        <a id="btnMeasureCalc" href="/rika/tools/calculator/" class="btn btn-ghost">💰 Estimate My Price</a>
+        <button class="btn btn-primary" data-book-measurement data-source="Measurement Tool">📅 Book a Free Measurement</button>
+        <a id="btnMeasureWa" class="btn btn-success" target="_blank" rel="noopener" href="#">💬 Chat Me on WhatsApp</a>
+        <a href="/rika/tools/visualizer/" class="btn btn-ghost">Visualize This Opening</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© 2026 Rika</span>
+    <a href="/rika/">Home</a>
+  </footer>
+
+  <script type="module" src="/rika/shared/js/booking.js"></script>
+  <script type="module" src="/rika/tools/measurement/js/app.js"></script>
+  <script type="module">
+    import { RIKA_CONFIG } from '../../shared/js/rika-config.js';
+    // C1: disclaimer wording lives in one place only (the config)
+    document.addEventListener('DOMContentLoaded', () => {
+      const el = document.getElementById('measureDisclaimer');
+      if (el) el.innerHTML = RIKA_CONFIG.disclaimer.full;
+      const cta = document.getElementById('btnMeasureCalc');
+      if (cta) {
+        cta.addEventListener('click', (e) => {
+          e.preventDefault();
+          const w = document.getElementById('resWidth').textContent.replace(/[^0-9]/g, '');
+          const h = document.getElementById('resHeight').textContent.replace(/[^0-9]/g, '');
+          if (w && h) {
+            const wm = Math.round(parseInt(w, 10) / 10);
+            const hm = Math.round(parseInt(h, 10) / 10);
+            window.location.href = `/rika/tools/calculator/?w=${wm}&h=${hm}`;
+          } else {
+            window.location.href = '/rika/tools/calculator/';
+          }
+        });
+      }
+      // WASAPP-1: pre-populated WhatsApp from measured dimensions
+      const waBtn = document.getElementById('btnMeasureWa');
+      if (waBtn) {
+        waBtn.addEventListener('click', (e) => {
+          const w = document.getElementById('resWidthCm') ? document.getElementById('resWidthCm').textContent.trim() : '';
+          const h = document.getElementById('resHeightCm') ? document.getElementById('resHeightCm').textContent.trim() : '';
+          const area = document.getElementById('resArea') ? document.getElementById('resArea').textContent.trim() : '';
+          const lines = ['Hi Rika! I just measured my window with your tool:'];
+          if (w && h) lines.push(`• Opening: approx ${w} × ${h}`);
+          if (area) lines.push(`• Area: ${area}`);
+          lines.push("I'd like a free site measurement / firm quote.");
+          waBtn.href = `https://wa.me/${RIKA_CONFIG.whatsapp.number}?text=${encodeURIComponent(lines.join('\n'))}`;
+        });
+      }
+    });
+  </script>
+</body>
+</html>

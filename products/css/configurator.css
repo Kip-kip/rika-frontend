@@ -1,1 +1,168 @@
-m«ë
+/* ============================================================
+   Rika â€” on-page configurator (T-B2-03)
+   Live price impact on the style-detail pages.
+   ============================================================ */
+.conf-wrap {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .conf-wrap { grid-template-columns: 1fr; }
+}
+
+/* control groups */
+.conf-group { margin-bottom: 18px; }
+.conf-group > .conf-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  border: 1px solid var(--border);
+  background: var(--surface-2, #14171f);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.chip:hover { border-color: var(--accent); }
+.chip.selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.chip .swatch {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.25);
+}
+.chip small { color: var(--muted); }
+
+/* dimension + qty inputs */
+.dim-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.dim-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  background: var(--surface-2, #14171f);
+}
+.dim-field label { font-size: 13px; color: var(--muted); }
+.dim-field input {
+  width: 74px;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+}
+.dim-field span { font-size: 13px; color: var(--muted); }
+.area-chip {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* add-ons */
+.conf-addons { display: flex; flex-direction: column; gap: 8px; }
+.addon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.addon input { accent-color: var(--accent); }
+.addon .addon-price { margin-left: auto; color: var(--muted); font-size: 13px; }
+
+/* price card */
+.conf-preview {
+  margin-bottom: 16px;
+  background: var(--surface-2, #14171f);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+.conf-preview .preview-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.conf-preview .preview-box {
+  width: 100%;
+  aspect-ratio: 400 / 256;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0e1015;
+}
+.conf-preview .preview-box svg { display: block; width: 100%; height: 100%; }
+.conf-preview .preview-cap {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+.conf-price {
+  position: sticky;
+  top: 16px;
+  background: var(--surface-2, #14171f);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.conf-price .price-label {
+  font-size: 13px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.conf-price .price-value {
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 6px 0 4px;
+}
+.conf-price .price-note { font-size: 13px; color: var(--muted); }
+.price-breakdown {
+  margin: 14px 0;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+.price-breakdown .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  padding: 4px 0;
+  color: var(--muted);
+}
+.price-breakdown .row span:last-child { color: var(--text); font-variant-numeric: tabular-nums; }
+.conf-price .price-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.conf-price .price-actions .btn { width: 100%; text-align: center; }
+.conf-price .price-cta-note { font-size: 12px; color: var(--muted); margin-top: 10px; }

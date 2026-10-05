@@ -1,1 +1,296 @@
-m��
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rika — Aluminium & Glass, Fitted Right</title>
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<style>
+  /* Homepage-specific styles */
+  .hero {
+    padding: 60px 20px 40px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero p {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto 28px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .hero-actions .btn {
+    padding: 14px 28px;
+    font-size: 15px;
+  }
+
+  .section {
+    padding: 48px 20px;
+  }
+  .section-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .section-sub {
+    font-size: 15px;
+    color: var(--muted);
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto 32px;
+  }
+
+  /* Tool cards */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+  }
+  .tool-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+  }
+  .tool-card.disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+  }
+  .tool-card.disabled:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: var(--border);
+  }
+  .tool-card .tool-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 14px;
+  }
+  .tool-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .tool-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .tool-card .coming-soon {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--surface2);
+    padding: 3px 10px;
+    border-radius: 10px;
+  }
+
+  /* About */
+  .about-text {
+    max-width: 640px;
+    margin: 0 auto;
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.7;
+    text-align: center;
+  }
+
+  /* Stats */
+  .stats-row {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat .num {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .stat .label {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 28px; }
+    .hero { padding: 40px 16px 32px; }
+    .section { padding: 36px 16px; }
+    .tools-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a class="logo" href="/rika/">Ri<span>ka</span></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+    <nav class="nav" id="mainNav">
+      <a href="/rika/" class="active">Home</a>
+      <a href="/rika/products/windows/">Windows</a>
+      <a href="/rika/products/doors/">Doors</a>
+      <a href="/rika/products/glass/">Glass</a>
+      <a href="/rika/products/shopfronts/">Shopfronts</a>
+      <a href="/rika/products/partitions/">Partitions</a>
+      <a href="/rika/tools/calculator/">Price Calculator</a>
+      <a href="/rika/tools/quiz/">Find Your Window</a>
+        <a href="/rika/tools/design/" class="nav-link">Design Studio</a>
+      <a href="/rika/tools/house-windows/">Your House, Your Windows</a>
+      <a href="/rika/tools/house-map/">House Window Map</a>
+      <a href="/rika/tools/visualizer/">Visualizer</a>
+      <a href="/rika/locations/nairobi/">Locations</a>
+      <a href="/rika/prices/">Prices</a>
+      <a href="/rika/#about">About</a>
+    </nav>
+  </header>
+
+  <main class="main">
+    <!-- Hero -->
+    <section class="hero">
+      <h1>Aluminium Windows &amp; Doors,<br /><span>Priced Before You Even Ask.</span></h1>
+      <p>Sliding, casement and fixed glass — see the price in seconds, preview it in your own wall, and book a free measurement. No sign-up, no pressure.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/rika/tools/calculator/">💰 Price My Window</a>
+        <a class="btn btn-ghost" href="/rika/tools/visualizer/">🪟 Design Your Windows</a>
+      </div>
+    </section>
+
+    <!-- Tools -->
+    <section class="section" id="tools">
+      <div class="container">
+        <h2 class="section-title">Our Tools</h2>
+        <p class="section-sub">Free tools to help you plan your aluminium &amp; glass project.</p>
+        <div class="tools-grid">
+          <a class="tool-card" href="/rika/tools/calculator/">
+            <div class="tool-icon">💰</div>
+            <h3>Price Calculator</h3>
+            <p>Pick the window type, size, finish and glass — get an instant price range in KSh. Three package tiers (Essential / Comfort / Premium) with real warranty terms.</p>
+          </a>
+          <a class="tool-card" href="/rika/tools/visualizer/">
+            <div class="tool-icon">🪟</div>
+            <h3>Window Visualizer</h3>
+            <p>Upload a photo of your window opening, mark the four corners, and preview different aluminium window designs fitted in place. Switch designs, frame finishes, and glass types instantly.</p>
+          </a>
+          <a class="tool-card" href="/rika/tools/measurement/">
+            <div class="tool-icon">📐</div>
+            <h3>Measurement Tool</h3>
+            <p>Estimate your window dimensions from a photo using an A4 sheet as a scale reference. Mark the paper, mark the opening, get real-world width and height.</p>
+          </a>
+          <a class="tool-card" href="/rika/tools/quotation/">
+            <div class="tool-icon">📋</div>
+            <h3>Get a Quotation</h3>
+            <p>Submit your project details and receive a free, no-obligation quote from our team within 24 hours.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about" style="background: var(--surface);">
+      <div class="container">
+        <h2 class="section-title">About Rika</h2>
+        <p class="about-text">
+          Rika is a modern aluminium and glass installation company. We specialize in custom window and door solutions — from fixed panes to multi-panel sliding systems — designed to fit your space precisely.
+        </p>
+        <div class="stats-row">
+          <div class="stat">
+            <div class="num">500+</div>
+            <div class="label">Windows installed</div>
+          </div>
+          <div class="stat">
+            <div class="num">10yr</div>
+            <div class="label">Warranty</div>
+          </div>
+          <div class="stat">
+            <div class="num">4.9★</div>
+            <div class="label">Customer rating</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© 2026 Rika — Aluminium &amp; Glass</span>
+    <span>
+      <a href="/rika/">Home</a> ·
+      <a href="/rika/#tools">Tools</a> ·
+      <a href="/rika/#about">About</a>
+    </span>
+  </footer>
+</div>
+
+<script type="module">
+// Mobile nav toggle
+const menuBtn = document.getElementById('menuBtn');
+const mainNav = document.getElementById('mainNav');
+menuBtn.addEventListener('click', () => mainNav.classList.toggle('open'));
+
+// Close nav when a link is clicked (mobile)
+mainNav.querySelectorAll('a').forEach((link) => {
+  link.addEventListener('click', () => mainNav.classList.remove('open'));
+});
+
+// WhatsApp float + footer phone — number comes from the single-source config
+import('./shared/js/rika-config.js').then(({ RIKA_CONFIG, waLink }) => {
+  const a = document.createElement('a');
+  a.className = 'wa-float';
+  a.href = waLink('Hi Rika! I found you from the website and I would like a quote.');
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.title = 'Chat on WhatsApp';
+  a.textContent = '💬';
+  document.body.appendChild(a);
+  const style = document.createElement('style');
+  style.textContent = `
+    .wa-float {
+      position: fixed; right: 18px; bottom: 18px; z-index: 99;
+      width: 54px; height: 54px; border-radius: 50%;
+      background: #25d366; color: #fff; font-size: 26px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    }`;
+  document.head.appendChild(style);
+  const footer = document.querySelector('.footer span:last-child');
+  if (footer) {
+    footer.innerHTML = `Call/WhatsApp: <a href="tel:+${RIKA_CONFIG.whatsapp.number}" style="color:var(--accent)">+${RIKA_CONFIG.whatsapp.number.replace(/^0/, '0')}</a>`;
+  }
+});
+</script>
+</body>
+</html>

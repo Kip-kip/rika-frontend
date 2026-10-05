@@ -1,1 +1,71 @@
-m«ë
+/* Rika â€” "Your House, Your Windows" (T-B3-05) */
+.hw-app { background: #0d1117; color: #e6e8eb; min-height: 100vh; }
+.hw-container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+/* hero */
+.hw-hero { background: linear-gradient(135deg, #10151c, #1a222d); padding: 56px 0 40px; }
+.hw-hero h1 { font-size: clamp(28px, 5vw, 46px); margin: 0 0 10px; color: #fff; line-height: 1.15; }
+.hw-hero p { color: #9aa4af; max-width: 720px; font-size: 17px; line-height: 1.6; margin: 0; }
+.hw-tag { display: inline-block; background: #b8741a; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+
+/* sections */
+.hw-section { margin: 32px 0; }
+.hw-h { font-size: 20px; color: #fff; display: flex; align-items: center; gap: 10px; margin: 0 0 14px; }
+.hw-step { background: #b8741a; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+
+/* house cards */
+.hw-house-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.hw-house-card { background: #161b22; border: 2px solid #2a313c; border-radius: 12px; padding: 18px 14px; cursor: pointer; text-align: center; transition: border-color .2s, transform .1s; color: #e6e8eb; font-family: inherit; }
+.hw-house-card:hover { border-color: #b8741a; }
+.hw-house-card.active { border-color: #b8741a; background: #1c2330; }
+.hw-house-ico { font-size: 34px; display: block; margin-bottom: 8px; }
+.hw-house-name { font-size: 17px; font-weight: 700; display: block; }
+.hw-house-sub { font-size: 13px; color: #8b95a1; display: block; margin-top: 2px; }
+
+/* controls */
+.hw-controls { display: flex; flex-direction: column; gap: 16px; background: #161b22; border-radius: 12px; padding: 20px; border: 1px solid #2a313c; }
+.hw-ctrl-label { font-size: 13px; font-weight: 600; color: #9aa4af; text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 8px; }
+.hw-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.hw-chip { background: #0d1117; border: 1.5px solid #2a313c; color: #e6e8eb; border-radius: 8px; padding: 8px 14px; cursor: pointer; font-size: 14px; font-family: inherit; display: inline-flex; align-items: center; gap: 8px; transition: border-color .15s, background .15s; }
+.hw-chip:hover { border-color: #4a5568; }
+.hw-chip.active { border-color: #b8741a; background: #241c0f; }
+.hw-swatch { width: 14px; height: 14px; border-radius: 4px; border: 1px solid rgba(255,255,255,.3); display: inline-block; }
+
+/* stage / slider */
+.hw-stage { position: relative; width: 100%; aspect-ratio: 800 / 460; border-radius: 12px; overflow: hidden; border: 1px solid #2a313c; background: #0d1117; touch-action: none; }
+.hw-layer { position: absolute; inset: 0; }
+.hw-layer-after { clip-path: inset(0 0 0 50%); }
+.hw-split { position: absolute; top: 0; bottom: 0; width: 3px; background: #b8741a; left: 50%; pointer-events: none; }
+.hw-handle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #b8741a; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.5); pointer-events: none; }
+.hw-label { position: absolute; bottom: 12px; background: rgba(0,0,0,.65); color: #fff; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; pointer-events: none; }
+.hw-label-before { left: 12px; }
+.hw-label-after { right: 12px; }
+.hw-range { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+
+/* price card */
+.hw-price-card { display: grid; grid-template-columns: 1fr 260px; gap: 24px; background: #161b22; border: 1px solid #2a313c; border-radius: 12px; padding: 24px; align-items: center; }
+.hw-h3 { margin: 0 0 6px; font-size: 18px; color: #fff; }
+.hw-price-est { font-size: 30px; font-weight: 800; color: #b8741a; margin: 0; }
+.hw-price-range { color: #9aa4af; font-size: 14px; margin: 0 0 14px; }
+.hw-facts { list-style: none; padding: 0; margin: 0; color: #c7cdd4; font-size: 14px; line-height: 1.9; }
+.hw-facts li { margin: 0; }
+.hw-facts strong { color: #fff; }
+.hw-price-note { font-size: 12px; color: #8b95a1; margin: 12px 0 0; }
+.hw-price-ctas { display: flex; flex-direction: column; gap: 10px; }
+.hw-price-ctas .btn { width: 100%; text-align: center; }
+
+/* footer */
+.hw-footer { padding: 30px 20px; text-align: center; color: #8b95a1; font-size: 13px; border-top: 1px solid #1c222b; margin-top: 40px; }
+.hw-footer a { color: #b8741a; text-decoration: none; }
+
+/* dark btn overrides (shared rika.css is light-themed) */
+.hw-price-ctas .btn-primary { background: #b8741a; color: #fff; }
+.hw-price-ctas .btn-success { background: #1f8a4c; color: #fff; }
+.hw-price-ctas .btn-ghost { background: transparent; color: #9aa4af; border: 1px solid #2a313c; }
+
+@media (max-width: 720px) {
+  .hw-house-grid { grid-template-columns: 1fr; }
+  .hw-price-card { grid-template-columns: 1fr; }
+  .hw-price-ctas { flex-direction: row; }
+  .hw-price-ctas .btn { width: auto; flex: 1; }
+}

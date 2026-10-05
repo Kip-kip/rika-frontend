@@ -1,1 +1,188 @@
-m��
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Aluminium Windows &amp; Glass Prices in Kenya (2026) — Rika Price Index</title>
+  <meta name="description" content="Live 2026 aluminium window, door and glass prices in Kenya. Per-m² rates for sliding, casement and fixed windows, doors, shopfronts, partitions, glass add-ons and tier packages — updated from the Rika price table. Get your exact figure in the calculator." />
+  <link rel="canonical" href="https://51.44.11.18:8000/rika/prices/" />
+  <link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+  <link rel="stylesheet" href="/rika/shared/css/booking.css" />
+  <link rel="stylesheet" href="/rika/products/css/products.css" />
+</head>
+<body>
+  <div class="app">
+  <header class="header">
+    <a class="logo" href="/rika/">Ri<span>ka</span></a>
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav">
+      <a href="/rika/" class="nav-link">Home</a>
+      <a href="/rika/products/windows/" class="nav-link">Windows</a>
+      <a href="/rika/products/doors/" class="nav-link">Doors</a>
+      <a href="/rika/products/glass/" class="nav-link">Glass</a>
+      <a href="/rika/products/shopfronts/" class="nav-link">Shopfronts</a>
+      <a href="/rika/products/partitions/" class="nav-link">Partitions</a>
+      <a href="/rika/locations/nairobi/" class="nav-link">Locations</a>
+        <a href="/rika/costs/3-bedroom-house/" class="nav-link">Cost Guides</a>
+        <a href="/rika/guide/" class="nav-link">Buying Guide</a>
+        <a href="/rika/prices/" class="nav-link active">Prices</a>
+      <a href="/rika/tools/calculator/" class="nav-link">Calculator</a>
+      <a href="/rika/tools/quiz/">Find Your Window</a>
+        <a href="/rika/tools/design/" class="nav-link">Design Studio</a>
+      <a href="/rika/tools/house-windows/">Your House, Your Windows</a>
+      <a href="/rika/tools/house-map/">House Window Map</a>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section class="prod-hero">
+      <div class="container">
+        <p class="prod-eyebrow">Price Index · 2026</p>
+        <h1>What Aluminium Windows &amp; Glass Actually Cost in Kenya</h1>
+        <p class="prod-sub">Rika's live price table — per-m² rates for every product we fit, updated as market rates move. These are our starting prices; your exact figure depends on size, glass and add-ons, and is confirmed at a free site measurement. No hidden fees, no "call for price" games.</p>
+        <div class="prod-actions">
+          <a class="btn btn-primary" href="/rika/tools/calculator/">💰 Get My Exact Price</a>
+          <button class="btn btn-ghost" data-book-measurement data-source="Prices page">📅 Book a Free Measurement</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="container prod-body">
+      <!-- Windows & doors -->
+      <section class="card prod-section">
+        <div class="card-title">Windows &amp; doors — per m²</div>
+        <table class="prod-table">
+          <thead>
+            <tr><th>Product</th><th>Starting price (per m²)</th><th>Note</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="/rika/products/windows/"><strong>Sliding window</strong></a></td>
+              <td>KSh <span data-price data-key="sliding">—</span>/m²</td>
+              <td class="card-desc">2–4 panels, best seller for kitchens, lounges, shops</td>
+            </tr>
+            <tr>
+              <td><a href="/rika/products/windows/"><strong>Casement window</strong></a></td>
+              <td>KSh <span data-price data-key="casement">—</span>/m²</td>
+              <td class="card-desc">Hinged sash, tight seal — bedrooms &amp; high floors</td>
+            </tr>
+            <tr>
+              <td><a href="/rika/products/windows/"><strong>Fixed pane</strong></a></td>
+              <td>KSh <span data-price data-key="fixed">—</span>/m²</td>
+              <td class="card-desc">No moving parts — top-lights &amp; feature walls</td>
+            </tr>
+            <tr>
+              <td><a href="/rika/products/doors/"><strong>Sliding door</strong></a></td>
+              <td>KSh <span data-price data-key="sliding">—</span>/m²</td>
+              <td class="card-desc">Patio, lounge &amp; shop entries — 2 to 4 panels</td>
+            </tr>
+            <tr>
+              <td><a href="/rika/products/doors/"><strong>Casement / security door</strong></a></td>
+              <td>KSh <span data-price data-key="casement">—</span>/m²</td>
+              <td class="card-desc">Entry doors, multi-point lock</td>
+            </tr>
+            <tr>
+              <td><a href="/rika/products/shopfronts/"><strong>Shopfront glazing</strong></a></td>
+              <td>KSh <span data-price data-key="fixed">—</span>/m²</td>
+              <td class="card-desc">Fixed display panels; doors quoted at same sliding rate</td>
+            </tr>
+            <tr>
+              <td><a href="/rika/products/partitions/"><strong>Partitions &amp; glass walls</strong></a></td>
+              <td>KSh <span data-price data-key="fixed">—</span>/m²</td>
+              <td class="card-desc">Fixed panels; sliding/hinged quoted at sliding/casement rates</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Glass add-ons -->
+      <section class="card prod-section">
+        <div class="card-title">Glass &amp; add-ons — per window/door unit</div>
+        <table class="prod-table">
+          <thead>
+            <tr><th>Option</th><th>Typical cost</th><th>Note</th></tr>
+          </thead>
+          <tbody id="addonRows"></tbody>
+        </table>
+      </section>
+
+      <!-- Tiers -->
+      <section class="card prod-section">
+        <div class="card-title">Package tiers — per m² (everything bundled)</div>
+        <table class="prod-table">
+          <thead>
+            <tr><th>Tier</th><th>Price (per m²)</th><th>Includes</th></tr>
+          </thead>
+          <tbody id="tierRows"></tbody>
+        </table>
+      </section>
+
+      <!-- Authority framing -->
+      <section class="cta-band">
+        <div>
+          <h2>Why these numbers are trustworthy</h2>
+          <p>We anchor our rates to real Nairobi market data (Lasi Interiors, fetched 2026) and update this table as rates move. Your final quote is a range — the firm figure is confirmed on site, and it will never be higher than what we agreed.</p>
+        </div>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="/rika/tools/calculator/">💰 Run the Calculator</a>
+          <a class="btn btn-success" id="waQuote" target="_blank" rel="noopener">💬 Chat on WhatsApp</a>
+        </div>
+      </section>
+
+      <p class="card-desc" style="margin-top:16px">Last updated: <span id="lastUpdated">2026-10-02</span>. Prices in KSh, VAT-exclusive unless noted. Free delivery within Nairobi; transport quoted for Ruiru, Kiambu and wider areas.</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span>© 2026 Rika — Aluminium &amp; Glass, Fitted Right</span>
+    <a href="/rika/">Home</a>
+  </footer>
+  </div>
+
+  <script type="module">
+    import { RIKA_CONFIG, formatKsh, waLink } from '../../shared/js/rika-config.js';
+
+    // Windows/doors table
+    document.querySelectorAll('[data-price]').forEach((el) => {
+      const p = RIKA_CONFIG.pricing.products[el.dataset.key];
+      if (p) el.textContent = formatKsh(p.unitPrice);
+    });
+
+    // Add-ons table (from config, not hardcoded)
+    const addonBody = document.getElementById('addonRows');
+    for (const [id, a] of Object.entries(RIKA_CONFIG.pricing.addOns)) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${a.label}</td><td>${a.price === 0 ? 'Free' : formatKsh(a.price)}</td><td class="card-desc">per window/door unit</td>`;
+      addonBody.appendChild(tr);
+    }
+
+    // Tiers table (from config)
+    const tierBody = document.getElementById('tierRows');
+    for (const [id, t] of Object.entries(RIKA_CONFIG.pricing.tiers)) {
+      const tr = document.createElement('tr');
+      const badge = t.badge ? ` <span style="color:var(--accent);font-size:11px">(${t.badge})</span>` : '';
+      tr.innerHTML = `<td><strong>${t.label}</strong>${badge}</td><td>KSh ${formatKsh(t.perM2)}/m²</td><td class="card-desc">${t.features.join(' · ')}</td>`;
+      tierBody.appendChild(tr);
+    }
+
+    // WhatsApp CTA
+    document.getElementById('waQuote').href = waLink("Hi Rika! I've been looking at your 2026 price table. Could you send me a quote for my project?");
+
+    // Last updated = today (page is a live snapshot)
+    document.getElementById('lastUpdated').textContent = new Date().toISOString().slice(0, 10);
+
+    // Burger
+    const burger = document.getElementById('burger');
+    if (burger) {
+      burger.addEventListener('click', () => {
+        document.querySelector('.nav').classList.toggle('open');
+        burger.classList.toggle('open');
+      });
+    }
+  </script>
+  <script type="module" src="/rika/shared/js/booking.js"></script>
+</body>
+</html>

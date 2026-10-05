@@ -1,1 +1,9 @@
-m«ë
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#0f1117"/>
+  <rect x="30" y="30" width="340" height="240" rx="4" fill="#171a23" stroke="#3b82f6" stroke-width="6"/>
+  <rect x="36" y="36" width="328" height="228" fill="#e8eaef" opacity="0.06"/>
+  <rect x="36" y="36" width="328" height="228" fill="none" stroke="#e8eaef" stroke-opacity="0.15" stroke-width="2"/>
+  <line x1="60" y1="60" x2="120" y2="140" stroke="#e8eaef" stroke-opacity="0.12" stroke-width="2"/>
+  <line x1="90" y1="50" x2="160" y2="160" stroke="#e8eaef" stroke-opacity="0.12" stroke-width="2"/>
+  <text x="200" y="155" font-family="sans-serif" font-size="13" fill="#8890a0" text-anchor="middle">frosted</text>
+</svg>

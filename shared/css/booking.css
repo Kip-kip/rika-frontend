@@ -1,1 +1,133 @@
-m«ë
+/* ============================================================
+   Rika â€” shared booking modal (MEAS-2)
+   ============================================================ */
+
+.bk-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(5, 7, 12, 0.72);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+}
+
+.bk-modal {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  max-height: 92vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 22px 20px 26px;
+  box-shadow: var(--shadow);
+}
+
+@media (min-width: 640px) {
+  .bk-overlay { align-items: center; padding: 20px; }
+  .bk-modal { border-radius: var(--radius); }
+}
+
+.bk-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+.bk-close:hover { color: var(--text); }
+
+.bk-title {
+  font-size: 1.25rem;
+  margin-bottom: 6px;
+}
+
+.bk-sub {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin-bottom: 16px;
+}
+
+.bk-form { display: flex; flex-direction: column; gap: 14px; }
+
+.bk-field { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; }
+.bk-field > span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.bk-field input,
+.bk-field select,
+.bk-field textarea {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: 10px 12px;
+  font-size: 15px;
+  font-family: var(--font);
+  width: 100%;
+  outline: none;
+}
+.bk-field input:focus,
+.bk-field select:focus,
+.bk-field textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+.bk-field textarea { resize: vertical; }
+
+.bk-row {
+  display: flex;
+  gap: 10px;
+}
+@media (max-width: 420px) {
+  .bk-row { flex-direction: column; }
+}
+
+.bk-error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 0.88rem;
+}
+
+.bk-submit { margin-top: 4px; width: 100%; }
+
+.bk-note {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-top: 4px;
+}
+
+/* Confirmation state */
+.bk-done {
+  text-align: center;
+  padding: 12px 0 4px;
+}
+.bk-done-icon { font-size: 44px; margin-bottom: 8px; }
+.bk-done .bk-title { margin-bottom: 8px; }
+.bk-ref {
+  color: var(--text);
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+.bk-ref strong { color: var(--accent); letter-spacing: 0.5px; }
+.bk-done .bk-sub { margin-bottom: 18px; }
+.bk-done-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

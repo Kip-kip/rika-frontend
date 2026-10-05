@@ -1,1 +1,89 @@
-m��
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Your House, Your Windows — See It Before You Build — Rika</title>
+<meta name="description" content="Pick your house, choose your window style, frame colour and glass — and see the transformation in a live before/after slider. Instant price estimate, free in Ruiru & Nairobi." />
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/tools/house-windows/css/house-windows.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Your House, Your Windows","url":"http://51.44.11.18:8000/rika/tools/house-windows/","applicationCategory":"DesignTool","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"KES"},"description":"Choose your house, window style, frame colour and glass and watch the before/after transformation with a live price estimate."}
+</script>
+</head>
+<body>
+<div class="app hw-app">
+  <header class="hw-hero">
+    <div class="hw-container">
+      <span class="hw-tag">Free · No signup · All on-device</span>
+      <h1>Your House, Your Windows</h1>
+      <p>Pick your house. Choose your windows. Slide to see the transformation — with an instant price estimate.</p>
+    </div>
+  </header>
+
+  <main class="hw-container">
+    <!-- 1. Pick your house -->
+    <section class="hw-section">
+      <h2 class="hw-h"><span class="hw-step">1</span> Pick your house</h2>
+      <div class="hw-house-grid" id="houseGrid"></div>
+    </section>
+
+    <!-- 2. Style your windows -->
+    <section class="hw-section">
+      <h2 class="hw-h"><span class="hw-step">2</span> Style your windows</h2>
+      <div class="hw-controls">
+        <div class="hw-ctrl">
+          <span class="hw-ctrl-label">Window style</span>
+          <div class="hw-chips" id="styleChips"></div>
+        </div>
+        <div class="hw-ctrl">
+          <span class="hw-ctrl-label">Frame colour</span>
+          <div class="hw-chips" id="finishChips"></div>
+        </div>
+        <div class="hw-ctrl">
+          <span class="hw-ctrl-label">Glass</span>
+          <div class="hw-chips" id="glassChips"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Before / After -->
+    <section class="hw-section">
+      <h2 class="hw-h"><span class="hw-step">3</span> See the transformation</h2>
+      <div class="hw-stage" id="stage">
+        <div class="hw-layer hw-layer-before" id="layerBefore"></div>
+        <div class="hw-layer hw-layer-after" id="layerAfter"></div>
+        <div class="hw-split" id="splitLine"><div class="hw-handle" id="handle"><span>⇆</span></div></div>
+        <span class="hw-label hw-label-before">Before</span>
+        <span class="hw-label hw-label-after">Your Rika windows</span>
+        <input type="range" class="hw-range" id="hwRange" min="0" max="100" value="50" aria-label="Before and after comparison slider" />
+      </div>
+    </section>
+
+    <!-- 4. Price + CTAs -->
+    <section class="hw-section">
+      <div class="hw-price-card">
+        <div class="hw-price-left">
+          <h3 class="hw-h3">Your window package</h3>
+          <p class="hw-price-est" id="priceEst">—</p>
+          <p class="hw-price-range" id="priceRange"></p>
+          <ul class="hw-facts" id="priceFacts"></ul>
+          <p class="hw-price-note">Rough estimate — confirmed at your free measurement.</p>
+        </div>
+        <div class="hw-price-ctas">
+          <a class="btn btn-primary" id="ctaQuote" href="#" >Get an exact quote</a>
+          <a class="btn btn-success" id="ctaWa" href="#" target="_blank" rel="noopener">💬 WhatsApp your design</a>
+          <a class="btn btn-ghost" id="ctaCalc" href="/rika/tools/calculator/">Open the calculator</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="hw-footer">
+    <p>Rika · Aluminium windows &amp; doors · Ruiru, Nairobi · <a href="https://wa.me/254718700519" target="_blank" rel="noopener">WhatsApp</a></p>
+  </footer>
+</div>
+<script type="module" src="/rika/tools/house-windows/js/house-windows.js"></script>
+</body>
+</html>

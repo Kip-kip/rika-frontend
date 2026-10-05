@@ -1,1 +1,107 @@
-m��
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Find Your Window — Rika</title>
+<meta name="description" content="Answer 6 quick questions and Rika recommends the exact window type, glass and tier for your space — with a live price estimate. No signup, all on-device." />
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/tools/quiz/css/quiz.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Find Your Window","url":"http://51.44.11.18:8000/rika/tools/quiz/","applicationCategory":"DesignTool","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"KES"},"description":"A 6-question quiz that recommends a window type, glass and tier package with a live price estimate."}
+</script>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a class="logo" href="/rika/">Ri<span>ka</span></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+    <nav class="nav" id="mainNav">
+      <a href="/rika/">Home</a>
+      <a href="/rika/products/windows/">Windows</a>
+      <a href="/rika/products/doors/">Doors</a>
+      <a href="/rika/products/glass/">Glass</a>
+      <a href="/rika/tools/calculator/">Calculator</a>
+      <a href="/rika/tools/design/">Design Studio</a>
+      <a href="/rika/tools/house-windows/">Your House, Your Windows</a>
+      <a href="/rika/tools/house-map/">House Window Map</a>
+      <a href="/rika/tools/visualizer/">Visualizer</a>
+      <a href="/rika/tools/measurement/">Measurement</a>
+      <a href="/rika/tools/quotation/">Quote</a>
+      <a href="/rika/prices/">Prices</a>
+      <a href="/rika/costs/3-bedroom-house/">Cost Guides</a>
+      <a href="/rika/guide/">Buying Guide</a>
+    </nav>
+  </header>
+
+  <main class="quiz-main">
+    <div class="quiz-shell">
+      <div class="quiz-intro">
+        <h1>Find Your Window</h1>
+        <p>6 quick questions. We recommend the right window for your space — with a live price. All on-device, no signup.</p>
+      </div>
+
+      <div class="quiz-body" id="quizBody">
+        <!-- progress -->
+        <div class="quiz-progress" id="quizProgress">
+          <div class="quiz-progress-bar" id="quizProgressBar"></div>
+        </div>
+
+        <!-- question card -->
+        <div class="quiz-card" id="quizCard">
+          <div class="quiz-qnum" id="quizQNum">1 / 6</div>
+          <h2 class="quiz-qtitle" id="quizQTitle">—</h2>
+          <p class="quiz-qsub" id="quizQSub"></p>
+          <div class="quiz-answers" id="quizAnswers"></div>
+        </div>
+
+        <!-- result card -->
+        <div class="quiz-result" id="quizResult" hidden>
+          <div class="result-head">
+            <div class="result-eyebrow">Your recommendation</div>
+            <h2 id="resultTitle">—</h2>
+            <p class="result-sub" id="resultSub"></p>
+          </div>
+
+          <div class="result-grid">
+            <div class="result-visual" id="resultVisual"></div>
+            <div class="result-facts">
+              <div class="fact-row"><span>Type</span><b id="fType">—</b></div>
+              <div class="fact-row"><span>Size (typical)</span><b id="fSize">—</b></div>
+              <div class="fact-row"><span>Glass</span><b id="fGlass">—</b></div>
+              <div class="fact-row"><span>Tier</span><b id="fTier">—</b></div>
+              <div class="fact-row"><span>Extras</span><b id="fExtras">—</b></div>
+            </div>
+          </div>
+
+          <div class="result-price">
+            <span class="price-lbl">Estimated total (per unit)</span>
+            <span class="price-num" id="pTotal">—</span>
+            <span class="price-range" id="pRange"></span>
+            <p class="price-note">≈ range · confirmed at the free site measurement.</p>
+          </div>
+
+          <ul class="result-why" id="resultWhy"></ul>
+
+          <div class="stage-ctas">
+            <button type="button" data-save-design data-source="Find Your Window" class="btn btn-primary btn-full">📥 Save My Design</button>
+            <a class="btn btn-ghost btn-full" id="quoteBtn" href="/rika/tools/quotation/">Get an exact quote</a>
+            <a class="btn btn-ghost btn-full" id="waBtn" href="#" target="_blank" rel="noopener">💬 WhatsApp this recommendation</a>
+          </div>
+
+          <button class="btn-link quiz-restart" id="quizRestart">↺ Start over</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <p>© 2026 Rika · Aluminium &amp; Glass, Ruiru, Kenya. Estimates are approximate and confirmed at the free site measurement.</p>
+  </footer>
+</div>
+
+<script type="module" src="/rika/tools/quiz/js/quiz.js"></script>
+<script type="module" src="/rika/shared/js/save-design.js"></script>
+</body>
+</html>

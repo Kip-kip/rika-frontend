@@ -1,1 +1,165 @@
-m��
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Visualizer — Rika</title>
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/tools/visualizer/css/visualizer.css" />
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a class="logo" href="/rika/">Ri<span>ka</span></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+    <nav class="nav" id="mainNav">
+      <a href="/rika/">Home</a>
+      <a href="/rika/products/windows/">Windows</a>
+      <a href="/rika/products/doors/">Doors</a>
+      <a href="/rika/products/glass/">Glass</a>
+      <a href="/rika/products/shopfronts/">Shopfronts</a>
+      <a href="/rika/products/partitions/">Partitions</a>
+      <a href="/rika/tools/calculator/">Calculator</a>
+      <a href="/rika/tools/quiz/">Find Your Window</a>
+        <a href="/rika/tools/design/" class="nav-link">Design Studio</a>
+      <a href="/rika/tools/house-windows/">Your House, Your Windows</a>
+      <a href="/rika/tools/house-map/">House Window Map</a>
+      <a href="/rika/tools/visualizer/">Visualizer</a>
+      <a href="/rika/tools/measurement/">Measurement</a>
+      <a href="/rika/tools/quotation/">Quote</a>
+    </nav>
+  </header>
+
+  <div class="vis-app">
+    <!-- STEP 0: Upload -->
+    <section id="uploadScreen" class="upload-screen">
+      <div class="hero-icon">🪟</div>
+      <h2>Visualize Your Window</h2>
+      <p>Upload or take a photo of your window opening, mark its four corners, and preview different aluminium window designs fitted right in place.</p>
+      <button class="upload-btn" id="btnUpload">📷 Choose a Photo</button>
+      <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" class="hidden" />
+      <div class="upload-error hidden" id="uploadError"></div>
+    </section>
+
+    <!-- STEP 1: Corner selection -->
+    <section id="editScreen" class="editor hidden">
+      <div class="canvas-wrap">
+        <canvas id="stageCanvas"></canvas>
+        <div class="overlay-hint hidden" id="cornerHint">Tap the 4 corners: ①→②→③→④</div>
+      </div>
+      <div class="controls">
+        <div class="action-row">
+          <button class="btn btn-ghost" id="btnBackPhoto">↩ New Photo</button>
+          <button class="btn btn-primary" id="btnShowPreview" disabled>✅ Show Preview</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 2: Preview / configuration -->
+    <section id="previewScreen" class="editor hidden">
+      <div class="canvas-wrap">
+        <canvas id="previewCanvas"></canvas>
+      </div>
+      <div class="controls">
+        <div class="section-label">Design</div>
+        <div class="design-scroll" id="designScroll"></div>
+        <div class="section-label" style="margin-top:10px;">Frame Finish</div>
+        <div class="finish-row" id="finishRow"></div>
+        <div class="section-label" style="margin-top:10px;">Glass</div>
+        <div class="glass-row" id="glassRow"></div>
+        <div class="action-row">
+          <button class="btn btn-ghost" id="btnAdjustOpening">✏ Adjust Opening</button>
+          <button class="btn btn-ghost" id="btnBeforeAfter">🆚 Before / After</button>
+          <button class="btn btn-success" id="btnQuote">💰 Get a Quote</button>
+          <button class="btn btn-primary" data-save-design data-source="Designer">📥 Save My Design</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 3: Before/After -->
+    <section id="baScreen" class="editor hidden">
+      <div class="ba-wrap">
+        <canvas id="baCanvas"></canvas>
+        <div class="ba-divider" id="baDivider"><div class="ba-handle">⇄</div></div>
+        <div class="ba-labels"><span>BEFORE</span><span>AFTER</span></div>
+        <div class="ba-buttons">
+          <button class="btn btn-ghost" id="btnBAOrig">Show Original</button>
+          <button class="btn btn-primary" id="btnBAVis">Show Visualization</button>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="action-row">
+          <button class="btn btn-ghost" id="btnBABack">← Back to Preview</button>
+          <button class="btn btn-success" id="btnBAQuote">💰 Get a Quote</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <span>© 2026 Rika</span>
+    <a href="/rika/">Home</a>
+  </footer>
+</div>
+
+<!-- Quote Modal -->
+<div class="modal-backdrop hidden" id="quoteModal">
+  <div class="modal">
+    <button class="close-modal" id="btnCloseModal">✕</button>
+    <h2>I Like This — Get a Quote</h2>
+    <p>We'll use these details to prepare a free quote for your project.</p>
+    <div class="summary" id="quoteSummary"></div>
+    <div class="field"><label>Your Name</label><input type="text" id="qName" placeholder="Full name" /></div>
+    <div class="field"><label>Phone / WhatsApp</label><input type="tel" id="qPhone" placeholder="+254 7XX XXX XXX" /></div>
+    <div class="field"><label>Project Location</label><input type="text" id="qLocation" placeholder="City / Area" /></div>
+    <div class="field"><label>Quantity</label><input type="number" id="qQty" min="1" value="1" /></div>
+    <div class="field"><label>Comments (optional)</label><textarea id="qComments" placeholder="Anything else we should know?"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="btnCancelQuote">Cancel</button>
+      <button class="btn btn-primary" id="btnSubmitQuote">Submit Request</button>
+      <a id="btnQuoteWa" class="btn btn-success" target="_blank" rel="noopener">💬 Send on WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initVisualizer } from './js/app.js';
+initVisualizer();
+
+// Mobile nav toggle
+const menuBtn = document.getElementById('menuBtn');
+const mainNav = document.getElementById('mainNav');
+menuBtn.addEventListener('click', () => mainNav.classList.toggle('open'));
+</script>
+
+<script type="module">
+  import '../../shared/js/save-design.js';
+  import { state, FINISHES, GLASSES } from './js/state.js';
+  import { DESIGNS } from './js/templates.js';
+  // Register the visualizer's design state for the Save My Design modal
+  window.__rikaSetDesignSnapshot = () => {
+    const d = DESIGNS[state.design] || {};
+    const finishLabel = FINISHES[state.finish] ? FINISHES[state.finish].label : null;
+    const glassLabel = GLASSES[state.glass] ? GLASSES[state.glass].label : null;
+    const lines = [];
+    lines.push('<b>Design:</b> ' + (d.label || state.design));
+    if (finishLabel) lines.push('<b>Frame:</b> ' + finishLabel);
+    if (glassLabel) lines.push('<b>Glass:</b> ' + glassLabel);
+    return {
+      product: d.label || state.design,
+      finish: finishLabel,
+      glass: glassLabel,
+      addons: [],
+      tier: null,
+      width_cm: null,
+      height_cm: null,
+      quantity: 1,
+      estimate_low: null,
+      estimate_high: null,
+      summaryHtml: lines.join('<br>'),
+    };
+  };
+</script>
+</body>
+</html>

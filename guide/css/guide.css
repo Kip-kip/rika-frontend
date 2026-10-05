@@ -1,1 +1,49 @@
-m«ë
+/* Rika buying guide â€” page + gate (T-B2-07) */
+.guide-body { background: #f4f5f7; margin: 0; padding: 40px 16px; }
+.guide-page { max-width: 1400px; margin: 0 auto; background: #fff; padding: 48px clamp(24px, 5vw, 72px); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.g-head { text-align: center; border-bottom: 3px solid #111; padding-bottom: 20px; margin-bottom: 28px; }
+.g-brand { font-weight: 800; letter-spacing: 6px; font-size: 18px; color: #b8741a; }
+.g-title { font-size: clamp(24px, 4vw, 38px); margin: 10px 0 6px; line-height: 1.15; color: #111; }
+.g-sub { color: #555; margin: 0; }
+.g-dl { font-size: 13px; color: #888; margin-top: 10px; }
+.g-sec { margin: 26px 0; }
+.g-h { font-size: 20px; color: #111; border-left: 4px solid #b8741a; padding-left: 12px; margin: 0 0 12px; }
+.g-sec p { line-height: 1.7; color: #333; }
+.g-list { line-height: 1.7; color: #333; }
+.g-list li { margin: 6px 0; }
+.g-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+.g-table th, .g-table td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; }
+.g-table th { background: #111; color: #fff; }
+.g-table tr:nth-child(even) td { background: #fafafa; }
+.g-tip { background: #fff8ec; border: 1px solid #f0d9a8; border-radius: 6px; padding: 10px 14px; font-size: 14px; color: #6b4e12; }
+.g-ctas { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.g-foot { text-align: center; font-size: 12px; color: #999; border-top: 1px solid #eee; padding-top: 16px; margin-top: 30px; }
+@media print {
+  .guide-body { padding: 0; background: #fff; }
+  .guide-page { box-shadow: none; max-width: 100%; }
+  .g-ctas, .g-dl { display: none; }
+}
+
+/* ---- gate (lead form) ---- */
+.g-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 16px; }
+.g-overlay.hidden { display: none; }
+.g-modal { background: #fff; max-width: 460px; width: 100%; padding: 32px 28px; border-radius: 10px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,.3); }
+.g-close { position: absolute; top: 10px; right: 14px; background: none; border: none; font-size: 26px; cursor: pointer; color: #888; line-height: 1; }
+.g-title { margin: 0 0 8px; font-size: 22px; color: #111; }
+.g-sub { color: #555; line-height: 1.5; margin: 0 0 18px; font-size: 14px; }
+.g-form { display: flex; flex-direction: column; gap: 14px; }
+.g-row { display: flex; gap: 12px; }
+.g-row .g-field { flex: 1; }
+.g-field { display: flex; flex-direction: column; gap: 4px; }
+.g-field span { font-size: 13px; font-weight: 600; color: #333; }
+.g-field input { padding: 11px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; width: 100%; box-sizing: border-box; }
+.g-field input:focus { outline: none; border-color: #b8741a; box-shadow: 0 0 0 2px rgba(184,116,26,.15); }
+.g-error { color: #c0392b; font-size: 13px; }
+.g-error.hidden { display: none; }
+.g-note { font-size: 11px; color: #999; margin: 0; }
+.g-submit { width: 100%; font-size: 15px; padding: 12px; }
+.g-done { text-align: center; }
+.g-done.hidden { display: none; }
+.g-done-icon { font-size: 40px; margin-bottom: 8px; }
+.g-done-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+@media (max-width: 520px) { .g-row { flex-direction: column; } .g-modal { padding: 24px 18px; } }

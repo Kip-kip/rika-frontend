@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Payments &amp; Documents — Rika</title>
+<meta name="description" content="Your Rika payment history, install schedule and project documents." />
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/app/css/app.css" />
+</head>
+<body>
+<div class="app app-shell">
+  <header class="app-top">
+    <a class="brand" href="/rika/">rika<span>.</span></a>
+    <span class="app-user" id="topUser"></span>
+  </header>
+
+  <div class="page-head">
+    <a class="back-link" href="/rika/app/">&larr; My Project</a>
+    <h1>Payments &amp; Documents</h1>
+    <p class="sub">Your payment history, install schedule and downloadable project documents — all in one place.</p>
+  </div>
+
+  <div class="list-state" id="loading">Loading your project&hellip;</div>
+
+  <div class="list-state" id="empty" hidden>
+    <p>Your project will appear here once Rika starts your job. Your deposit status, payment history and documents live here.</p>
+    <div class="dash-actions">
+      <a class="btn btn-ghost" href="/rika/app/">Back to My Project</a>
+      <a class="btn btn-primary" href="/rika/tools/calculator/">Start a quote in the calculator</a>
+    </div>
+  </div>
+
+  <div id="content" hidden>
+    <!-- Project + deposit summary -->
+    <div class="pay-card">
+      <div class="pay-card-head">
+        <div class="card-title">
+          <strong id="projName">Project</strong>
+          <span class="card-dims" id="projRef"></span>
+        </div>
+        <span class="chip chip-neutral" id="stageChip">—</span>
+      </div>
+      <div class="pay-loc" id="projLoc"></div>
+      <div class="pay-summary" id="summary">
+        <div class="pay-stat">
+          <span class="pay-stat-label">Deposit</span>
+          <span class="pay-stat-val" id="depositStat">—</span>
+        </div>
+        <div class="pay-stat">
+          <span class="pay-stat-label">Quoted (est.)</span>
+          <span class="pay-stat-val" id="quotedStat">—</span>
+        </div>
+        <div class="pay-stat">
+          <span class="pay-stat-label">Paid to date</span>
+          <span class="pay-stat-val" id="paidStat">—</span>
+        </div>
+        <div class="pay-stat">
+          <span class="pay-stat-label">Balance</span>
+          <span class="pay-stat-val" id="balStat">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pay-grid">
+      <!-- Payment history -->
+      <div class="pay-card">
+        <h2 class="pay-h">Payment history</h2>
+        <div id="payList"></div>
+      </div>
+
+      <!-- Documents -->
+      <div class="pay-card">
+        <h2 class="pay-h">Documents</h2>
+        <p class="pay-sub">Downloadable, generated from your project and quote.</p>
+        <div class="doc-list" id="docList"></div>
+      </div>
+    </div>
+
+    <!-- Install schedule -->
+    <div class="pay-card">
+      <h2 class="pay-h">Install schedule</h2>
+      <p class="pay-sub">Measurement through handover. Completed stages show their date; the current stage is highlighted.</p>
+      <div class="sched" id="sched"></div>
+      <div class="pay-keydates" id="keyDates"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { me, logout, isLoggedIn } from '/rika/app/js/app-auth.js';
+import { toast } from '/rika/shared/js/rika-toast.js';
+
+const $ = (s) => document.querySelector(s);
+
+function authHeaders() {
+  const s = JSON.parse(localStorage.getItem('rika_app_session') || 'null');
+  const h = {};
+  if (s?.access_token) h['Authorization'] = 'Bearer ' + s.access_token;
+  return h;
+}
+
+function fmtKsh(v) {
+  return v == null ? '' : 'KSh ' + Number(v).toLocaleString();
+}
+function fmtDate(v) {
+  if (!v) return 'TBC';
+  try { return new Date(v).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' }); }
+  catch { return v; }
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+const DOC_META = {
+  quote: { label: 'Quote', icon: '🧾', desc: 'Your itemised quotation with totals.' },
+  contract: { label: 'Work contract', icon: '📄', desc: 'Scope, key terms and signature block.' },
+  warranty: { label: 'Warranty certificate', icon: '🛡️', desc: 'Coverage period, exclusions and claim process.' },
+};
+
+function payRow(p) {
+  const typeChip = p.payment_type === 'Deposit'
+    ? '<span class="chip chip-ok">Deposit</span>'
+    : `<span class="chip chip-neutral">${esc(p.payment_type)}</span>`;
+  const status = p.status === 'Completed'
+    ? '<span class="chip chip-ok">Completed</span>'
+    : `<span class="chip chip-bad">${esc(p.status)}</span>`;
+  return `
+  <div class="pay-row">
+    <div class="pay-row-main">
+      <div class="pay-row-type">${typeChip} <span class="pay-row-amount">${fmtKsh(p.amount)}</span></div>
+      <div class="pay-row-meta">${esc(p.method)}${p.ref ? ' · Ref ' + esc(p.ref) : ''} · ${fmtDate(p.paid_on)}</div>
+    </div>
+    <div>${status}</div>
+  </div>`;
+}
+
+function docBtn(t, projName, available) {
+  const m = DOC_META[t];
+  const href = '/rika/api/documents?doc=' + t + '&project=' + encodeURIComponent(projName);
+  const cls = available ? 'doc-btn' : 'doc-btn doc-btn-disabled';
+  return `
+  <a class="${cls}" ${available ? 'href="' + href + '"' : 'aria-disabled="true"'}>
+    <span class="doc-ico">${m.icon}</span>
+    <span class="doc-txt">
+      <span class="doc-label">${m.label}</span>
+      <span class="doc-desc">${m.desc}${available ? '' : ' (unavailable for this project yet)'}</span>
+    </span>
+    ${available ? '<span class="doc-dl">Download ↓</span>' : ''}
+  </a>`;
+}
+
+function schedRow(s) {
+  const dot = s.state === 'done' ? 'sched-dot sched-dot-done'
+            : s.state === 'current' ? 'sched-dot sched-dot-current'
+            : 'sched-dot';
+  const label = s.state === 'current' ? '<strong class="sched-cur">' + esc(s.stage) + ' (current)</strong>' : esc(s.stage);
+  return `
+  <div class="sched-row">
+    <div class="sched-left"><span class="${dot}"></span></div>
+    <div class="sched-body">
+      <div class="sched-stage">${label}</div>
+      <div class="sched-date">${s.date ? fmtDate(s.date) : (s.state === 'upcoming' ? 'Upcoming' : '—')}</div>
+    </div>
+  </div>`;
+}
+
+function render(pr) {
+  $('#projName').textContent = pr.project_name || 'Project';
+  $('#projRef').textContent = pr.name || '';
+  $('#projLoc').textContent = pr.location || '';
+  $('#stageChip').textContent = pr.stage || '—';
+
+  // summary
+  $('#depositStat').innerHTML = pr.deposit_paid
+    ? '<span class="chip chip-ok">Paid</span>'
+    : '<span class="chip chip-bad">Outstanding</span>';
+  const tl = pr.totals || {};
+  $('#quotedStat').textContent = (tl.quoted_low || tl.quoted_high)
+    ? fmtKsh(tl.quoted_low) + (tl.quoted_high ? '–' + fmtKsh(tl.quoted_high).replace('KSh ', '') : '')
+    : '—';
+  const paid = tl.paid || 0;
+  $('#paidStat').textContent = fmtKsh(paid);
+  const ceil = tl.quoted_high || tl.quoted_low || 0;
+  const bal = Math.max(0, ceil - paid);
+  $('#balStat').innerHTML = bal > 0 ? fmtKsh(bal) : '<span class="chip chip-ok">Paid in full</span>';
+
+  // payments
+  const pays = pr.payments || [];
+  $('#payList').innerHTML = pays.length
+    ? pays.map(payRow).join('') + '<div class="pay-foot">Paid to date: <strong>' + fmtKsh(paid) + '</strong></div>'
+    : '<p class="pay-sub">No payments recorded yet. Your deposit will appear here once it lands.</p>';
+
+  // documents
+  $('#docList').innerHTML =
+    docBtn('quote', pr.name, pr.has_quote) +
+    docBtn('contract', pr.name, pr.has_contract) +
+    docBtn('warranty', pr.name, pr.has_warranty);
+
+  // schedule
+  $('#sched').innerHTML = (pr.schedule || []).map(schedRow).join('');
+  const kd = [];
+  if (pr.install_date) kd.push(`<div class="kd"><span>Installation</span><strong>${fmtDate(pr.install_date)}</strong></div>`);
+  if (pr.handover_date) kd.push(`<div class="kd"><span>Handover</span><strong>${fmtDate(pr.handover_date)}</strong></div>`);
+  if (pr.warranty_expires) kd.push(`<div class="kd"><span>Warranty until</span><strong>${fmtDate(pr.warranty_expires)}</strong></div>`);
+  $('#keyDates').innerHTML = kd.join('');
+}
+
+async function loadPayments() {
+  try {
+    const res = await fetch('/rika/api/payments', { headers: authHeaders() });
+    let r = await res.json().catch(() => ({}));
+    if (r && typeof r === 'object' && 'message' in r) r = r.message;
+    if (res.status === 401) { location.replace('/rika/app/'); return; }
+    const projects = (r && r.projects) || [];
+    if (!projects.length) {
+      $('#loading').hidden = true;
+      $('#empty').hidden = false;
+      return;
+    }
+    $('#loading').hidden = true;
+    $('#content').hidden = false;
+    render(projects[0]);
+  } catch {
+    $('#loading').hidden = true;
+    $('#empty').hidden = false;
+  }
+}
+
+function doLogout() { logout().then(() => { location.href = '/rika/app/'; }); }
+
+async function boot() {
+  if (!isLoggedIn()) { location.replace('/rika/app/'); return; }
+  try {
+    const u = await me();
+    $('#topUser').innerHTML = `<strong>${esc(u.first_name || u.name || '')}</strong> <button class="link-btn" id="btnLogout" type="button">Log out</button>`;
+    document.getElementById('btnLogout').addEventListener('click', doLogout);
+    await loadPayments();
+  } catch {
+    location.replace('/rika/app/');
+  }
+}
+
+boot();
+</script>
+</body>
+</html>

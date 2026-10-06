@@ -1,1 +1,115 @@
-m«ë
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Warranty â€” Rika</title>
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/app/css/app.css" />
+<script src="shared/js/rika-track.js"></script>
+<style>
+  .war-card {
+    background: #161b22; border: 1px solid #2a313c; border-radius: 14px;
+    padding: 28px; max-width: 640px;
+  }
+  .war-card h2 { color: #fff; font-size: 20px; margin-bottom: 6px; }
+  .war-card .sub { color: #9aa4af; font-size: 14px; margin-bottom: 20px; }
+  .war-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #2a313c; font-size: 14px; }
+  .war-row:last-child { border-bottom: none; }
+  .war-row .k { color: #9aa4af; }
+  .war-row .v { color: #e6e8eb; font-weight: 600; text-align: right; }
+  .war-ok { color: #2a9d54; }
+  .war-bad { color: #b85050; }
+  .war-list { display: flex; flex-direction: column; gap: 14px; }
+</style>
+</head>
+<body>
+<div class="app app-shell">
+  <header class="app-top">
+    <a class="brand" href="/rika/">rika<span>.</span></a>
+    <span class="app-user" id="topUser"></span>
+  </header>
+
+  <div class="page-head">
+    <a class="back-link" href="/rika/app/">&larr; My Project</a>
+    <h1>Warranty</h1>
+    <p class="sub">Your Rika windows carry a written warranty. Here's the status of the warranty on your project.</p>
+  </div>
+
+  <div class="list-state" id="loading">Loading warranty&hellip;</div>
+  <div class="list-state" id="empty" hidden>No warranty on file yet. It appears once your project reaches handover.</div>
+  <div class="war-list" id="list"></div>
+</div>
+
+<script type="module">
+import { me, logout, isLoggedIn } from '/rika/app/js/app-auth.js';
+
+const $ = (s) => document.querySelector(s);
+
+function authHeaders() {
+  const s = JSON.parse(localStorage.getItem('rika_app_session') || 'null');
+  const h = {};
+  if (s?.access_token) h['Authorization'] = 'Bearer ' + s.access_token;
+  return h;
+}
+
+function fmtDate(v) {
+  if (!v) return '';
+  try { return new Date(v).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' }); }
+  catch { return v; }
+}
+
+function cardHTML(w) {
+  const active = w.status === 'Active' || w.active === true;
+  const chips = [];
+  if (w.project_name) chips.push(w.project_name);
+  if (w.warranty_expires) chips.push(`Expires ${fmtDate(w.warranty_expires)}`);
+  return `
+  <div class="war-card">
+    <h2>${w.project_name || 'Your project'}</h2>
+    <p class="sub">Written warranty Â· aluminium framing, glass, and hardware</p>
+    <div class="war-row"><span class="k">Status</span><span class="v ${active ? 'war-ok' : 'war-bad'}">${w.status || (active ? 'Active' : 'Expired')}</span></div>
+    <div class="war-row"><span class="k">Warranty until</span><span class="v">${fmtDate(w.warranty_expires) || 'â€”'}</span></div>
+    <div class="war-row"><span class="k">Covers</span><span class="v">Frame, glass, hardware, workmanship</span></div>
+    <div class="war-row"><span class="k">Claim</span><span class="v"><a class="link-btn" href="/rika/app/messages/">Message us &rarr;</a></span></div>
+  </div>`;
+}
+
+async function load() {
+  try {
+    const res = await fetch('/rika/api/warranty', { headers: authHeaders() });
+    let r = await res.json().catch(() => ({}));
+    if (r && typeof r === 'object' && 'message' in r) r = r.message;
+    const items = Array.isArray(r) ? r : ((r && (r.warranties || r.projects)) || []);
+    if (!items.length) {
+      $('#loading').hidden = true;
+      $('#empty').hidden = false;
+      return;
+    }
+    $('#loading').hidden = true;
+    $('#list').innerHTML = items.map(cardHTML).join('');
+  } catch {
+    $('#loading').hidden = true;
+    $('#empty').hidden = false;
+  }
+}
+
+function doLogout() { logout().then(() => { location.href = '/rika/app/'; }); }
+
+async function boot() {
+  if (!isLoggedIn()) { location.replace('/rika/app/'); return; }
+  try {
+    const u = await me();
+    $('#topUser').innerHTML = `<button class="link-btn" id="btnLogout" type="button">Log out</button>`;
+    document.getElementById('btnLogout').addEventListener('click', doLogout);
+    await load();
+  } catch {
+    location.replace('/rika/app/');
+  }
+}
+boot();
+</script>
+</body>
+</html>

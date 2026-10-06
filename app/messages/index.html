@@ -1,1 +1,147 @@
-m«ë
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Messages â€” Rika</title>
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/app/css/app.css" />
+<script src="shared/js/rika-track.js"></script>
+<style>
+  .msg-wrap { max-width: 720px; }
+  .msg-thread {
+    background: #161b22; border: 1px solid #2a313c; border-radius: 14px;
+    padding: 20px; display: flex; flex-direction: column; gap: 12px; min-height: 200px;
+  }
+  .msg-bubble {
+    max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px;
+    background: #0d1117; border: 1px solid #2a313c; color: #e6e8eb;
+  }
+  .msg-bubble.me { align-self: flex-end; background: #241c0f; border-color: #b8741a; }
+  .msg-bubble .who { font-size: 11px; color: #9aa4af; margin-bottom: 4px; font-weight: 600; }
+  .msg-bubble .when { font-size: 11px; color: #6b7480; margin-top: 4px; text-align: right; }
+  .msg-composer { display: flex; gap: 8px; margin-top: 16px; }
+  .msg-composer textarea {
+    flex: 1; background: #0d1117; border: 1.5px solid #2a313c; border-radius: 10px;
+    color: #e6e8eb; padding: 12px; font-size: 14px; font-family: inherit;
+    resize: vertical; min-height: 44px; box-sizing: border-box;
+  }
+  .msg-composer textarea:focus { outline: none; border-color: #b8741a; }
+</style>
+</head>
+<body>
+<div class="app app-shell">
+  <header class="app-top">
+    <a class="brand" href="/rika/">rika<span>.</span></a>
+    <span class="app-user" id="topUser"></span>
+  </header>
+
+  <div class="page-head">
+    <a class="back-link" href="/rika/app/">&larr; My Project</a>
+    <h1>Messages</h1>
+    <p class="sub">Your thread with Rika. Ask anything about your project â€” a real person reads every message.</p>
+  </div>
+
+  <div class="msg-wrap">
+    <div class="list-state" id="loading">Loading messages&hellip;</div>
+    <div class="msg-thread" id="thread" hidden></div>
+
+    <div class="msg-composer" id="composer" hidden>
+      <textarea id="msgInput" placeholder="Type your message&hellip;"></textarea>
+      <button class="btn btn-primary" id="btnSend">Send</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { me, logout, isLoggedIn } from '/rika/app/js/app-auth.js';
+import { toast } from '/rika/shared/js/rika-toast.js';
+
+const $ = (s) => document.querySelector(s);
+
+function authHeaders() {
+  const s = JSON.parse(localStorage.getItem('rika_app_session') || 'null');
+  const h = { 'Content-Type': 'application/x-www-form-urlencoded' };
+  if (s?.access_token) h['Authorization'] = 'Bearer ' + s.access_token;
+  return h;
+}
+
+function fmtWhen(v) {
+  if (!v) return '';
+  try { return new Date(v).toLocaleString('en-KE', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); }
+  catch { return v; }
+}
+
+function bubbleHTML(m) {
+  const mine = m.mine || m.from === 'customer';
+  return `
+  <div class="msg-bubble ${mine ? 'me' : ''}">
+    <div class="who">${mine ? 'You' : 'Rika'}</div>
+    ${m.message || m.text || ''}
+    <div class="when">${fmtWhen(m.created_at || m.ts)}</div>
+  </div>`;
+}
+
+async function load() {
+  try {
+    const res = await fetch('/rika/api/messages', { headers: authHeaders() });
+    let r = await res.json().catch(() => ({}));
+    if (r && typeof r === 'object' && 'message' in r) r = r.message;
+    const msgs = Array.isArray(r) ? r : ((r && (r.messages || r.thread)) || []);
+    if (!msgs.length) {
+      $('#loading').hidden = true;
+      $('#composer').hidden = false;
+      return;
+    }
+    $('#loading').hidden = true;
+    $('#thread').hidden = false;
+    $('#composer').hidden = false;
+    $('#thread').innerHTML = msgs.map(bubbleHTML).join('');
+    $('#thread').scrollTop = $('#thread').scrollHeight;
+  } catch {
+    $('#loading').hidden = true;
+    $('#composer').hidden = false;
+  }
+}
+
+async function send() {
+  const text = $('#msgInput').value.trim();
+  if (!text) return;
+  const btn = $('#btnSend');
+  btn.disabled = true;
+  try {
+    const body = new URLSearchParams({ message: text });
+    await fetch('/rika/api/messages', { method: 'POST', headers: authHeaders(), body });
+    $('#msgInput').value = '';
+    load();
+  } catch (e) {
+    toast('Could not send: ' + e.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+$('#btnSend').addEventListener('click', send);
+$('#msgInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+});
+
+function doLogout() { logout().then(() => { location.href = '/rika/app/'; }); }
+
+async function boot() {
+  if (!isLoggedIn()) { location.replace('/rika/app/'); return; }
+  try {
+    const u = await me();
+    $('#topUser').innerHTML = `<button class="link-btn" id="btnLogout" type="button">Log out</button>`;
+    document.getElementById('btnLogout').addEventListener('click', doLogout);
+    await load();
+  } catch {
+    location.replace('/rika/app/');
+  }
+}
+boot();
+</script>
+</body>
+</html>

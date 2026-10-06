@@ -1,1 +1,122 @@
-m«ë
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Payments â€” Rika</title>
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/app/css/app.css" />
+<script src="shared/js/rika-track.js"></script>
+<style>
+  .dep-list { display: flex; flex-direction: column; gap: 14px; }
+  .dep-card {
+    background: #161b22; border: 1px solid #2a313c; border-radius: 14px; padding: 20px 22px;
+  }
+  .dep-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+  .dep-head strong { color: #fff; font-size: 16px; }
+  .dep-amt { color: #b8741a; font-weight: 700; font-size: 17px; }
+  .dep-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .dep-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a313c; font-size: 13px; }
+  .dep-row:last-child { border-bottom: none; }
+  .dep-row .k { color: #9aa4af; }
+  .dep-row .v { color: #e6e8eb; font-weight: 600; }
+  .dep-ok { color: #2a9d54 !important; }
+  .dep-pending { color: #b8741a !important; }
+</style>
+</head>
+<body>
+<div class="app app-shell">
+  <header class="app-top">
+    <a class="brand" href="/rika/">rika<span>.</span></a>
+    <span class="app-user" id="topUser"></span>
+  </header>
+
+  <div class="page-head">
+    <a class="back-link" href="/rika/app/">&larr; My Project</a>
+    <h1>Payments</h1>
+    <p class="sub">Deposits and payment history for your project, paid via M-Pesa.</p>
+  </div>
+
+  <div class="list-state" id="loading">Loading payments&hellip;</div>
+  <div class="list-state" id="empty" hidden>No payments on file yet. Your deposit request will appear here once your quote is accepted.</div>
+  <div class="dep-list" id="list"></div>
+</div>
+
+<script type="module">
+import { me, logout, isLoggedIn } from '/rika/app/js/app-auth.js';
+
+const $ = (s) => document.querySelector(s);
+
+function authHeaders() {
+  const s = JSON.parse(localStorage.getItem('rika_app_session') || 'null');
+  const h = {};
+  if (s?.access_token) h['Authorization'] = 'Bearer ' + s.access_token;
+  return h;
+}
+
+function fmtDate(v) {
+  if (!v) return '';
+  try { return new Date(v).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' }); }
+  catch { return v; }
+}
+
+function fmtKsh(v) {
+  return v == null ? '' : 'KSh ' + Number(v).toLocaleString();
+}
+
+function cardHTML(d) {
+  const paid = d.status === 'Paid' || d.status === 'Completed';
+  const chips = [];
+  if (d.project_name) chips.push(d.project_name);
+  if (d.method) chips.push(d.method);
+  return `
+  <div class="dep-card">
+    <div class="dep-head">
+      <strong>${d.reference || d.name || 'Deposit'}</strong>
+      <span class="dep-amt">${fmtKsh(d.amount) || 'â€”'}</span>
+    </div>
+    <div class="dep-meta">${chips.map(c => `<span class="chip">${c}</span>`).join('')}</div>
+    <div class="dep-row"><span class="k">Status</span><span class="v ${paid ? 'dep-ok' : 'dep-pending'}">${d.status || 'Pending'}</span></div>
+    <div class="dep-row"><span class="k">Date</span><span class="v">${fmtDate(d.created_at || d.date) || 'â€”'}</span></div>
+    ${d.transaction_id ? `<div class="dep-row"><span class="k">M-Pesa ref</span><span class="v">${d.transaction_id}</span></div>` : ''}
+  </div>`;
+}
+
+async function load() {
+  try {
+    const res = await fetch('/rika/api/deposits', { headers: authHeaders() });
+    let r = await res.json().catch(() => ({}));
+    if (r && typeof r === 'object' && 'message' in r) r = r.message;
+    const items = Array.isArray(r) ? r : ((r && (r.deposits || r.payments)) || []);
+    if (!items.length) {
+      $('#loading').hidden = true;
+      $('#empty').hidden = false;
+      return;
+    }
+    $('#loading').hidden = true;
+    $('#list').innerHTML = items.map(cardHTML).join('');
+  } catch {
+    $('#loading').hidden = true;
+    $('#empty').hidden = false;
+  }
+}
+
+function doLogout() { logout().then(() => { location.href = '/rika/app/'; }); }
+
+async function boot() {
+  if (!isLoggedIn()) { location.replace('/rika/app/'); return; }
+  try {
+    const u = await me();
+    $('#topUser').innerHTML = `<button class="link-btn" id="btnLogout" type="button">Log out</button>`;
+    document.getElementById('btnLogout').addEventListener('click', doLogout);
+    await load();
+  } catch {
+    location.replace('/rika/app/');
+  }
+}
+boot();
+</script>
+</body>
+</html>

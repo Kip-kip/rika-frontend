@@ -1,1 +1,131 @@
-m«ë
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Fabricator Portal â€” Rika</title>
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/app/css/app.css" />
+<script src="shared/js/rika-track.js"></script>
+<style>
+  .fab-wrap { max-width: 1080px; margin: 0 auto; }
+  .fab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+  .fab-card {
+    background: #161b22; border: 1px solid #2a313c; border-radius: 12px; padding: 18px 20px;
+  }
+  .fab-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+  .fab-head strong { color: #fff; font-size: 15px; }
+  .fab-ref { color: #9aa4af; font-size: 12px; }
+  .fab-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .fab-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .fab-select {
+    background: #0d1117; border: 1.5px solid #2a313c; border-radius: 8px;
+    color: #e6e8eb; padding: 8px 10px; font-size: 13px; font-family: inherit;
+  }
+  .fab-create { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; align-items: flex-end; }
+  .fab-create .field { margin: 0; flex: 1; min-width: 160px; }
+  .fab-create label { display: block; font-size: 12px; color: #9aa4af; margin-bottom: 5px; font-weight: 600; }
+  .fab-create input {
+    width: 100%; box-sizing: border-box; padding: 10px 12px;
+    background: #0d1117; border: 1.5px solid #2a313c; border-radius: 8px;
+    color: #e6e8eb; font-size: 14px; font-family: inherit;
+  }
+</style>
+</head>
+<body>
+<div class="app app-shell">
+  <header class="app-top">
+    <a class="brand" href="/rika/">rika<span>.</span></a>
+    <span class="app-user">Fabricator Portal</span>
+  </header>
+
+  <div class="fab-wrap">
+    <div class="page-head">
+      <a class="back-link" href="/rika/">&larr; Home</a>
+      <h1>Fabricator Portal</h1>
+      <p class="sub">Production orders from Rika projects. Update status as work moves â€” accepted &rarr; in production &rarr; complete &rarr; collected. Customer contact details stay private.</p>
+    </div>
+
+    <div class="list-state" id="loading">Loading production orders&hellip;</div>
+    <div class="list-state" id="empty" hidden>No production orders yet. They appear here when a project moves to fabrication.</div>
+    <div class="fab-grid" id="list"></div>
+  </div>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const STATUSES = ['Accepted', 'In Production', 'Complete', 'Collected'];
+
+function fmtDate(v) {
+  if (!v) return '';
+  try { return new Date(v).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' }); }
+  catch { return v; }
+}
+
+function cardHTML(o) {
+  const chips = [];
+  if (o.project_type) chips.push(o.project_type);
+  if (o.quantity) chips.push(`Qty ${o.quantity}`);
+  if (o.install_date) chips.push('Install ' + fmtDate(o.install_date));
+  const detail = o.details ? `<div class="d-notes">${o.details}</div>` : '';
+  return `
+  <div class="fab-card">
+    <div class="fab-head">
+      <strong>${o.project_name || o.name || 'Order'}</strong>
+      <span class="fab-ref">${o.name || ''}</span>
+    </div>
+    <div class="fab-meta">${chips.map(c => `<span class="chip">${c}</span>`).join('')}</div>
+    ${detail}
+    <div class="fab-actions">
+      <select class="fab-select" data-ref="${o.name}">
+        ${STATUSES.map(s => `<option value="${s}" ${o.status === s ? 'selected' : ''}>${s}</option>`).join('')}
+      </select>
+      <button class="btn btn-primary btn-sm fab-update">Update</button>
+    </div>
+  </div>`;
+}
+
+async function loadOrders() {
+  try {
+    const res = await fetch('/rika/api/fabricator/orders');
+    let r = await res.json().catch(() => ({}));
+    if (r && typeof r === 'object' && 'message' in r) r = r.message;
+    const orders = (r && r.orders) || [];
+    if (!orders.length) {
+      $('#loading').hidden = true;
+      $('#empty').hidden = false;
+      return;
+    }
+    $('#loading').hidden = true;
+    $('#list').innerHTML = orders.map(cardHTML).join('');
+  } catch {
+    $('#loading').hidden = true;
+    $('#empty').hidden = false;
+  }
+}
+
+$('#list').addEventListener('click', async (e) => {
+  if (!e.target.classList.contains('fab-update')) return;
+  const card = e.target.closest('.fab-card');
+  const ref = card.querySelector('select').value && card.querySelector('[data-ref]');
+  const name = card.querySelector('select').dataset.ref || card.querySelector('.fab-select').dataset.ref;
+  const status = card.querySelector('select').value;
+  e.target.disabled = true;
+  try {
+    await fetch('/rika/api/fabricator/orders/status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ name, status }),
+    });
+    loadOrders();
+  } catch {
+    e.target.disabled = false;
+  }
+});
+
+loadOrders();
+</script>
+</body>
+</html>

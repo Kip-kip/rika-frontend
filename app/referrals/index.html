@@ -1,1 +1,174 @@
-m«ë
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Referrals â€” Rika</title>
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/app/css/app.css" />
+<script src="shared/js/rika-track.js"></script>
+<style>
+  .ref-hero {
+    background: #161b22; border: 1px solid #2a313c; border-radius: 14px;
+    padding: 28px; margin-bottom: 24px; text-align: center;
+  }
+  .ref-hero h2 { color: #fff; font-size: 20px; margin-bottom: 6px; }
+  .ref-hero p { color: #9aa4af; font-size: 14px; max-width: 520px; margin: 0 auto 18px; }
+  .ref-code-box {
+    background: #0d1117; border: 1.5px solid #2a313c; border-radius: 10px;
+    padding: 14px; display: inline-flex; align-items: center; gap: 12px;
+  }
+  .ref-code-box code { color: #b8741a; font-size: 18px; font-weight: 700; letter-spacing: 1px; }
+  .ref-list { display: flex; flex-direction: column; gap: 14px; }
+  .ref-card {
+    background: #161b22; border: 1px solid #2a313c; border-radius: 12px; padding: 18px 20px;
+  }
+  .ref-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+  .ref-head strong { color: #fff; font-size: 15px; }
+  .ref-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .ref-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #2a313c; font-size: 13px; }
+  .ref-row:last-child { border-bottom: none; }
+  .ref-row .k { color: #9aa4af; }
+  .ref-row .v { color: #e6e8eb; font-weight: 600; }
+  .ref-ok { color: #2a9d54 !important; }
+  .ref-pending { color: #b8741a !important; }
+  .ref-new { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .ref-new input {
+    flex: 1; min-width: 200px; background: #0d1117; border: 1.5px solid #2a313c;
+    border-radius: 8px; color: #e6e8eb; padding: 10px 12px; font-size: 14px; font-family: inherit;
+  }
+  .ref-new input:focus { outline: none; border-color: #b8741a; }
+</style>
+</head>
+<body>
+<div class="app app-shell">
+  <header class="app-top">
+    <a class="brand" href="/rika/">rika<span>.</span></a>
+    <span class="app-user" id="topUser"></span>
+  </header>
+
+  <div class="page-head">
+    <a class="back-link" href="/rika/app/">&larr; My Project</a>
+    <h1>Referrals</h1>
+    <p class="sub">Share your code with friends and family. When they come in, we'll both get a thank-you.</p>
+  </div>
+
+  <div class="ref-hero" id="hero" hidden>
+    <h2>Your referral code</h2>
+    <p>Send this code to anyone planning a window or glass project. First project through your code = a reward for both of you.</p>
+    <div class="ref-code-box">
+      <code id="refCode">â€”</code>
+      <button class="btn btn-ghost btn-sm" id="btnCopy">Copy</button>
+    </div>
+    <div class="ref-new">
+      <input type="text" id="refName" placeholder="Name of the person you're referring" />
+      <button class="btn btn-primary" id="btnAdd">Add referral</button>
+    </div>
+  </div>
+
+  <div class="list-state" id="loading">Loading referrals&hellip;</div>
+  <div class="list-state" id="empty" hidden>No referrals yet. Your code appears above once your project is underway.</div>
+  <div class="ref-list" id="list"></div>
+</div>
+
+<script type="module">
+import { me, logout, isLoggedIn } from '/rika/app/js/app-auth.js';
+import { toast } from '/rika/shared/js/rika-toast.js';
+
+const $ = (s) => document.querySelector(s);
+
+function authHeaders() {
+  const s = JSON.parse(localStorage.getItem('rika_app_session') || 'null');
+  const h = { 'Content-Type': 'application/x-www-form-urlencoded' };
+  if (s?.access_token) h['Authorization'] = 'Bearer ' + s.access_token;
+  return h;
+}
+
+function fmtDate(v) {
+  if (!v) return '';
+  try { return new Date(v).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' }); }
+  catch { return v; }
+}
+
+function cardHTML(r) {
+  const won = r.status === 'Converted' || r.status === 'Won';
+  return `
+  <div class="ref-card">
+    <div class="ref-head">
+      <strong>${r.full_name || r.name || 'Referral'}</strong>
+      <span class="chip">${r.code || ''}</span>
+    </div>
+    <div class="ref-row"><span class="k">Status</span><span class="v ${won ? 'ref-ok' : 'ref-pending'}">${r.status || 'Pending'}</span></div>
+    ${r.phone ? `<div class="ref-row"><span class="k">Phone</span><span class="v">${r.phone}</span></div>` : ''}
+    <div class="ref-row"><span class="k">Added</span><span class="v">${fmtDate(r.created_at) || 'â€”'}</span></div>
+  </div>`;
+}
+
+async function load() {
+  try {
+    const res = await fetch('/rika/api/referrals', { headers: authHeaders() });
+    let r = await res.json().catch(() => ({}));
+    if (r && typeof r === 'object' && 'message' in r) r = r.message;
+    const items = Array.isArray(r) ? r : ((r && (r.referrals || r.items)) || []);
+    if (!items.length) {
+      $('#loading').hidden = true;
+      $('#empty').hidden = false;
+      return;
+    }
+    $('#loading').hidden = true;
+    $('#list').innerHTML = items.map(cardHTML).join('');
+    const code = (items[0] && (items[0].code || items[0].ref_code)) || '';
+    if (code) {
+      $('#hero').hidden = false;
+      $('#refCode').textContent = code;
+    }
+  } catch {
+    $('#loading').hidden = true;
+    $('#empty').hidden = false;
+  }
+}
+
+$('#btnCopy').addEventListener('click', () => {
+  const code = $('#refCode').textContent;
+  navigator.clipboard?.writeText(code).then(() => toast('Code copied.')).catch(() => toast(code));
+});
+
+$('#btnAdd').addEventListener('click', async () => {
+  const name = $('#refName').value.trim();
+  if (!name) { toast('Add a name first.'); return; }
+  const btn = $('#btnAdd');
+  btn.disabled = true;
+  try {
+    await fetch('/rika/api/referrals', {
+      method: 'POST',
+      headers: authHeaders(),
+      body: new URLSearchParams({ full_name: name }),
+    });
+    $('#refName').value = '';
+    load();
+  } catch (e) {
+    toast('Could not add: ' + e.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+function doLogout() { logout().then(() => { location.href = '/rika/app/'; }); }
+
+async function boot() {
+  if (!isLoggedIn()) { location.replace('/rika/app/'); return; }
+  try {
+    const u = await me();
+    $('#topUser').innerHTML = `<button class="link-btn" id="btnLogout" type="button">Log out</button>`;
+    document.getElementById('btnLogout').addEventListener('click', doLogout);
+    await load();
+  } catch {
+    location.replace('/rika/app/');
+  }
+}
+boot();
+</script>
+</body>
+</html>

@@ -1,1 +1,154 @@
-m«ë
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Project Photos â€” Rika</title>
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/app/css/app.css" />
+<script src="shared/js/rika-track.js"></script>
+<style>
+  .ph-wrap { max-width: 720px; }
+  .ph-upload {
+    background: #161b22; border: 1.5px dashed #2a313c; border-radius: 14px;
+    padding: 28px; text-align: center; margin-bottom: 24px;
+  }
+  .ph-upload p { color: #9aa4af; font-size: 14px; margin-bottom: 14px; }
+  .ph-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .ph-item {
+    background: #161b22; border: 1px solid #2a313c; border-radius: 10px; overflow: hidden;
+  }
+  .ph-item img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+  .ph-item .cap { padding: 8px 10px; font-size: 12px; color: #9aa4af; }
+  .ph-empty-state {
+    background: #161b22; border: 1px solid #2a313c; border-radius: 14px;
+    padding: 36px; text-align: center; color: #9aa4af; font-size: 15px;
+  }
+</style>
+</head>
+<body>
+<div class="app app-shell">
+  <header class="app-top">
+    <a class="brand" href="/rika/">rika<span>.</span></a>
+    <span class="app-user" id="topUser"></span>
+  </header>
+
+  <div class="page-head">
+    <a class="back-link" href="/rika/app/">&larr; My Project</a>
+    <h1>Project Photos</h1>
+    <p class="sub">The visual journey of your install â€” before, during, and after.</p>
+  </div>
+
+  <div class="ph-wrap">
+    <div class="ph-upload" id="uploader">
+      <p>Add photos of your windows (up to 10 per stage). They stay private unless you share them as a case study.</p>
+      <input type="file" id="phFile" accept="image/*" multiple hidden />
+      <button class="btn btn-primary" id="btnUpload">Add photo</button>
+      <div class="ph-stage-picker">
+        <select id="phStage" class="fab-select" style="margin-top:10px;">
+          <option value="before">Before</option>
+          <option value="measurement">Measurement</option>
+          <option value="installation">Installation</option>
+          <option value="finished">Finished</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="list-state" id="loading">Loading photos&hellip;</div>
+    <div class="ph-empty-state" id="empty" hidden>No photos yet. They appear here as your project progresses.</div>
+    <div class="ph-grid" id="grid"></div>
+  </div>
+</div>
+
+<script type="module">
+import { me, logout, isLoggedIn } from '/rika/app/js/app-auth.js';
+import { toast } from '/rika/shared/js/rika-toast.js';
+
+const $ = (s) => document.querySelector(s);
+
+function authHeaders() {
+  const s = JSON.parse(localStorage.getItem('rika_app_session') || 'null');
+  const h = {};
+  if (s?.access_token) h['Authorization'] = 'Bearer ' + s.access_token;
+  return h;
+}
+
+function fmtDate(v) {
+  if (!v) return '';
+  try { return new Date(v).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' }); }
+  catch { return v; }
+}
+
+function itemHTML(p) {
+  return `
+  <div class="ph-item">
+    <img src="${p.file_url || p.url || ''}" alt="${p.stage || 'photo'}" loading="lazy" />
+    <div class="cap">${p.stage || ''} Â· ${fmtDate(p.created_at) || ''}</div>
+  </div>`;
+}
+
+async function load() {
+  try {
+    const res = await fetch('/rika/api/photos', { headers: authHeaders() });
+    let r = await res.json().catch(() => ({}));
+    if (r && typeof r === 'object' && 'message' in r) r = r.message;
+    const photos = Array.isArray(r) ? r : ((r && (r.photos || r.items)) || []);
+    if (!photos.length) {
+      $('#loading').hidden = true;
+      $('#empty').hidden = false;
+      return;
+    }
+    $('#loading').hidden = true;
+    $('#grid').innerHTML = photos.map(itemHTML).join('');
+  } catch {
+    $('#loading').hidden = true;
+    $('#empty').hidden = false;
+  }
+}
+
+async function upload() {
+  const file = $('#phFile').files[0];
+  if (!file) { toast('Pick an image first.'); return; }
+  const stage = $('#phStage').value;
+  const btn = $('#btnUpload');
+  btn.disabled = true;
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('stage', stage);
+  try {
+    const h = authHeaders();
+    delete h['Content-Type'];
+    const res = await fetch('/rika/api/photos/upload', { method: 'POST', headers: h, body: fd });
+    const r = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error((r && r._server_messages && r._server_messages[0]) || 'Upload failed');
+    toast('Photo added.');
+    $('#phFile').value = '';
+    load();
+  } catch (e) {
+    toast('Could not upload: ' + e.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+$('#btnUpload').addEventListener('click', upload);
+
+function doLogout() { logout().then(() => { location.href = '/rika/app/'; }); }
+
+async function boot() {
+  if (!isLoggedIn()) { location.replace('/rika/app/'); return; }
+  try {
+    const u = await me();
+    $('#topUser').innerHTML = `<button class="link-btn" id="btnLogout" type="button">Log out</button>`;
+    document.getElementById('btnLogout').addEventListener('click', doLogout);
+    await load();
+  } catch {
+    location.replace('/rika/app/');
+  }
+}
+boot();
+</script>
+</body>
+</html>

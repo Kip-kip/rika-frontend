@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Rika — Analytics Quick Reference</title>
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<style>
+  .ana-wrap { max-width: 960px; margin: 0 auto; padding: 24px 16px 64px; }
+  .ana-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 4px; }
+  .ana-sub { color: var(--ink-soft, #666); margin-bottom: 24px; font-size: 0.95rem; }
+  .ana-token { margin-bottom: 20px; }
+  .ana-token input {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--line, #ddd);
+    border-radius: 8px; font-size: 0.95rem; box-sizing: border-box;
+  }
+  .ana-token button {
+    margin-left: 8px; padding: 10px 18px; border: none; border-radius: 8px;
+    background: var(--brand, #1a6b3c); color: #fff; font-weight: 600; cursor: pointer;
+  }
+  .ana-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 28px; }
+  .ana-card {
+    background: var(--card, #fafafa); border: 1px solid var(--line, #eee);
+    border-radius: 10px; padding: 14px; text-align: center;
+  }
+  .ana-card .num { font-size: 1.5rem; font-weight: 700; }
+  .ana-card .lbl { font-size: 0.78rem; color: var(--ink-soft, #777); margin-top: 2px; }
+  .ana-section { margin-bottom: 28px; }
+  .ana-section h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+  .ana-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .ana-table th { text-align: left; padding: 8px 10px; border-bottom: 2px solid var(--line, #ddd); font-weight: 600; }
+  .ana-table td { padding: 7px 10px; border-bottom: 1px solid var(--line, #eee); }
+  .ana-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .ana-bar-row .lbl { width: 120px; font-size: 0.85rem; text-align: right; }
+  .ana-bar-row .bar { flex: 1; height: 18px; background: var(--brand, #1a6b3c); border-radius: 3px; min-width: 2px; }
+  .ana-bar-row .cnt { font-size: 0.85rem; font-weight: 600; }
+  .ana-days { display: flex; gap: 6px; margin-bottom: 20px; }
+  .ana-days button {
+    padding: 6px 14px; border: 1px solid var(--line, #ddd); border-radius: 20px;
+    background: #fff; cursor: pointer; font-size: 0.85rem;
+  }
+  .ana-days button.active { background: var(--brand, #1a6b3c); color: #fff; border-color: var(--brand, #1a6b3c); }
+  .ana-error { color: #c0392b; font-size: 0.9rem; margin-bottom: 12px; display: none; }
+  .ana-loading { text-align: center; padding: 40px; color: var(--ink-soft, #888); }
+</style>
+</head>
+<body>
+<div class="ana-wrap">
+  <div class="ana-title">Analytics — Quick Reference</div>
+  <div class="ana-sub">Visitor &amp; conversion tracking · <span id="ana-since">…</span></div>
+
+  <div class="ana-token">
+    <input type="password" id="ana-token" placeholder="Admin token (Frappe Desk → Me → API Token)" />
+    <button onclick="loadData()">Load</button>
+  </div>
+  <div class="ana-error" id="ana-error"></div>
+
+  <div class="ana-days">
+    <button onclick="setDays(7,this)">7d</button>
+    <button class="active" onclick="setDays(30,this)">30d</button>
+    <button onclick="setDays(90,this)">90d</button>
+    <button onclick="setDays(365,this)">1y</button>
+  </div>
+
+  <div id="ana-content" class="ana-loading">Enter token and click Load.</div>
+</div>
+
+<script src="/rika/shared/js/rika-config.js"></script>
+<script src="shared/js/rika-track.js"></script>
+<script>
+let _days = 30;
+let _token = '';
+
+function setDays(d, btn) {
+  _days = d;
+  document.querySelectorAll('.ana-days button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (_token) loadData();
+}
+
+function fmt(n) {
+  if (n == null) return '—';
+  if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+  return String(n);
+}
+
+function ksh(n) {
+  if (!n) return 'KSh 0';
+  return 'KSh ' + Math.round(n).toLocaleString();
+}
+
+async function loadData() {
+  const el = document.getElementById('ana-content');
+  const err = document.getElementById('ana-error');
+  err.style.display = 'none';
+  _token = document.getElementById('ana-token').value.trim();
+  if (!_token) { err.textContent = 'Enter a token first.'; err.style.display = 'block'; return; }
+  el.className = 'ana-loading';
+  el.textContent = 'Loading…';
+  try {
+    const r = await fetch('/rika/api/analytics?days=' + _days, {
+      headers: { 'Authorization': 'token ' + _token },
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    const d = j.message || j;
+    render(d);
+  } catch (e) {
+    err.textContent = 'Error: ' + e.message;
+    err.style.display = 'block';
+    el.className = 'ana-loading';
+    el.textContent = '';
+  }
+}
+
+function render(d) {
+  const el = document.getElementById('ana-content');
+  document.getElementById('ana-since').textContent = 'window: last ' + d.window_days + ' days (since ' + d.since.substring(0, 10) + ')';
+  const f = d.funnel;
+  let html = '';
+
+  // Funnel cards
+  html += '<div class="ana-grid">';
+  html += card(f.leads, 'Leads');
+  html += card(f.leads_quoted, 'Quoted');
+  html += card(f.leads_won, 'Won');
+  html += card(f.quotes, 'Quotes');
+  html += card(f.designs_saved, 'Designs');
+  html += card(f.bookings, 'Bookings');
+  html += card(f.projects, 'Projects');
+  html += card(ksh(f.revenue_ksh), 'Revenue');
+  html += '</div>';
+
+  // Tool usage bars
+  html += '<div class="ana-section"><h2>Tool Usage (pageviews)</h2>';
+  const maxTool = Math.max(1, ...d.tool_usage.map(t => t.count));
+  d.tool_usage.forEach(t => {
+    html += '<div class="ana-bar-row"><div class="lbl">' + t.tool + '</div><div class="bar" style="width:' + Math.round(t.count / maxTool * 100) + '%"></div><div class="cnt">' + t.count + '</div></div>';
+  });
+  if (!d.tool_usage.length) html += '<p style="color:#888">No tool usage recorded yet.</p>';
+  html += '</div>';
+
+  // Sources
+  html += '<div class="ana-section"><h2>Referrer Sources</h2><table class="ana-table"><tr><th>Source</th><th>Pageviews</th></tr>';
+  d.sources.forEach(s => {
+    html += '<tr><td>' + s.source + '</td><td>' + s.count + '</td></tr>';
+  });
+  if (!d.sources.length) html += '<tr><td colspan="2">No pageview data yet.</td></tr>';
+  html += '</table></div>';
+
+  // CTA clicks
+  html += '<div class="ana-section"><h2>CTA Clicks</h2><table class="ana-table"><tr><th>Tool</th><th>Clicks</th></tr>';
+  d.cta_clicks.forEach(c => {
+    html += '<tr><td>' + c.tool + '</td><td>' + c.count + '</td></tr>';
+  });
+  if (!d.cta_clicks.length) html += '<tr><td colspan="2">No CTA clicks recorded yet.</td></tr>';
+  html += '</table></div>';
+
+  // Daily pageviews
+  html += '<div class="ana-section"><h2>Daily Pageviews</h2><table class="ana-table"><tr><th>Date</th><th>Pageviews</th></tr>';
+  d.daily_pageviews.forEach(p => {
+    html += '<tr><td>' + p.day + '</td><td>' + p.count + '</td></tr>';
+  });
+  if (!d.daily_pageviews.length) html += '<tr><td colspan="2">No data yet.</td></tr>';
+  html += '</table></div>';
+
+  el.className = '';
+  el.innerHTML = html;
+}
+
+function card(val, lbl) {
+  return '<div class="ana-card"><div class="num">' + val + '</div><div class="lbl">' + lbl + '</div></div>';
+}
+</script>
+</body>
+</html>

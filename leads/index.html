@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Leads — Rika</title>
+<meta name="description" content="Lead management and funnel report — track sources, status, and revenue." />
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<style>
+  .ld-hero { padding: 40px 20px 20px; text-align: center; }
+  .ld-hero h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+  .ld-hero h1 span { color: var(--accent); }
+  .ld-hero p { color: var(--muted); font-size: 15px; max-width: 520px; margin: 0 auto; }
+
+  .ld-layout { max-width: 1000px; margin: 0 auto; padding: 16px 20px 48px; }
+
+  .ld-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .ld-stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+  .ld-stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); display: block; margin-bottom: 5px; font-weight: 600; }
+  .ld-stat-val { font-size: 22px; font-weight: 700; color: var(--text); }
+  .ld-stat-val.accent { color: var(--accent); }
+
+  .ld-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 16px; }
+  .ld-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
+
+  .ld-funnel-row { display: grid; grid-template-columns: 120px 1fr 60px; gap: 10px; align-items: center; margin-bottom: 10px; }
+  .ld-funnel-label { font-size: 13px; font-weight: 600; color: var(--text); }
+  .ld-funnel-bar { height: 24px; background: var(--surface2); border-radius: 6px; overflow: hidden; position: relative; }
+  .ld-funnel-fill { height: 100%; background: var(--accent); border-radius: 6px; transition: width .3s; }
+  .ld-funnel-count { font-size: 13px; color: var(--muted); text-align: right; }
+
+  .ld-table { width: 100%; border-collapse: collapse; }
+  .ld-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  .ld-table td { padding: 10px; font-size: 13px; color: var(--text); border-bottom: 1px solid var(--border); }
+  .ld-table tr:last-child td { border-bottom: none; }
+  .ld-status { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 10px; }
+  .ld-status.New { background: rgba(107,116,128,.2); color: var(--muted); }
+  .ld-status.Contacted { background: rgba(59,130,246,.15); color: var(--accent); }
+  .ld-status.Quoted { background: rgba(184,116,26,.15); color: #e0952f; }
+  .ld-status.Won { background: rgba(42,157,84,.15); color: #2a9d54; }
+  .ld-status.Lost { background: rgba(184,80,80,.15); color: #b85050; }
+  .ld-status.No Response { background: rgba(107,116,128,.2); color: var(--muted); }
+
+  .ld-empty { color: var(--muted); font-size: 14px; text-align: center; padding: 20px 0; }
+
+  .auth-wrap { display: flex; align-items: center; justify-content: center; min-height: 70vh; padding: 20px; }
+  .auth-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; max-width: 400px; width: 100%; }
+  .auth-card h1 { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+  .auth-card .sub { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+  .auth-card .field { margin-bottom: 12px; }
+  .auth-card .field label { font-size: 12px; color: var(--muted); margin-bottom: 4px; display: block; font-weight: 600; }
+  .auth-card .field input { width: 100%; box-sizing: border-box; padding: 10px 12px; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 8px; color: var(--text); font-size: 14px; font-family: inherit; }
+  .auth-card .field input:focus { outline: none; border-color: var(--accent); }
+  .auth-card button { width: 100%; padding: 11px; border-radius: 8px; font-size: 15px; font-weight: 700; border: none; background: var(--accent); color: #fff; cursor: pointer; margin-top: 4px; }
+  .auth-card .err { color: #b85050; font-size: 13px; margin-top: 8px; display: none; }
+</style>
+<script src="shared/js/rika-track.js"></script>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a class="logo" href="/rika/">Ri<span>ka</span></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+    <nav class="nav" id="mainNav">
+      <a href="/rika/">Home</a>
+      <a href="/rika/tools/calculator/">Price Calculator</a>
+      <a href="/rika/leads/" class="active">Leads</a>
+      <a href="/rika/#about">About</a>
+    </nav>
+  </header>
+
+  <div class="auth-wrap" id="tokenGate">
+    <div class="auth-card">
+      <h1>Lead Management</h1>
+      <p class="sub">Enter your Rika admin token.</p>
+      <form id="tokenForm" autocomplete="off">
+        <div class="field">
+          <label for="tokenInput">Token</label>
+          <input type="password" id="tokenInput" placeholder="Token" />
+        </div>
+        <p class="err" id="tokenErr"></p>
+        <button type="submit">Unlock</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="content" hidden>
+    <section class="ld-hero">
+      <h1>Lead <span>Management</span></h1>
+      <p>Track every lead from source to close. Funnel report shows conversion by channel.</p>
+    </section>
+
+    <div class="ld-layout">
+      <div class="ld-summary" id="summary"></div>
+
+      <div class="ld-card">
+        <h3>Funnel by source</h3>
+        <div id="funnelGrid"></div>
+      </div>
+
+      <div class="ld-card">
+        <h3>All leads</h3>
+        <table class="ld-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Source</th>
+              <th>Status</th>
+              <th>Value</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="leadRows"></tbody>
+        </table>
+        <div class="ld-empty" id="leadEmpty" hidden>No leads yet.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span>© 2026 Rika — Aluminium &amp; Glass</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var $ = function (s) { return document.querySelector(s); };
+  var token = ***"rika_admin_token") || "";
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function ksh(v) {
+    return "KSh " + Number(v || 0).toLocaleString("en-KE", { maximumFractionDigits: 0 });
+  }
+  function showGate() { $("#tokenGate").style.display = "flex"; $("#content").hidden = true; }
+  function showContent() { $("#tokenGate").style.display = "none"; $("#content").hidden = false; }
+
+  async function loadAll() {
+    try {
+      var r1 = await fetch("/rika/api/leads", { headers: { "X-Rika-Admin-Token": token } });
+      if (r1.status === 401 || r1.status === 403) { showGate(); return; }
+      var d1 = await r1.json().catch(function () { return {}; });
+      var m1 = d1 && d1.message ? d1.message : d1;
+
+      var r2 = await fetch("/rika/api/leads/funnel", { headers: { "X-Rika-Admin-Token": token } });
+      var d2 = await r2.json().catch(function () { return {}; });
+      var m2 = d2 && d2.message ? d2.message : d2;
+
+      showContent();
+      renderSummary(m2.total || {});
+      renderFunnel(m2.funnel || {});
+      renderLeads(m1.leads || []);
+    } catch (e) {
+      showGate();
+    }
+  }
+
+  function renderSummary(t) {
+    var el = $("#summary");
+    el.innerHTML =
+      '<div class="ld-stat"><span class="ld-stat-label">Total Leads</span><span class="ld-stat-val accent">' + (t.leads || 0) + "</span></div>" +
+      '<div class="ld-stat"><span class="ld-stat-label">Contacted</span><span class="ld-stat-val">' + (t.contacted || 0) + "</span></div>" +
+      '<div class="ld-stat"><span class="ld-stat-label">Quoted</span><span class="ld-stat-val">' + (t.quoted || 0) + "</span></div>" +
+      '<div class="ld-stat"><span class="ld-stat-label">Won</span><span class="ld-stat-val">' + (t.won || 0) + "</span></div>" +
+      '<div class="ld-stat"><span class="ld-stat-label">Revenue</span><span class="ld-stat-val">' + ksh(t.revenue) + "</span></div>";
+  }
+
+  function renderFunnel(f) {
+    var el = $("#funnelGrid");
+    var sources = Object.keys(f);
+    if (!sources.length) {
+      el.innerHTML = '<div class="ld-empty">No leads yet.</div>';
+      return;
+    }
+    var maxLeads = Math.max.apply(null, sources.map(function (s) { return f[s].leads; }));
+    el.innerHTML = sources.map(function (s) {
+      var v = f[s];
+      var pct = maxLeads > 0 ? Math.round((v.leads / maxLeads) * 100) : 0;
+      return '<div class="ld-funnel-row">' +
+        '<span class="ld-funnel-label">' + esc(s) + "</span>" +
+        '<div class="ld-funnel-bar"><div class="ld-funnel-fill" style="width:' + pct + '%"></div></div>' +
+        '<span class="ld-funnel-count">' + v.leads + " leads · " + v.won + " won</span>" +
+      "</div>";
+    }).join("");
+  }
+
+  function renderLeads(leads) {
+    var tbody = $("#leadRows");
+    var empty = $("#leadEmpty");
+    if (!leads.length) {
+      empty.hidden = false;
+      return;
+    }
+    empty.hidden = true;
+    tbody.innerHTML = leads.map(function (l) {
+      var name = (l.first_name || "") + (l.last_name ? " " + l.last_name : "");
+      return "<tr>" +
+        "<td>" + esc(name || l.name) + "</td>" +
+        "<td>" + esc(l.phone) + "</td>" +
+        "<td>" + esc(l.source || "—") + "</td>" +
+        '<td><span class="ld-status ' + esc(l.status || "New") + '">' + esc(l.status || "New") + "</span></td>" +
+        "<td>" + ksh(l.lead_value) + "</td>" +
+        "<td>" + esc(l.created ? l.created.slice(0, 10) : "—") + "</td>" +
+      "</tr>";
+    }).join("");
+  }
+
+  document.getElementById("tokenForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var t = document.getElementById("tokenInput").value.trim();
+    if (!t) return;
+    token = ***
+    localStorage.setItem("rika_admin_token", t);
+    loadAll();
+  });
+
+  if (token) {
+    loadAll();
+  } else {
+    showGate();
+  }
+})();
+</script>
+</body>
+</html>

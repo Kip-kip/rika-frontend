@@ -316,9 +316,9 @@ build it, verify the DoD, flip the status. Batches end in a *shippable, demo-abl
 | T-B5-06 | REF-1 — referral engine | ⬜ | A | Post-project "Refer a friend" + reward; each completed project → review + referral + photos + case study |
 | T-B5-07 | DEP-1 — M-Pesa deposits | ⬜ | A | Deposit collection via M-Pesa (STK push / C2B); linked to `Rika Quotation`/`Rika Project`; receipt shown |
 | T-B5-08 | MEAS-3 — installer measurement recorder (mobile) | ⬜ | A | Installer app/page: record every opening (W01, W02…) with dims, type, photos, notes; flows into quote + production |
-| T-B5-09 | LEAD-2 — CRM / lead management (source tracking, funnel) | ⬜ | A | Lead pipeline with source tracking (Google/FB/Contractor/Referral); funnel report (leads→customers→revenue per source) |
-| T-B5-10 | ADM-1 — admin app | ⬜ | A | `admin.rika.co.ke`: dashboard, leads, quotes, projects, fabricator orders, pricing analytics in one place |
-| T-B5-11 | ANALYTICS-1 — usage + conversion tracking | ⬜ | A | Track visitor/tool usage/configuration/lead/quote/conversion/revenue/source; feed back into pricing + marketing |
+| T-B5-09 | LEAD-2 — CRM / lead management (source tracking, funnel) | ✅ | A | Lead pipeline with source tracking (Google/FB/Contractor/Referral); funnel report (leads→customers→revenue per source) |
+| T-B5-10 | ADM-1 — admin app | 🟨 | A | `admin.rika.co.ke`: dashboard, leads, quotes, projects, fabricator orders, pricing analytics in one place. **Decision 2026-10-06:** admin lives in Frappe Desk; the token-gated leads page at `/rika/leads/` is kept as a quick reference. No separate admin SPA. |
+| T-B5-11 | ANALYTICS-1 — usage + conversion tracking | ✅ 2026-10-06 | A | `Rika Event` doctype (event_type, tool, page, source, session, device, meta) + `POST /rika/api/track` (guest, batched) + `GET /rika/api/analytics` (admin, funnel + tool usage + sources + CTA + daily). `shared/js/rika-track.js` injected into 47 pages (pageview, tool_use, cta_click, config_change). Quick reference: `/rika/analytics/` (token-gated). Verified: track 200 (inserted), analytics 403 unauth, page 200. |
 | T-B5-12 | GBP-1 — Google Business Profile + reviews | ⬜ | C | Strong local presence; post-project review collection; target high rating + portfolio |
 | T-B5-13 | PARTNER-1 — fabricator relationship (primary + backup, trade pricing, agreement) | ⬜ | C | Named primary + backup supplier; trade pricing negotiated; written agreement (pricing, quality, delivery, rework, confidentiality, customer protection, non-solicitation, payment) |
 

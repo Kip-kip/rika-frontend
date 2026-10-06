@@ -1,1 +1,275 @@
-m��
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>My Project — Rika</title>
+<meta name="description" content="Your Rika project, live." />
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+<link rel="stylesheet" href="/rika/app/css/app.css" />
+<script src="shared/js/rika-track.js"></script>
+</head>
+<body>
+<div class="app app-shell">
+  <header class="app-top">
+    <a class="brand" href="/rika/">rika<span>.</span></a>
+    <span class="app-user" id="topUser"></span>
+  </header>
+
+  <!-- Login / signup -->
+  <div class="auth-wrap" id="authWrap">
+    <div class="auth-card">
+      <h1>My Project</h1>
+      <p class="sub">Track your windows from measurement to handover.</p>
+
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" id="tabLogin">Log in</button>
+        <button type="button" class="auth-tab" id="tabSignup">Create account</button>
+      </div>
+
+      <!-- Login -->
+      <form id="loginForm" autocomplete="off">
+        <div class="field">
+          <label for="loginPhone">Phone number</label>
+          <input id="loginPhone" type="tel" placeholder="07XX XXX XXX" required />
+        </div>
+        <div class="field">
+          <label for="loginPass">Password</label>
+          <input id="loginPass" type="password" placeholder="Your password" required />
+        </div>
+        <p class="auth-err" id="loginErr"></p>
+        <button class="auth-btn" type="submit" id="loginBtn">Log in</button>
+      </form>
+
+      <!-- Signup -->
+      <form id="signupForm" class="hidden" autocomplete="off">
+        <div class="field">
+          <label for="suFirst">First name</label>
+          <input id="suFirst" type="text" placeholder="Jane" required />
+        </div>
+        <div class="field">
+          <label for="suLast">Last name</label>
+          <input id="suLast" type="text" placeholder="Wanjiku" />
+        </div>
+        <div class="field">
+          <label for="suPhone">Phone number</label>
+          <input id="suPhone" type="tel" placeholder="07XX XXX XXX" required />
+        </div>
+        <div class="field">
+          <label for="suEmail">Email (optional)</label>
+          <input id="suEmail" type="email" placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label for="suPass">Password (min 6 characters)</label>
+          <input id="suPass" type="password" placeholder="Create a password" required minlength="6" />
+        </div>
+        <p class="auth-err" id="suErr"></p>
+        <button class="auth-btn" type="submit" id="suBtn">Create account</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard (T-B4-02: stage tracker) -->
+  <div class="dash" id="dashWrap">
+    <div class="dash-card">
+      <h2 id="dashHello">Welcome</h2>
+      <p id="dashSub">Your project, live.</p>
+    </div>
+
+    <!-- Stage tracker -->
+    <div class="dash-card proj-card" id="projCard" hidden>
+      <div class="proj-head">
+        <h3 id="projName">Project</h3>
+        <span class="proj-loc" id="projLoc"></span>
+      </div>
+      <div class="stage-track" id="stageTrack"></div>
+      <div class="proj-meta" id="projMeta"></div>
+      <p class="proj-notes" id="projNotes"></p>
+      <div class="dash-actions">
+        <a class="btn btn-primary" href="/rika/tools/calculator/">Open the calculator</a>
+        <button class="btn btn-ghost" id="btnLogout" type="button">Log out</button>
+      </div>
+    </div>
+
+    <!-- No project yet -->
+    <div class="dash-card" id="noProjCard" hidden>
+      <p>No project yet. Once Rika starts your job, your stage tracker will appear here — measurement through handover.</p>
+      <div class="dash-actions">
+        <a class="btn btn-primary" href="/rika/tools/calculator/">Start a quote in the calculator</a>
+        <button class="btn btn-ghost" id="btnLogout2" type="button">Log out</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { login, signup, me, logout, isLoggedIn, api } from '/rika/app/js/app-auth.js';
+import { toast } from '/rika/shared/js/rika-toast.js';
+
+const $ = (s) => document.querySelector(s);
+
+function authHeaders() {
+  const s = JSON.parse(localStorage.getItem('rika_app_session') || 'null');
+  const h = {};
+  if (s?.access_token) h['Authorization'] = 'Bearer ' + s.access_token;
+  return h;
+}
+
+function show(el, on) { el.classList.toggle('hidden', !on); }
+
+async function showDash(user) {
+  $('#authWrap').style.display = 'none';
+  $('#dashWrap').style.display = 'block';
+  $('#dashHello').textContent = `Welcome, ${user.first_name || 'there'}`;
+  $('#dashSub').textContent = 'Here’s where your windows stand.';
+  $('#topUser').innerHTML = `Logged in as <strong>${user.first_name || user.phone}</strong>`;
+  await loadProjects();
+}
+
+function stageStateClass(s) { return s.state; }
+
+function renderStageTrack(proj) {
+  const track = $('#stageTrack');
+  track.innerHTML = '';
+  proj.stages.forEach((s, i) => {
+    const col = document.createElement('div');
+    col.className = 'stage-col ' + s.state;
+    const dot = document.createElement('div');
+    dot.className = 'stage-dot';
+    dot.textContent = (s.state === 'done') ? '✓' : (i + 1);
+    const label = document.createElement('div');
+    label.className = 'stage-label';
+    label.textContent = s.stage;
+    const date = document.createElement('div');
+    date.className = 'stage-date';
+    date.textContent = s.date ? s.date : (s.state === 'upcoming' ? '—' : 'in progress');
+    col.append(dot, label, date);
+    track.appendChild(col);
+    if (i < proj.stages.length - 1) {
+      const bar = document.createElement('div');
+      bar.className = 'stage-bar ' + (i < proj.stage_index ? 'filled' : '');
+      track.appendChild(bar);
+    }
+  });
+}
+
+async function loadProjects() {
+  try {
+    const res = await fetch('/rika/api/projects', { headers: authHeaders() });
+    let r = await res.json().catch(() => ({}));
+    // Frappe wraps payloads in `message`; unwrap.
+    if (r && typeof r === 'object' && 'message' in r) r = r.message;
+    const projects = (r && r.projects) || [];
+    if (projects.length) {
+      const p = projects[0];
+      $('#noProjCard').hidden = true;
+      $('#projCard').hidden = false;
+      $('#projName').textContent = p.project_name || 'Your project';
+      $('#projLoc').textContent = p.location ? '· ' + p.location : '';
+      renderStageTrack(p);
+      const meta = [];
+      if (p.deposit_paid) meta.push('Deposit paid ✓');
+      if (p.install_date) meta.push('Install: ' + p.install_date);
+      if (p.handover_date) meta.push('Handover: ' + p.handover_date);
+      if (p.warranty_expires) meta.push('Warranty to ' + p.warranty_expires);
+      if (p.quotation) {
+        const q = p.quotation;
+        const lo = q.total_low ? `KSh ${Number(q.total_low).toLocaleString()}` : '';
+        const hi = q.total_high ? `KSh ${Number(q.total_high).toLocaleString()}` : '';
+        if (lo && hi) meta.push(`Budget ${lo}–${hi}`);
+        else if (lo) meta.push(`Budget ${lo}`);
+      }
+      $('#projMeta').innerHTML = meta.map(m => `<span class="meta-chip">${m}</span>`).join(' ');
+      $('#projNotes').textContent = p.notes || '';
+    } else {
+      // no project — offer to seed a demo so the tracker is visible
+      try {
+        const demoRes = await fetch('/rika/api/projects/demo', { method: 'POST', headers: authHeaders() });
+        let demo = await demoRes.json().catch(() => ({}));
+        if (demo && typeof demo === 'object' && 'message' in demo) demo = demo.message;
+        if (demo && demo.project) {
+          location.reload();
+          return;
+        }
+      } catch { /* demo endpoint may be absent — fall through to no-project card */ }
+      $('#projCard').hidden = true;
+      $('#noProjCard').hidden = false;
+    }
+  } catch {
+    $('#projCard').hidden = true;
+    $('#noProjCard').hidden = false;
+  }
+}
+
+async function boot() {
+  if (isLoggedIn()) {
+    try {
+      const u = await me();
+      showDash(u);
+      return;
+    } catch { /* session dead — fall through to login */ }
+  }
+}
+
+// Tabs
+$('#tabLogin').addEventListener('click', () => {
+  $('#tabLogin').classList.add('active'); $('#tabSignup').classList.remove('active');
+  show($('#loginForm'), true); show($('#signupForm'), false);
+});
+$('#tabSignup').addEventListener('click', () => {
+  $('#tabSignup').classList.add('active'); $('#tabLogin').classList.remove('active');
+  show($('#signupForm'), true); show($('#loginForm'), false);
+});
+
+// Login
+$('#loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = $('#loginBtn');
+  btn.disabled = true; btn.textContent = 'Logging in…';
+  try {
+    const r = await login({ phone: $('#loginPhone').value.trim(), password: $('#loginPass').value });
+    toast.success(`Welcome back, ${r.user.first_name || 'there'}!`);
+    showDash(r.user);
+  } catch (err) {
+    $('#loginErr').textContent = err.message || 'Login failed';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Log in';
+  }
+});
+
+// Signup
+$('#signupForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = $('#suBtn');
+  btn.disabled = true; btn.textContent = 'Creating…';
+  try {
+    await signup({
+      first_name: $('#suFirst').value.trim(),
+      last_name: $('#suLast').value.trim(),
+      phone: $('#suPhone').value.trim(),
+      email: $('#suEmail').value.trim(),
+      password: $('#suPass').value,
+    });
+    toast.success('Account created! Now log in.');
+    $('#suErr').textContent = '';
+    $('#suPass').value = '';
+    $('#tabLogin').click();
+    $('#loginPhone').value = $('#suPhone').value.trim();
+  } catch (err) {
+    $('#suErr').textContent = err.message || 'Signup failed';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Create account';
+  }
+});
+
+// Logout
+function doLogout() { logout().then(() => location.reload()); }
+$('#btnLogout').addEventListener('click', doLogout);
+$('#btnLogout2').addEventListener('click', doLogout);
+
+boot();
+</script>
+</body>
+</html>

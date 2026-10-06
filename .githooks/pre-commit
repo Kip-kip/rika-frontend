@@ -1,0 +1,37 @@
+#!/bin/bash
+# Pre-commit guard: refuse to commit any file that is a 4-byte stub
+# or below the sane minimum size for its type.
+set -e
+STUB_SIG=$(printf '\x6d\xab\x1e\xeb' | xxd -p)
+MIN=500
+violations=0
+while IFS= read -r -d '' file; do
+  # skip deleted files
+  [ -f "$file" ] || continue
+  sz=$(wc -c < "$file" 2>/dev/null || echo 0)
+  ext="${file##*.}"
+  case "$ext" in
+    html|css|js|py) 
+      if [ "$sz" -lt "$MIN" ]; then
+        echo "  BLOCKED: $file is only $sz bytes (minimum $MIN)"
+        violations=$((violations+1))
+      fi
+      ;;
+  esac
+  # check stub signature
+  if [ "$sz" -eq 4 ]; then
+    sig=$(head -c4 "$file" 2>/dev/null | xxd -p)
+    if [ "$sig" = "6dab1eeb" ]; then
+      echo "  BLOCKED: $file has the 4-byte corruption signature (6d ab 1e eb)"
+      violations=$((violations+1))
+    fi
+  fi
+done < <(git diff --cached --name-only --diff-filter=ACMR | while read -r p; do echo -n "$p"; printf '\0'; done)
+
+if [ "$violations" -gt 0 ]; then
+  echo ""
+  echo "COMMIT BLOCKED: $violations file(s) look corrupted. Restore from git history first:"
+  echo "  git checkout HEAD -- <file>   (or: git restore --staged <file> && git checkout HEAD -- <file>)"
+  echo "  Then re-stage and re-commit."
+  exit 1
+fi

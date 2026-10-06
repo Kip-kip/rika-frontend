@@ -319,7 +319,7 @@ build it, verify the DoD, flip the status. Batches end in a *shippable, demo-abl
 | T-B5-09 | LEAD-2 — CRM / lead management (source tracking, funnel) | ✅ | A | Lead pipeline with source tracking (Google/FB/Contractor/Referral); funnel report (leads→customers→revenue per source) |
 | T-B5-10 | ADM-1 — admin app | 🟨 | A | `admin.rika.co.ke`: dashboard, leads, quotes, projects, fabricator orders, pricing analytics in one place. **Decision 2026-10-06:** admin lives in Frappe Desk; the token-gated leads page at `/rika/leads/` is kept as a quick reference. No separate admin SPA. |
 | T-B5-11 | ANALYTICS-1 — usage + conversion tracking | ✅ 2026-10-06 | A | `Rika Event` doctype (event_type, tool, page, source, session, device, meta) + `POST /rika/api/track` (guest, batched) + `GET /rika/api/analytics` (admin, funnel + tool usage + sources + CTA + daily). `shared/js/rika-track.js` injected into 47 pages (pageview, tool_use, cta_click, config_change). Quick reference: `/rika/analytics/` (token-gated). Verified: track 200 (inserted), analytics 403 unauth, page 200. |
-| T-B5-12 | GBP-1 — Google Business Profile + reviews | ⬜ | C | Strong local presence; post-project review collection; target high rating + portfolio |
+| T-B5-12 | GBP-1 — Google Business Profile + reviews | 🟨 | C | Backend ✅: Rika Review doctype + submit/list/update/stats API + /rika/reviews/ page (2026-10-06). Remaining (Cyrus): GBP account setup, replace placeholder GBP review URL, post reviews to Google |
 | T-B5-13 | PARTNER-1 — fabricator relationship (primary + backup, trade pricing, agreement) | ⬜ | C | Named primary + backup supplier; trade pricing negotiated; written agreement (pricing, quality, delivery, rework, confidentiality, customer protection, non-solicitation, payment) |
 
 **When resuming:** T-B5-07 (deposits) and T-B5-01 (fabricator) first once real projects start flowing; the rest as volume justifies.
@@ -474,13 +474,13 @@ Target: **50 pts** = the platform is a *real* acquisition machine, not a demo. *
 | SEO & Content | 15 | SEO-1 ✅ (5) + SEO-3 ✅ (5) + SEO-4 ✅ (5) = 15 | 100% |
 | Customer App | 20 | APP-1 ✅ + APP-2 ✅ + APP-3 ✅ + APP-5 ✅ + APP-6 ✅ = 20 | 100% |
 | Operations | 15 | FAB-1 ✅ + FAB-2 ✅ + PRICE-1 ✅ + PORTF-1 ✅ + REF-1 ✅ + DEP-1 ✅ ≈ 13 | 87% |
-| **Total** | **100** | **≈ 95** | **≈ 95%** |
+| **Total** | **100** | **≈ 96** | **≈ 96%** (T-B5-12 build done 2026-10-06; remaining: GBP account setup + T-B5-13 + T-B5-10 Frappe Desk admin) |
 
 > The *existing* tools (visualizer, measurement, quotation) are **pre-roadmap** work — the proof-of-concept the acquisition engine is built on. They don't score under the scheme (the scheme measures the *business platform*, not the MVP). They are the strongest asset we have.
 
 ### Current build state
 - **Done:** All of Batch 0, Batch 1, Batch 2 (SEO spine, all 7 tasks), Batch 3 ("feels like AI" layer, all 6 tasks), Batch 4 (customer app, 5 of 6 — T-B4-04 pending), Batch 5 (operations, 9 of 13 — T-B5-08/12/13 pending).
-- **Next up:** T-B4-04 (payments + install schedule + documents) → T-B5-08 (installer measurement recorder) → T-B5-12 (GBP + reviews) → T-B5-13 (fabricator agreement).
+- **Next up:** T-B5-13 (fabricator relationship agreement, owner C) → T-B5-10 remainder (Frappe Desk admin dashboard) → T-B5-12 remainder (GBP account setup + review posting, owner C).
 - **Key backend state:** All DocTypes live in the `rika` Frappe app. 8+ guest/admin API endpoints active through nginx. Analytics tracking injected into 47 pages.
 
 ### How to pick up at any time

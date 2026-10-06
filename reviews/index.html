@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rika — Share Your Experience</title>
+  <meta name="description" content="Had your windows or doors installed by Rika? Tell us how it went — and help others find us on Google." />
+  <link rel="stylesheet" href="/rika/shared/css/rika.css" />
+  <link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
+  <style>
+    .rev-hero { max-width: 720px; margin: 0 auto; padding: 32px 16px 16px; text-align: center; }
+    .rev-hero h1 { font-size: 1.6rem; margin-bottom: 8px; }
+    .rev-hero p { color: #666; font-size: 0.95rem; }
+    .stars { display: flex; gap: 4px; justify-content: center; margin: 16px 0; }
+    .star { font-size: 2.4rem; color: #ccc; cursor: pointer; transition: color .15s, transform .15s; user-select: none; }
+    .star:hover { transform: scale(1.15); }
+    .star.active { color: #f59e0b; }
+    .rev-form { max-width: 560px; margin: 0 auto; padding: 0 16px 48px; display: grid; gap: 12px; }
+    .rev-form label { font-size: 0.85rem; font-weight: 600; color: #444; }
+    .rev-form input, .rev-form textarea, .rev-form select {
+      padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box;
+    }
+    .rev-form textarea { min-height: 100px; resize: vertical; }
+    .rev-btn {
+      background: #1a1a2e; color: #fff; border: none; padding: 12px 24px; border-radius: 8px;
+      font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%;
+    }
+    .rev-btn:hover { background: #2a2a4a; }
+    .rev-msg { text-align: center; padding: 16px; border-radius: 8px; font-size: 0.95rem; }
+    .rev-msg.ok { background: #ecfdf5; color: #065f46; }
+    .rev-msg.err { background: #fef2f2; color: #991b1b; }
+    .g-btn {
+      display: inline-flex; align-items: center; gap: 8px; margin-top: 12px;
+      background: #fff; border: 1px solid #ddd; color: #333; padding: 10px 16px;
+      border-radius: 8px; font-size: 0.9rem; text-decoration: none; cursor: pointer;
+    }
+    .g-btn:hover { background: #f9f9f9; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/rika/">Rika</a>
+      <nav>
+        <a href="/rika/#products">Products</a>
+        <a href="/rika/tools/calculator/">Calculator</a>
+        <a href="/rika/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="rev-hero">
+    <h1>How was your experience with Rika?</h1>
+    <p>Tell us about your windows or doors — and if you're happy, share it on Google to help others find us.</p>
+  </section>
+
+  <section id="formSection">
+    <div class="stars" id="starRow">
+      <span class="star" data-val="1">★</span>
+      <span class="star" data-val="2">★</span>
+      <span class="star" data-val="3">★</span>
+      <span class="star" data-val="4">★</span>
+      <span class="star" data-val="5">★</span>
+    </div>
+    <div class="rev-form">
+      <label for="name">Your Name</label>
+      <input id="name" type="text" placeholder="e.g. Cyrus Kiprotich" />
+      <label for="phone">Phone</label>
+      <input id="phone" type="tel" placeholder="+254 7XX XXX XXX" />
+      <label for="project">Project (optional)</label>
+      <input id="project" type="text" placeholder="e.g. RIKA-PROJ-00001" />
+      <label for="reviewText">Your Review</label>
+      <textarea id="reviewText" placeholder="Tell us about the quality, installation, communication…"></textarea>
+      <label for="source">How did you hear about us?</label>
+      <select id="source">
+        <option>Site Form</option>
+        <option>WhatsApp</option>
+        <option>Phone Call</option>
+        <option>In-Person</option>
+      </select>
+      <button class="rev-btn" id="submitBtn">Submit Review</button>
+      <div id="formMsg"></div>
+    </div>
+    <div style="text-align:center; margin-top:16px;">
+      <a class="g-btn" id="googleBtn" href="#" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.07 5.07 0 01-2.04 3.32v2.62h3.32c1.93-1.79 3.08-4.44 3.08-7.95z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.32-2.62c-.9.61-2.04 0.97-3.96 0.97-3.04 0-5.59-2.04-6.48-4.8H2.8v2.7A11.99 11.99 0 0012 23z"/><path fill="#FBBC05" d="M5.52 14.88A6.9 6.9 0 015.2 12c0-1.01.18-1.99.52-2.88v-2.7H2.8a12 12 0 000 11.16l2.72-2.7z"/><path fill="#EA4335" d="M12 5.04c1.76 0 3.33.6 4.6 1.8l3.32-3.32C18.46 1.79 15.97.75 12 .75 7.2.75 3.12 3.69 1.22 7.8l3.28 2.56C5.41 7.64 7.96 5.04 12 5.04z"/></svg>
+        Review us on Google
+      </a>
+    </div>
+  </section>
+
+  <section id="successSection" class="hidden">
+    <div class="rev-msg ok" style="max-width:560px;margin:24px auto;">
+      <p><strong>Thank you!</strong> Your review has been submitted. We'll reach out if we have any questions.</p>
+      <p style="margin-top:8px;">If you'd like to post directly on Google, tap the button below.</p>
+      <a class="g-btn" id="googleBtn2" href="#" target="_blank" rel="noopener">Review us on Google →</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; <span id="year"></span> Rika Aluminium. Nairobi, Kenya.</p>
+    </div>
+  </footer>
+
+  <script>
+    var rating = 0;
+    var GBP_URL = "https://g.page/r/review"; // TODO: replace with actual GBP review URL
+
+    // Star selection
+    document.querySelectorAll(".star").forEach(function (star) {
+      star.addEventListener("click", function () {
+        rating = parseInt(star.getAttribute("data-val"));
+        document.querySelectorAll(".star").forEach(function (s) {
+          s.classList.toggle("active", parseInt(s.getAttribute("data-val")) <= rating);
+        });
+      });
+    });
+
+    // GBP link
+    document.getElementById("googleBtn").href = GBP_URL;
+    document.getElementById("googleBtn2").href = GBP_URL;
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Submit
+    document.getElementById("submitBtn").addEventListener("click", async function () {
+      var msg = document.getElementById("formMsg");
+      var name = document.getElementById("name").value.trim();
+      var phone = document.getElementById("phone").value.trim();
+      var project = document.getElementById("project").value.trim();
+      var reviewText = document.getElementById("reviewText").value.trim();
+      var source = document.getElementById("source").value;
+
+      if (!name) { msg.innerHTML = '<div class="rev-msg err">Please enter your name.</div>'; return; }
+      if (!phone) { msg.innerHTML = '<div class="rev-msg err">Please enter your phone number.</div>'; return; }
+      if (!rating) { msg.innerHTML = '<div class="rev-msg err">Please select a star rating.</div>'; return; }
+      if (!reviewText) { msg.innerHTML = '<div class="rev-msg err">Please write a short review.</div>'; return; }
+
+      var btn = document.getElementById("submitBtn");
+      btn.disabled = true;
+      btn.textContent = "Submitting…";
+
+      try {
+        var body = new URLSearchParams();
+        body.append("name", name);
+        body.append("phone", phone);
+        body.append("project", project);
+        body.append("rating", rating);
+        body.append("review_text", reviewText);
+        body.append("source", source);
+
+        var res = await fetch("/rika/api/reviews/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: body.toString(),
+        });
+        var data = await res.json();
+        if (data.ok) {
+          document.getElementById("formSection").classList.add("hidden");
+          document.getElementById("successSection").classList.remove("hidden");
+        } else {
+          msg.innerHTML = '<div class="rev-msg err">' + (data.message || data.error || "Submission failed.") + "</div>";
+        }
+      } catch (e) {
+        msg.innerHTML = '<div class="rev-msg err">Network error. Please try again.</div>';
+      }
+      btn.disabled = false;
+      btn.textContent = "Submit Review";
+    });
+  </script>
+</body>
+</html>

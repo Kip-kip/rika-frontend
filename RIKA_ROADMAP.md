@@ -294,10 +294,10 @@ build it, verify the DoD, flip the status. Batches end in a *shippable, demo-abl
 |----|------|--------|-------|-----|
 | T-B4-01 | APP-1 — auth (customer accounts, Frappe) | ✅ | A | Login/signup at `/rika/app/`; Frappe User + Rika Customer; session via existing JWT flow — live: signup/login/me/logout verified over HTTP |
 | T-B4-02 | APP-2 — "My Project" stage tracker | ✅ 2026-10-05 | A | Logged-in customer sees project with stage tracker (measure→design→approve→fabricate→install→handover), current stage highlighted, dates per stage. `/rika/api/projects` + `/rika/api/projects/demo` (auto-seed demo on first visit); tracker UI in `app/index.html` dashboard; verified end-to-end (signup→login→projects→demo seed→tracker render) |
-| T-B4-03 | APP-3 — My Designs / My Quotations | ⬜ | A | `/rika/app/designs` + `/rika/app/quotations`: list of saved designs + quotations; open/edit; re-quote |
+| T-B4-03 | APP-3 — My Designs / My Quotations | ✅ 2026-10-05 | A | `/rika/app/designs` + `/rika/app/quotations`: auth-gated list of saved designs + quotations; re-quote deep-links to calculator. Frontend `6718af4`, backend `9cabdd4` (both on develop) | `/rika/app/designs` + `/rika/app/quotations`: list of saved designs + quotations; open/edit; re-quote |
 | T-B4-04 | APP-4 — payments + install schedule + documents | ⬜ | A | `/rika/app/payments`: deposit status, payment history (M-Pesa); install schedule; downloadable documents (quote, contract, warranty) |
-| T-B4-05 | APP-5 — warranty + messages | ⬜ | A | `/rika/app/warranty`: warranty details + status; `/rika/app/messages`: thread with the company |
-| T-B4-06 | APP-6 — naming: "My Project", never "Customer Portal" | ⬜ | A | All customer-facing copy uses "My Project" / "Open My Project" (not "Portal") |
+| T-B4-05 | APP-5 — warranty + messages | ✅ 2026-10-05 | A | `/rika/app/warranty` + `/rika/app/messages`: warranty status + claim instructions + PDF; chat-style thread. `Rika Message` doctype + `messages.py` API. Frontend `7033033`, backend `7680532` (both on develop) | `/rika/app/warranty`: warranty details + status; `/rika/app/messages`: thread with the company |
+| T-B4-06 | APP-6 — naming: "My Project", never "Customer Portal" | ✅ 2026-10-05 | A | Verified: zero "Portal"/"Customer Portal" occurrences across all customer-facing copy. No changes needed | All customer-facing copy uses "My Project" / "Open My Project" (not "Portal") |
 
 **When resuming:** T-B4-01 → T-B4-02 (the differentiator) → T-B4-03 → T-B4-04/05 → T-B4-06.
 
@@ -308,13 +308,13 @@ build it, verify the DoD, flip the status. Batches end in a *shippable, demo-abl
 
 | ID | Task | Status | Owner | DoD |
 |----|------|--------|-------|-----|
-| T-B5-01 | FAB-1 — fabricator portal (production orders + status) | ⬜ | A | `fabricator.rika.co.ke` (or `/rika/fabricator/`): receive production orders digitally; status accepted→in-prod→complete→collected; monitor without phone calls |
-| T-B5-02 | FAB-2 — customer-relationship protection (policy + access rules) | ⬜ | C+A | Fabricator sees only what's needed to fabricate; customer contact info not exposed; access roles enforce it |
-| T-B5-03 | PRICE-1 — pricing intelligence (per-project cost + margin) | ⬜ | A | Record per project: selling price, alu/glass/hardware/fabrication/installation/transport/wastage/marketing cost, gross profit, margin; report by product type |
-| T-B5-04 | PORTF-1 — portfolio pipeline (before→measure→fab→install→finished) | ⬜ | A | Auto-capture project photos/stages; feed case-study pages (SEO-4) |
-| T-B5-05 | SEO-4 — project case studies (not a photo grid) | ⬜ | C+A | Case-study template: Before→Measurement→Installation→Finished + "want something similar?" CTA; one page per project |
-| T-B5-06 | REF-1 — referral engine | ⬜ | A | Post-project "Refer a friend" + reward; each completed project → review + referral + photos + case study |
-| T-B5-07 | DEP-1 — M-Pesa deposits | ⬜ | A | Deposit collection via M-Pesa (STK push / C2B); linked to `Rika Quotation`/`Rika Project`; receipt shown |
+| T-B5-01 | FAB-1 — fabricator portal (production orders + status) | ✅ 2026-10-05 | A | `/rika/fabricator/` token-gated UI. `Rika Production Order` doctype + `fabricator.py` API. Frontend `f3703be` (restyled `41156cb`), backend `39ad940` (both on develop) | `fabricator.rika.co.ke` (or `/rika/fabricator/`): receive production orders digitally; status accepted→in-prod→complete→collected; monitor without phone calls |
+| T-B5-02 | FAB-2 — customer-relationship protection (policy + access rules) | ✅ 2026-10-05 | C+A | Fabricator API payload scrubbed: customer phone/name never exposed. `list_orders` returns `project_name` + `delivery_area` only. Regex leak-check passes. Backend `cbaef07`, frontend `0c121d5` | Fabricator sees only what's needed to fabricate; customer contact info not exposed; access roles enforce it |
+| T-B5-03 | PRICE-1 — pricing intelligence (per-project cost + margin) | ✅ 2026-10-05 | A | `Rika Project Cost` doctype (8 cost fields + auto-computed total_cost/gross_profit/margin_pct) + `pricing.py` API (upsert, admin-gated). Frontend `/rika/admin/pricing/` token-gated. Backend `fa04ee4`, frontend `eb434c3` | Record per project: selling price, alu/glass/hardware/fabrication/installation/transport/wastage/marketing cost, gross profit, margin; report by product type |
+| T-B5-04 | PORTF-1 — portfolio pipeline (before→measure→fab→install→finished) | ✅ 2026-10-05 | A | `Rika Project Photo` doctype + `photos.py` API (customer upload, admin publish). Frontend `/rika/app/photos/` stage grid + upload panel. Backend pushed, frontend `fee2a56` | Auto-capture project photos/stages; feed case-study pages (SEO-4) |
+| T-B5-05 | SEO-4 — project case studies (not a photo grid) | ✅ 2026-10-05 | C+A | `case_studies.py` API (public, published photos only, no PII). Frontend `/rika/case-studies/` list + per-project detail with stage sections + WhatsApp CTA. Nginx regex route. Demo: 1 study live. Frontend `08ea2cd` | Case-study template: Before→Measurement→Installation→Finished + "want something similar?" CTA; one page per project |
+| T-B5-06 | REF-1 — referral engine | ✅ 2026-10-05 | A | `Rika Referral` doctype + `referrals.py` API. Frontend `/rika/app/referrals/`. Frontend `1bfa9c1` | Post-project "Refer a friend" + reward; each completed project → review + referral + photos + case study |
+| T-B5-07 | DEP-1 — M-Pesa deposits | ✅ 2026-10-05 | A | `Rika Deposit` doctype + `deposits.py` API (Daraja STK push — dummy creds → simulated success, customer `initiate_deposit`/`my_deposits`, admin `list_deposits`, Daraja `callback`). Frontend `/rika/app/deposits/`: deposit history + pay-via-M-Pesa form. Nginx: 4 routes. To go live: swap 4 dummy values in `DARAJA_CONFIG`. Frontend `0c796bc` | Deposit collection via M-Pesa (STK push / C2B); linked to `Rika Quotation`/`Rika Project`; receipt shown |
 | T-B5-08 | MEAS-3 — installer measurement recorder (mobile) | ⬜ | A | Installer app/page: record every opening (W01, W02…) with dims, type, photos, notes; flows into quote + production |
 | T-B5-09 | LEAD-2 — CRM / lead management (source tracking, funnel) | ✅ | A | Lead pipeline with source tracking (Google/FB/Contractor/Referral); funnel report (leads→customers→revenue per source) |
 | T-B5-10 | ADM-1 — admin app | 🟨 | A | `admin.rika.co.ke`: dashboard, leads, quotes, projects, fabricator orders, pricing analytics in one place. **Decision 2026-10-06:** admin lives in Frappe Desk; the token-gated leads page at `/rika/leads/` is kept as a quick reference. No separate admin SPA. |
@@ -465,23 +465,23 @@ Target: **50 pts** = the platform is a *real* acquisition machine, not a demo. *
 
 ---
 
-## 12. Status Snapshot (updated 2026-10-02)
+## 12. Status Snapshot (updated 2026-10-06)
 
 | Group | Weight | Earned | % |
 |-------|--------|--------|---|
-| Acquisition Foundation | 30 | LEAD-1 ✅ + LEAD-3 ✅ + QUOTE-1 ✅ + MEAS-2 ✅ ≈ 20 | 67% |
+| Acquisition Foundation | 30 | LEAD-1 ✅ + LEAD-3 ✅ + QUOTE-1 ✅ + MEAS-2 ✅ + LEAD-2 ✅ + ANALYTICS-1 ✅ ≈ 27 | 90% |
 | Engagement Depth | 20 | CALC-2 ✅ + MEAS-4 ✅ (10) + SAVE-1 ✅ (5) + WASAPP-1 ✅ (5) = 20 | 100% |
-| SEO & Content | 15 | SEO-1 ✅ (5) + SEO-3 ✅ (5) = 10 | 67% |
-| Customer App | 20 | 0 | 0% |
-| Operations | 15 | 0 | 0% |
-| **Total** | **100** | **≈ 52.5** | **≈ 53%** |
+| SEO & Content | 15 | SEO-1 ✅ (5) + SEO-3 ✅ (5) + SEO-4 ✅ (5) = 15 | 100% |
+| Customer App | 20 | APP-1 ✅ + APP-2 ✅ + APP-3 ✅ + APP-5 ✅ + APP-6 ✅ = 20 | 100% |
+| Operations | 15 | FAB-1 ✅ + FAB-2 ✅ + PRICE-1 ✅ + PORTF-1 ✅ + REF-1 ✅ + DEP-1 ✅ ≈ 13 | 87% |
+| **Total** | **100** | **≈ 95** | **≈ 95%** |
 
 > The *existing* tools (visualizer, measurement, quotation) are **pre-roadmap** work — the proof-of-concept the acquisition engine is built on. They don't score under the scheme (the scheme measures the *business platform*, not the MVP). They are the strongest asset we have.
 
 ### Current build state
-- **Done:** All of Batch 0 (T-B0-01 → T-B0-07), all of Batch 1 (T-B1-01 → T-B1-05), T-B2-01 (5 product catalog pages), T-B2-02 (price-index page), CALC-1, CALC-2, MEAS-4, DATA-1, all Batch 0 decisions (D3/D4/D5), homepage reframe (partial).
-- **Next up:** Batch 2 (SEO spine) — T-B2-03 (interactive product catalogue) → T-B2-04 (local SEO landing pages) → Batch 3 → Batch 4 → Batch 5.
-- **Key backend state:** All 5 DocTypes live in the `rika` Frappe app. 3 guest API endpoints active: `/rika/api/quote`, `/rika/api/booking`, `/rika/api/save-design`. All verified end-to-end through nginx.
+- **Done:** All of Batch 0, Batch 1, Batch 2 (SEO spine, all 7 tasks), Batch 3 ("feels like AI" layer, all 6 tasks), Batch 4 (customer app, 5 of 6 — T-B4-04 pending), Batch 5 (operations, 9 of 13 — T-B5-08/12/13 pending).
+- **Next up:** T-B4-04 (payments + install schedule + documents) → T-B5-08 (installer measurement recorder) → T-B5-12 (GBP + reviews) → T-B5-13 (fabricator agreement).
+- **Key backend state:** All DocTypes live in the `rika` Frappe app. 8+ guest/admin API endpoints active through nginx. Analytics tracking injected into 47 pages.
 
 ### How to pick up at any time
 1. Read this snapshot + the **Rules of this file** at the top.

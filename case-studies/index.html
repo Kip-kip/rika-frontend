@@ -103,7 +103,7 @@ const STAGE_LABELS = ['Before', 'Measurement', 'Installation', 'Finished'];
 
 function fmtDate(v) {
   if (!v) return '';
-  try { return new Date(v).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year': 'numeric' }); }
+  try { return new Date(v).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' }); }
   catch { return v; }
 }
 

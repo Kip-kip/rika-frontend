@@ -119,6 +119,49 @@ button {
   background: var(--accent-soft);
 }
 
+/* Dropdown nav (Products / Tools) */
+.nav-drop {
+  position: relative;
+}
+.nav-drop-toggle {
+  cursor: pointer;
+}
+.nav-drop-toggle .caret {
+  font-size: 10px;
+  opacity: 0.7;
+}
+.nav-drop-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 220px;
+  flex-direction: column;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px;
+  gap: 2px;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.nav-drop:hover .nav-drop-menu,
+.nav-drop.open .nav-drop-menu {
+  display: flex;
+}
+.nav-drop-item {
+  display: block;
+  white-space: nowrap;
+  padding: 8px 12px;
+}
+.nav-drop-item:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+.nav-drop-item.active {
+  color: var(--accent);
+}
+
 .main {
   flex: 1;
   display: flex;
@@ -171,6 +214,15 @@ button {
     gap: 4px;
   }
   .nav.open {
+    display: flex;
+  }
+  .nav-drop-menu {
+    position: static;
+    display: none;
+    box-shadow: none;
+  }
+  .nav-drop:hover .nav-drop-menu,
+  .nav-drop.open .nav-drop-menu {
     display: flex;
   }
   .nav a {

@@ -5,20 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rika — Share Your Experience</title>
   <meta name="description" content="Had your windows or doors installed by Rika? Tell us how it went — and help others find us on Google." />
-  <link rel="stylesheet" href="/rika/shared/css/rika.css" />
+  <link rel="stylesheet" href="/rika/fonts/inter.css" />
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
   <link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
   <style>
     .rev-hero { max-width: 720px; margin: 0 auto; padding: 32px 16px 16px; text-align: center; }
     .rev-hero h1 { font-size: 1.6rem; margin-bottom: 8px; }
-    .rev-hero p { color: #666; font-size: 0.95rem; }
+    .rev-hero p { color: var(--muted); font-size: 0.95rem; }
     .stars { display: flex; gap: 4px; justify-content: center; margin: 16px 0; }
-    .star { font-size: 2.4rem; color: #ccc; cursor: pointer; transition: color .15s, transform .15s; user-select: none; }
+    .star { font-size: 2.4rem; color: var(--border); cursor: pointer; transition: color .15s, transform .15s; user-select: none; }
     .star:hover { transform: scale(1.15); }
     .star.active { color: #f59e0b; }
     .rev-form { max-width: 560px; margin: 0 auto; padding: 0 16px 48px; display: grid; gap: 12px; }
-    .rev-form label { font-size: 0.85rem; font-weight: 600; color: #444; }
+    .rev-form label { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
     .rev-form input, .rev-form textarea, .rev-form select {
-      padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box;
+      padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; width: 100%; box-sizing: border-box; background: var(--surface2); color: var(--text);
     }
     .rev-form textarea { min-height: 100px; resize: vertical; }
     .rev-btn {
@@ -27,39 +28,50 @@
     }
     .rev-btn:hover { background: #2a2a4a; }
     .rev-msg { text-align: center; padding: 16px; border-radius: 8px; font-size: 0.95rem; }
-    .rev-msg.ok { background: #ecfdf5; color: #065f46; }
-    .rev-msg.err { background: #fef2f2; color: #991b1b; }
+    .rev-msg.ok { background: rgba(34,197,94,.12); color: #7ee2a8; }
+    .rev-msg.err { background: rgba(239,68,68,.12); color: #f0a3a3; }
     .g-btn {
       display: inline-flex; align-items: center; gap: 8px; margin-top: 12px;
-      background: #fff; border: 1px solid #ddd; color: #333; padding: 10px 16px;
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 10px 16px;
       border-radius: 8px; font-size: 0.9rem; text-decoration: none; cursor: pointer;
     }
-    .g-btn:hover { background: #f9f9f9; }
+    .g-btn:hover { background: var(--surface); }
     .hidden { display: none; }
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap">
-      <a class="brand" href="/rika/">Rika</a>
-      <nav>
-
-        <a href="/rika/#products">Products</a>
+  <header class="header">
+    <a class="logo" href="/rika/">Ri<span>ka</span></a>
+    <nav class="nav">
+      <a href="/rika/" class="nav-link">Home</a>
+      <div class="nav-drop">
+        <a class="nav-drop-toggle">Products <span class="caret">&#9662;</span></a>
+        <div class="nav-drop-menu">
+          <a href="/rika/products/windows/" class="nav-drop-item">Windows</a>
+          <a href="/rika/products/doors/" class="nav-drop-item">Doors</a>
+          <a href="/rika/products/glass/" class="nav-drop-item">Glass</a>
+          <a href="/rika/products/shopfronts/" class="nav-drop-item">Shopfronts</a>
+          <a href="/rika/products/partitions/" class="nav-drop-item">Partitions</a>
+        </div>
+      </div>
       <div class="nav-drop">
         <a class="nav-drop-toggle">Tools <span class="caret">&#9662;</span></a>
         <div class="nav-drop-menu">
-        <a href="/rika/tools/calculator/" class="nav-drop-item">Calculator</a>
+          <a href="/rika/tools/calculator/" class="nav-drop-item">Calculator</a>
+          <a href="/rika/tools/design/" class="nav-drop-item">Design Studio</a>
+          <a href="/rika/tools/quiz/" class="nav-drop-item">Find Your Window</a>
+          <a href="/rika/tools/house-windows/" class="nav-drop-item">Your House, Your Windows</a>
+          <a href="/rika/tools/house-map/" class="nav-drop-item">House Window Map</a>
+          <a href="/rika/tools/visualizer/" class="nav-drop-item">Visualizer</a>
         </div>
       </div>
-
-        
-        <a href="/rika/#contact">Contact</a>
-
-      
-      <a href="/rika/reviews/" class="nav-link">Reviews</a>
+      <a href="/rika/locations/nairobi/" class="nav-link">Locations</a>
+      <a href="/rika/costs/3-bedroom-house/" class="nav-link">Cost Guides</a>
+      <a href="/rika/guide/" class="nav-link">Buying Guide</a>
+      <a href="/rika/prices/" class="nav-link">Prices</a>
+      <a href="/rika/reviews/" class="nav-link active">Reviews</a>
       <a href="/rika/case-studies/" class="nav-link">Case Studies</a>
     </nav>
-    </div>
   </header>
 
   <section class="rev-hero">
@@ -110,9 +122,9 @@
     </div>
   </section>
 
-  <footer class="site-footer">
+  <footer class="footer">
     <div class="wrap">
-      <p>&copy; <span id="year"></span> Rika Aluminium. Nairobi, Kenya.</p>
+      <p>&copy; <span id="year"> 2026</span> Rika Aluminium. Nairobi, Kenya.</p>
     </div>
   </footer>
 

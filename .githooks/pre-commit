@@ -28,6 +28,20 @@ while IFS= read -r -d '' file; do
   fi
 done < <(git diff --cached --name-only --diff-filter=ACMR | while read -r p; do echo -n "$p"; printf '\0'; done)
 
+# ---- header drift guard -------------------------------------------------
+# Any staged public page whose <header> drifted from the canonical nav_sync.py
+# output is blocked. Fix: python3 nav_sync.py --sync
+if git diff --cached --name-only --diff-filter=ACMR | grep -qE '(^|/)index\.html$'; then
+  if ! python3 nav_sync.py --check >/tmp/nav_drift.out 2>&1; then
+    echo ""
+    echo "  BLOCKED: site header drift detected."
+    sed 's/^/    /' /tmp/nav_drift.out
+    echo ""
+    echo "  Fix: python3 nav_sync.py --sync   (single source of truth: nav_sync.py)"
+    violations=$((violations+1))
+  fi
+fi
+
 if [ "$violations" -gt 0 ]; then
   echo ""
   echo "COMMIT BLOCKED: $violations file(s) look corrupted. Restore from git history first:"

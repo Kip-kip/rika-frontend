@@ -92,20 +92,22 @@ def detect_active(path):
         return "products"
     if re.search(r"/tools/", rel):
         return "tools"
+    # canonical top-level keys, most specific first
+    if rel.endswith("/reviews/index.html"):
+        return "reviews"
+    if rel.endswith("/case-studies/index.html"):
+        return "case-studies"
+    if rel.endswith("/prices/index.html"):
+        return "prices"
     if re.search(r"/locations/", rel):
         return "locations"
     if re.search(r"/costs/", rel):
         return "costs"
     if re.search(r"/guide/", rel):
         return "guide"
-    if rel.endswith("/prices/index.html"):
-        return "prices"
-    if rel.endswith("/reviews/index.html"):
-        return "reviews"
-    if rel.endswith("/case-studies/index.html"):
-        return "case-studies"
-    if rel.endswith("/index.html"):
+    if rel == os.path.join(ROOT, "index.html"):
         return "home"
+    # sub-pages without a top-level item (product/tool/category) — nothing active
     return ""
 
 

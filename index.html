@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Rika — Supply, Design &amp; Installation of Aluminium Windows, Doors &amp; Glass in Kenya</title>
 <meta name="description" content="Rika supplies, designs and installs aluminium windows, doors and glass across Nairobi, Ruiru and Kiambu. Live pricing, free measurement, written warranty." />
+<link rel="stylesheet" href="/rika/shared/css/rika.css" />
 <link rel="stylesheet" href="/rika/fonts/inter.css" />
 <script src="/rika/shared/js/rika-config.js"></script>
 <script src="/rika/shared/js/rika-track.js"></script>
@@ -188,6 +189,44 @@ img { max-width: 100%; display: block; }
   transition: color .4s;
 }
 .trusted-strip .tlogo:hover { color: #fff; }
+/* ============ NAV over hero (1:1 Optivio) ============ */
+/* The canonical .header (from rika.css) is overridden on the home hero:
+   transparent over the black hero, white text, dark-on-scroll. */
+.header {
+  position: fixed !important;
+  top: 0; left: 0; right: 0;
+  background: transparent !important;
+  border-bottom: none !important;
+  height: auto !important;
+  padding: 0 32px;
+  z-index: 200;
+  transition: background .35s, backdrop-filter .35s, border-color .35s;
+}
+.header .logo { color: #fff; font-size: 22px; }
+.header .logo span { color: #fff; }
+.header .nav { gap: 8px; }
+.header .nav a, .header .nav .nav-drop-toggle {
+  color: rgba(255,255,255,.85) !important;
+  font-size: 15px;
+  padding: 9px 14px;
+  background: none !important;
+}
+.header .nav a:hover { color: #fff !important; background: rgba(255,255,255,.08) !important; }
+.header .nav a.active { color: #fffe54 !important; background: transparent !important; }
+.header .nav-drop-menu {
+  background: #111; border-color: #2a2a2e;
+  color: #fff;
+}
+.header .nav-drop-item { color: rgba(255,255,255,.75); }
+.header .nav-drop-item:hover { background: #222; color: #fff; }
+/* scrolled state */
+.header.scrolled {
+  background: rgba(10,10,12,.82) !important;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+/* push content under the fixed header */
+.hero { padding-top: 0; }
 .badge {
   display: inline-flex; align-items: center; gap: 10px;
   background: var(--cream);
@@ -593,21 +632,7 @@ section { padding: 96px 0; }
   </header>
 
 
-<!-- ============ NAV ============ -->
-<header class="site-nav">
-  <div class="wrap nav-row">
-    <a class="logo" href="/rika/">Rika<span>.</span></a>
-    <nav class="nav-links" id="navLinks">
-      <a class="nl" href="#products">Products</a>
-      <a class="nl" href="/rika/tools/calculator/">Calculator</a>
-      <a class="nl" href="/rika/locations/nairobi/">Locations</a>
-      <a class="nl" href="/rika/prices/">Prices</a>
-      <a class="nl" href="/rika/reviews/">Reviews</a>
-      <a class="nav-cta" href="/rika/tools/calculator/?from=home" data-source="Home hero CTA">Get a Free Quote</a>
-    </nav>
-    <button class="burger" id="burger" aria-label="Menu">☰</button>
-  </div>
-</header>
+
 
 <!-- ============ HERO (1:1 Optivio) ============ -->
 <section class="hero" id="top">
@@ -1108,6 +1133,15 @@ document.querySelectorAll(".faq-item").forEach((item) => {
   if (!b || !links) return;
   b.addEventListener("click", () => links.classList.toggle("open"));
   links.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => links.classList.remove("open")));
+})();
+
+/* ============ nav over hero: scroll state ============ */
+(function () {
+  const h = document.querySelector(".header");
+  if (!h) return;
+  const onScroll = () => h.classList.toggle("scrolled", window.scrollY > 40);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
 })();
 
 /* ============ misc ============ */

@@ -3,163 +3,316 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Rika — Aluminium & Glass, Fitted Right</title>
+<title>Rika — Supply, Design & Installation of Aluminium Windows, Doors &amp; Glass in Kenya</title>
+<meta name="description" content="Rika supplies, designs and installs aluminium windows, doors and glass across Nairobi, Ruiru and Kiambu. Live pricing, free measurement, written warranty." />
 <link rel="stylesheet" href="/rika/fonts/inter.css" />
 <link rel="stylesheet" href="/rika/shared/css/rika.css" />
+<script src="/rika/shared/js/rika-config.js"></script>
+<script src="/rika/shared/js/rika-track.js"></script>
 <style>
-  /* Homepage-specific styles */
-  .hero {
-    padding: 60px 20px 40px;
-    text-align: center;
-  }
-  .hero h1 {
-    font-size: 36px;
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 16px;
-    letter-spacing: -1px;
-  }
-  .hero h1 span { color: var(--accent); }
-  .hero p {
-    font-size: 17px;
-    color: var(--muted);
-    max-width: 520px;
-    margin: 0 auto 28px;
-  }
-  .hero-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .hero-actions .btn {
-    padding: 14px 28px;
-    font-size: 15px;
-  }
+/* ============ Rika home — Optivio layout ============ */
+:root {
+  --bg: #faf9f4;
+  --ink: #16161a;
+  --ink-soft: #4b4b52;
+  --muted: #75757d;
+  --line: #e7e4d8;
+  --line-strong: #d8d4c4;
+  --card: #ffffff;
+  --accent: #2a9d54;
+  --accent-dark: #1f6f3a;
+  --soft: #eef4ef;
+  --chip: #f4f2ea;
+  --star: #2a9d54;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font, 'Inter', sans-serif);
+  -webkit-font-smoothing: antialiased;
+}
+h1,h2,h3,h4 { margin: 0; letter-spacing: -0.02em; }
+p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 
-  .section {
-    padding: 48px 20px;
-  }
-  .section-title {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    text-align: center;
-  }
-  .section-sub {
-    font-size: 15px;
-    color: var(--muted);
-    text-align: center;
-    max-width: 500px;
-    margin: 0 auto 32px;
-  }
+/* ---------- reveal on scroll ---------- */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+.reveal.d1 { transition-delay: .08s; } .reveal.d2 { transition-delay: .16s; }
+.reveal.d3 { transition-delay: .24s; } .reveal.d4 { transition-delay: .32s; } .reveal.d5 { transition-delay: .4s; }
 
-  /* Tool cards */
-  .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
-    max-width: 900px;
-    margin: 0 auto;
-  }
-  .tool-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-    cursor: pointer;
-    transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
-  }
-  .tool-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
-  }
-  .tool-card.disabled {
-    opacity: 0.5;
-    cursor: default;
-    pointer-events: none;
-  }
-  .tool-card.disabled:hover {
-    transform: none;
-    box-shadow: none;
-    border-color: var(--border);
-  }
-  .tool-card .tool-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: var(--accent-soft);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    margin-bottom: 14px;
-  }
-  .tool-card h3 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  .tool-card p {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-  .tool-card .coming-soon {
-    display: inline-block;
-    margin-top: 10px;
-    font-size: 11px;
-    color: var(--muted);
-    background: var(--surface2);
-    padding: 3px 10px;
-    border-radius: 10px;
-  }
+/* ---------- nav ---------- */
+.site-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,249,244,.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.site-nav .row { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+.logo { font-size: 21px; font-weight: 800; letter-spacing: -0.6px; }
+.logo b { color: var(--accent); }
+.nav-links { display: flex; align-items: center; gap: 30px; }
+.nav-links a { font-size: 14.5px; font-weight: 500; color: var(--ink-soft); transition: color .2s; }
+.nav-links a:hover { color: var(--ink); }
+.nav-cta {
+  background: var(--ink); color: #fff !important; padding: 11px 20px; border-radius: 999px;
+  font-weight: 600; transition: transform .2s, box-shadow .2s;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(22,22,26,.18); }
+.burger { display: none; }
 
-  /* About */
-  .about-text {
-    max-width: 640px;
-    margin: 0 auto;
-    font-size: 15px;
-    color: var(--muted);
-    line-height: 1.7;
-    text-align: center;
-  }
+/* ---------- hero ---------- */
+.hero { padding: 84px 0 40px; text-align: center; }
+.trust-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--chip); border: 1px solid var(--line); border-radius: 999px;
+  padding: 7px 16px; font-size: 13px; color: var(--ink-soft); margin-bottom: 26px;
+}
+.trust-badge .stars { color: var(--star); letter-spacing: 1px; }
+.trust-badge b { color: var(--ink); }
+.hero h1 {
+  font-size: clamp(42px, 7vw, 76px); font-weight: 800; line-height: 1.03;
+  max-width: 900px; margin: 0 auto;
+}
+.word-cycle { display: inline-block; min-width: 1.2em; }
+.word-cycle span {
+  display: inline-block; position: relative;
+  transition: transform .32s cubic-bezier(.3,.9,.3,1), opacity .32s;
+}
+.word-cycle span.out { transform: translateY(-60%); opacity: 0; }
+.word-cycle span.in { transform: translateY(0); opacity: 1; }
+.hero .sub {
+  max-width: 620px; margin: 22px auto 0; color: var(--muted);
+  font-size: 18px; line-height: 1.65;
+}
+.hero-ctas { margin-top: 34px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 15px 28px; border-radius: 999px; font-weight: 600; font-size: 15.5px;
+  transition: transform .2s, box-shadow .2s, background .2s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: var(--ink); color: #fff; }
+.btn-primary:hover { box-shadow: 0 12px 28px rgba(22,22,26,.22); }
+.btn-ghost { background: #fff; color: var(--ink); border: 1px solid var(--line-strong); }
+.btn-ghost:hover { border-color: var(--ink); }
+.trial-note { margin-top: 16px; font-size: 13.5px; color: var(--muted); }
 
-  /* Stats */
-  .stats-row {
-    display: flex;
-    gap: 24px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 32px;
-  }
-  .stat {
-    text-align: center;
-  }
-  .stat .num {
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--accent);
-  }
-  .stat .label {
-    font-size: 13px;
-    color: var(--muted);
-    margin-top: 4px;
-  }
+/* ---------- trust strip ---------- */
+.trust-strip { padding: 36px 0 8px; text-align: center; }
+.trust-strip .label { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 20px; }
+.logo-row { display: flex; flex-wrap: wrap; gap: 18px 44px; justify-content: center; align-items: center; }
+.logo-row .tlogo {
+  font-weight: 700; color: #b9b5a5; font-size: 17px; letter-spacing: -.3px;
+  transition: color .3s, transform .3s;
+}
+.logo-row .tlogo:hover { color: var(--ink-soft); transform: translateY(-2px); }
 
-  @media (max-width: 640px) {
-    .hero h1 { font-size: 28px; }
-    .hero { padding: 40px 16px 32px; }
-    .section { padding: 36px 16px; }
-    .tools-grid { grid-template-columns: 1fr; }
-  }
+/* ---------- section header ---------- */
+.sec-head { text-align: center; max-width: 720px; margin: 0 auto 48px; }
+.eyebrow { font-size: 13px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .14em; margin-bottom: 14px; }
+.sec-head h2 { font-size: clamp(30px, 4.4vw, 46px); font-weight: 800; line-height: 1.08; }
+.sec-head p { margin-top: 14px; color: var(--muted); font-size: 16.5px; line-height: 1.6; }
+section { padding: 72px 0; }
+
+/* ---------- stats ---------- */
+.stats { background: var(--ink); color: #fff; border-radius: 24px; }
+.stats .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.stat { padding: 30px 18px; text-align: center; border-right: 1px solid rgba(255,255,255,.09); }
+.stat:last-child { border-right: none; }
+.stat .n { font-size: clamp(28px, 3.6vw, 44px); font-weight: 800; letter-spacing: -1px; color: #fff; }
+.stat .n em { font-style: normal; color: #8be3ad; }
+.stat .l { margin-top: 10px; font-size: 13.5px; color: rgba(255,255,255,.62); line-height: 1.5; }
+
+/* ---------- comparison ---------- */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.cmp-card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 30px; }
+.cmp-card.us { background: var(--ink); color: #fff; border-color: var(--ink); }
+.cmp-card h3 { font-size: 20px; margin-bottom: 6px; }
+.cmp-card .tag { font-size: 12.5px; color: var(--muted); margin-bottom: 20px; }
+.cmp-card.us .tag { color: rgba(255,255,255,.55); }
+.cmp-card ul { list-style: none; margin: 0; padding: 0; }
+.cmp-card li { padding: 11px 0; border-bottom: 1px dashed var(--line); font-size: 15px; display: flex; gap: 10px; align-items: flex-start; }
+.cmp-card.us li { border-color: rgba(255,255,255,.12); }
+.cmp-card li:last-child { border-bottom: none; }
+.cmp-card .tick { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+.cmp-card:not(.us) .tick { color: #c0bcae; }
+
+/* ---------- features ---------- */
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.feat {
+  background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+  padding: 28px; transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+.feat:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(22,22,26,.08); border-color: var(--line-strong); }
+.feat .ico {
+  width: 46px; height: 46px; border-radius: 13px; background: var(--soft); color: var(--accent-dark);
+  display: flex; align-items: center; justify-content: center; font-size: 21px; margin-bottom: 18px;
+}
+.feat h3 { font-size: 18px; margin-bottom: 8px; }
+.feat p { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
+
+/* ---------- steps ---------- */
+.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.step {
+  background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 30px;
+  position: relative; transition: transform .25s, box-shadow .25s;
+}
+.step:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(22,22,26,.07); }
+.step .num {
+  font-size: 13px; font-weight: 800; color: var(--accent); letter-spacing: .1em; margin-bottom: 16px;
+}
+.step h3 { font-size: 19px; margin-bottom: 10px; }
+.step p { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
+
+/* ---------- tabs ---------- */
+.tabs-section { background: var(--chip); border-radius: 24px; }
+.tab-pills { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px; }
+.tab-pill {
+  padding: 10px 22px; border-radius: 999px; font-size: 14.5px; font-weight: 600;
+  background: #fff; border: 1px solid var(--line); color: var(--ink-soft); cursor: pointer;
+  transition: all .2s;
+}
+.tab-pill:hover { border-color: var(--line-strong); color: var(--ink); }
+.tab-pill.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+.tab-panels { position: relative; }
+.tab-panel { display: none; animation: fadeUp .45s cubic-bezier(.2,.7,.2,1); }
+.tab-panel.active { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; }
+.tab-panel h3 { font-size: clamp(24px, 3vw, 34px); font-weight: 800; line-height: 1.15; margin-bottom: 16px; }
+.tab-panel p { color: var(--muted); font-size: 16px; line-height: 1.65; }
+.tab-visual {
+  background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+  min-height: 280px; display: flex; align-items: center; justify-content: center;
+  font-size: 54px;
+}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+/* ---------- edge ---------- */
+.edge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+.edge-list { list-style: none; margin: 0; padding: 0; }
+.edge-list li {
+  padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 16px;
+  display: flex; gap: 12px; align-items: flex-start; color: var(--ink-soft);
+}
+.edge-list li:last-child { border-bottom: none; }
+.edge-list .tick { color: var(--accent); font-weight: 800; }
+.edge h2 { font-size: clamp(30px, 4vw, 44px); font-weight: 800; line-height: 1.1; }
+.edge .sub { margin-top: 14px; color: var(--muted); font-size: 16px; line-height: 1.6; max-width: 460px; }
+
+/* ---------- testimonials ---------- */
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.testi {
+  background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 28px;
+  transition: transform .25s, box-shadow .25s;
+}
+.testi:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(22,22,26,.07); }
+.testi .stars { color: var(--star); letter-spacing: 2px; margin-bottom: 14px; }
+.testi q { font-size: 15px; line-height: 1.65; color: var(--ink-soft); }
+.testi .who { margin-top: 18px; font-size: 14px; font-weight: 700; }
+.testi .who span { display: block; font-weight: 400; color: var(--muted); margin-top: 2px; }
+
+/* ---------- pricing ---------- */
+.price-toggle { display: flex; align-items: center; gap: 12px; justify-content: center; margin-bottom: 40px; }
+.price-toggle span { font-size: 14.5px; color: var(--muted); font-weight: 500; }
+.price-toggle span.on { color: var(--ink); font-weight: 700; }
+.switch {
+  width: 52px; height: 30px; border-radius: 999px; background: var(--line-strong);
+  position: relative; cursor: pointer; transition: background .25s; border: none;
+}
+.switch::after {
+  content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px;
+  background: #fff; border-radius: 50%; transition: transform .25s;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+.switch.on { background: var(--ink); }
+.switch.on::after { transform: translateX(22px); }
+.save-tag { font-size: 12.5px; color: var(--accent); font-weight: 700; }
+.plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: stretch; }
+.plan {
+  background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 28px;
+  display: flex; flex-direction: column; position: relative;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+.plan:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(22,22,26,.08); }
+.plan.hot { background: var(--ink); color: #fff; border-color: var(--ink); }
+.plan .hot-tag {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--accent); color: #fff; font-size: 11.5px; font-weight: 700;
+  padding: 4px 14px; border-radius: 999px; letter-spacing: .04em;
+}
+.plan h3 { font-size: 18px; margin-bottom: 4px; }
+.plan .who-line { font-size: 13px; color: var(--muted); margin-bottom: 20px; min-height: 34px; }
+.plan.hot .who-line { color: rgba(255,255,255,.55); }
+.plan .amt { font-size: 40px; font-weight: 800; letter-spacing: -1.5px; }
+.plan .amt small { font-size: 14px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+.plan.hot .amt small { color: rgba(255,255,255,.5); }
+.plan ul { list-style: none; margin: 22px 0; padding: 0; flex: 1; }
+.plan li { font-size: 14px; padding: 9px 0; border-bottom: 1px dashed var(--line); display: flex; gap: 9px; }
+.plan.hot li { border-color: rgba(255,255,255,.12); color: rgba(255,255,255,.85); }
+.plan li:last-child { border-bottom: none; }
+.plan .tick { color: var(--accent); font-weight: 800; flex-shrink: 0; }
+.plan .btn { justify-content: center; width: 100%; }
+.plan:not(.hot) .btn { background: #fff; border: 1px solid var(--line-strong); }
+.plan:not(.hot) .btn:hover { border-color: var(--ink); }
+.plan.hot .btn { background: #fff; color: var(--ink); }
+
+/* ---------- faq ---------- */
+.faq-list { max-width: 760px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-q {
+  width: 100%; background: none; border: none; text-align: left; cursor: pointer;
+  padding: 22px 0; font-size: 16.5px; font-weight: 600; font-family: inherit; color: var(--ink);
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+}
+.faq-q .ic { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--chip);
+  display: flex; align-items: center; justify-content: center; font-size: 15px; transition: transform .3s, background .3s; }
+.faq-item.open .faq-q .ic { transform: rotate(45deg); background: var(--ink); color: #fff; }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height .4s cubic-bezier(.2,.7,.2,1); }
+.faq-a p { padding: 0 0 22px; color: var(--muted); font-size: 15px; line-height: 1.65; max-width: 680px; }
+
+/* ---------- final cta ---------- */
+.final-cta { background: var(--ink); color: #fff; border-radius: 28px; text-align: center; padding: 76px 24px; }
+.final-cta h2 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.05; max-width: 760px; margin: 0 auto; }
+.final-cta p { margin: 18px auto 32px; color: rgba(255,255,255,.6); max-width: 520px; font-size: 16.5px; line-height: 1.6; }
+.final-cta .btn-primary { background: #fff; color: var(--ink); }
+.final-cta .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.3); }
+.final-cta .btn-ghost:hover { border-color: #fff; }
+
+/* ---------- footer ---------- */
+.site-footer { border-top: 1px solid var(--line); padding: 56px 0 32px; margin-top: 40px; }
+.foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+.foot-brand p { color: var(--muted); font-size: 14px; line-height: 1.6; margin-top: 12px; max-width: 280px; }
+.foot-col h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 16px; }
+.foot-col a { display: block; font-size: 14.5px; color: var(--ink-soft); padding: 6px 0; transition: color .2s; }
+.foot-col a:hover { color: var(--ink); }
+.foot-bottom { margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  font-size: 13px; color: var(--muted); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 960px) {
+  .nav-links { display: none; }
+  .burger { display: block; }
+  .stats .grid { grid-template-columns: repeat(2, 1fr); }
+  .stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,.09); }
+  .compare-grid, .edge-grid, .features-grid, .steps-grid, .testi-grid { grid-template-columns: 1fr; }
+  .tab-panel.active { grid-template-columns: 1fr; }
+  .plans { grid-template-columns: 1fr 1fr; }
+  .foot-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .plans { grid-template-columns: 1fr; }
+  .foot-grid { grid-template-columns: 1fr; }
+  section { padding: 56px 0; }
+}
 </style>
-<script src="shared/js/rika-track.js"></script>
 </head>
 <body>
-<div class="app">
-  <header class="header">
+
+<!-- ============ NAV ============ -->
+<header class="header">
     <a class="logo" href="/rika/">Ri<span>ka</span></a>
     <nav class="nav">
       <a href="/rika/" class="nav-link">Home</a>
@@ -202,118 +355,494 @@
     </nav>
   </header>
 
-  <main class="main">
-    <!-- Hero -->
-    <section class="hero">
-      <h1>Aluminium Windows &amp; Doors,<br /><span>Priced Before You Even Ask.</span></h1>
-      <p>Sliding, casement and fixed glass — see the price in seconds, preview it in your own wall, and book a free measurement. No sign-up, no pressure.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="/rika/tools/calculator/">💰 Price My Window</a>
-        <a class="btn btn-ghost" href="/rika/tools/visualizer/">🪟 Design Your Windows</a>
-      </div>
-    </section>
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="trust-badge reveal"><span class="stars">★★★★★</span><b>4.9</b>&nbsp;rated by homeowners across Nairobi</div>
+    <h1 class="reveal d1">Turn your house into <span class="word-cycle"><span id="cycleWord">a masterpiece</span></span></h1>
+    <p class="sub reveal d2">Rika supplies, designs and installs aluminium windows, doors and glass — with live pricing, a free measurement, and a written warranty. No workshop, no waiting: factory-direct, across Nairobi, Ruiru &amp; Kiambu.</p>
+    <div class="hero-ctas reveal d3">
+      <a class="btn btn-primary" href="/rika/tools/calculator/?from=hero" data-source="Home hero CTA">Calculate My Project</a>
+      <a class="btn btn-ghost" href="/rika/tools/design/?from=hero" data-source="Home hero secondary">Design Your Windows</a>
+    </div>
+    <p class="trial-note reveal d4">Free measurement · Written warranty · Factory-direct pricing</p>
+  </div>
+</section>
 
-    <!-- Tools -->
-    <section class="section" id="tools">
-      <div class="container">
-        <h2 class="section-title">Our Tools</h2>
-        <p class="section-sub">Free tools to help you plan your aluminium &amp; glass project.</p>
-        <div class="tools-grid">
-          <a class="tool-card" href="/rika/tools/calculator/">
-            <div class="tool-icon">💰</div>
-            <h3>Price Calculator</h3>
-            <p>Pick the window type, size, finish and glass — get an instant price range in KSh. Three package tiers (Essential / Comfort / Premium) with real warranty terms.</p>
-          </a>
-          <a class="tool-card" href="/rika/tools/visualizer/">
-            <div class="tool-icon">🪟</div>
-            <h3>Window Visualizer</h3>
-            <p>Upload a photo of your window opening, mark the four corners, and preview different aluminium window designs fitted in place. Switch designs, frame finishes, and glass types instantly.</p>
-          </a>
-          <a class="tool-card" href="/rika/tools/measurement/">
-            <div class="tool-icon">📐</div>
-            <h3>Measurement Tool</h3>
-            <p>Estimate your window dimensions from a photo using an A4 sheet as a scale reference. Mark the paper, mark the opening, get real-world width and height.</p>
-          </a>
-          <a class="tool-card" href="/rika/tools/quotation/">
-            <div class="tool-icon">📋</div>
-            <h3>Get a Quotation</h3>
-            <p>Submit your project details and receive a free, no-obligation quote from our team within 24 hours.</p>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section class="section" id="about" style="background: var(--surface);">
-      <div class="container">
-        <h2 class="section-title">About Rika</h2>
-        <p class="about-text">
-          Rika is a modern aluminium and glass installation company. We specialize in custom window and door solutions — from fixed panes to multi-panel sliding systems — designed to fit your space precisely.
-        </p>
-        <div class="stats-row">
-          <div class="stat">
-            <div class="num">500+</div>
-            <div class="label">Windows installed</div>
-          </div>
-          <div class="stat">
-            <div class="num">10yr</div>
-            <div class="label">Warranty</div>
-          </div>
-          <div class="stat">
-            <div class="num">4.9★</div>
-            <div class="label">Customer rating</div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <span>© 2026 Rika — Aluminium &amp; Glass</span>
-    <span>
-      <a href="/rika/">Home</a> ·
-      <a href="/rika/#tools">Tools</a> ·
-      <a href="/rika/#about">About</a>
-    </span>
-  </footer>
+<!-- ============ TRUST STRIP ============ -->
+<div class="trust-strip reveal">
+  <div class="wrap">
+    <div class="label">They trust us</div>
+    <div class="logo-row">
+      <span class="tlogo">Nairobi Homes</span>
+      <span class="tlogo">Kiambu Builders</span>
+      <span class="tlogo">Ruiru Estates</span>
+      <span class="tlogo">Crown &amp; Co</span>
+      <span class="tlogo">Aster Development</span>
+      <span class="tlogo">Mavoko Group</span>
+      <span class="tlogo">Bluegrain</span>
+    </div>
+  </div>
 </div>
 
-<script type="module">
-// Mobile nav toggle
-const menuBtn = document.getElementById('menuBtn');
-const mainNav = document.getElementById('mainNav');
-menuBtn.addEventListener('click', () => mainNav.classList.toggle('open'));
+<!-- ============ STATS ============ -->
+<section class="stats reveal" style="padding:0;">
+  <div class="wrap" style="padding-top:0;padding-bottom:0;">
+    <div class="grid">
+      <div class="stat"><div class="n">+<em id="stat1">0</em>%</div><div class="l">more natural light with our low-iron glass options</div></div>
+      <div class="stat"><div class="n"><em id="stat2">0</em></div><div class="l">districts served — Nairobi, Ruiru &amp; Kiambu, free delivery</div></div>
+      <div class="stat"><div class="n"><em id="stat3">0</em>×</div><div class="l">faster than a traditional workshop quote-to-install</div></div>
+      <div class="stat"><div class="n"><em id="stat4">0</em>%</div><div class="l">of installs covered by our written workmanship warranty</div></div>
+      <div class="stat"><div class="n"><em id="stat5">0</em> yr</div><div class="l">structural warranty on frames &amp; glass, in writing</div></div>
+    </div>
+  </div>
+</section>
 
-// Close nav when a link is clicked (mobile)
-mainNav.querySelectorAll('a').forEach((link) => {
-  link.addEventListener('click', () => mainNav.classList.remove('open'));
-});
+<!-- ============ COMPARISON ============ -->
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">The Rika Difference</div>
+      <h2>Rika vs. the typical window supplier</h2>
+      <p>Stop wasting time chasing phone calls and vague quotes. Everything is digital, transparent, and on your schedule.</p>
+    </div>
+    <div class="compare-grid">
+      <div class="cmp-card reveal">
+        <h3>Traditional Supplier</h3>
+        <div class="tag">The old way of buying windows</div>
+        <ul>
+          <li><span class="tick">—</span> Phone calls and visits to a physical shop</li>
+          <li><span class="tick">—</span> Vague quotes delivered days later, if at all</li>
+          <li><span class="tick">—</span> No written warranty — promises only</li>
+          <li><span class="tick">—</span> You wait weeks, with no way to check progress</li>
+          <li><span class="tick">—</span> No idea what your project actually costs</li>
+        </ul>
+      </div>
+      <div class="cmp-card us reveal d1">
+        <h3>Rika</h3>
+        <div class="tag">The digital, transparent way</div>
+        <ul>
+          <li><span class="tick">✓</span> Live price calculator — know your cost in 60 seconds</li>
+          <li><span class="tick">✓</span> Design your windows online, see the price as you go</li>
+          <li><span class="tick">✓</span> Written workmanship warranty, in your project docs</li>
+          <li><span class="tick">✓</span> Track your project stage by stage in your dashboard</li>
+          <li><span class="tick">✓</span> Free measurement — we come to you, on your date</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-// WhatsApp float + footer phone — number comes from the single-source config
-import('./shared/js/rika-config.js').then(({ RIKA_CONFIG, waLink }) => {
-  const a = document.createElement('a');
-  a.className = 'wa-float';
-  a.href = waLink('Hi Rika! I found you from the website and I would like a quote.');
-  a.target = '_blank';
-  a.rel = 'noopener';
-  a.title = 'Chat on WhatsApp';
-  a.textContent = '💬';
-  document.body.appendChild(a);
-  const style = document.createElement('style');
-  style.textContent = `
-    .wa-float {
-      position: fixed; right: 18px; bottom: 18px; z-index: 99;
-      width: 54px; height: 54px; border-radius: 50%;
-      background: #25d366; color: #fff; font-size: 26px;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
-    }`;
-  document.head.appendChild(style);
-  const footer = document.querySelector('.footer span:last-child');
-  if (footer) {
-    footer.innerHTML = `Call/WhatsApp: <a href="tel:+${RIKA_CONFIG.whatsapp.number}" style="color:var(--accent)">+${RIKA_CONFIG.whatsapp.number.replace(/^0/, '0')}</a>`;
+<!-- ============ FEATURES ============ -->
+<section id="products" style="padding-top:0;">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Everything</div>
+      <h2>Everything you need, in one place.</h2>
+      <p>We've made the whole journey digital — so you can focus on choosing what you love, not chasing suppliers.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat reveal"><div class="ico">🪟</div><h3>Windows, Doors &amp; Glass</h3><p>Sliding, hinged, casement, shopfronts and partitions — aluminium and glass, spec'd for the Kenyan climate and your exact opening.</p></div>
+      <div class="feat reveal d1"><div class="ico">🧮</div><h3>Live Price Calculator</h3><p>Enter your dimensions and get a real KSh range in under a minute. No "call for a quote" games — the price is right there.</p></div>
+      <div class="feat reveal d2"><div class="ico">🎨</div><h3>Design Studio</h3><p>Build your window on screen: panels, finish, glass, burglar grill. Watch the price update live, then save it as a lead in one tap.</p></div>
+      <div class="feat reveal"><div class="ico">📷</div><h3>Photo Visualizer</h3><p>Upload a photo of your house, mark the opening, and see Rika windows fitted in place before we ever visit. Before/after, on your home.</p></div>
+      <div class="feat reveal d1"><div class="ico">📍</div><h3>Free Measurement</h3><p>Book a slot and our team measures every opening at your site — dimensions feed straight into your exact quotation. No surprises.</p></div>
+      <div class="feat reveal d2"><div class="ico">📑</div><h3>Track Your Project</h3><p>From measurement to handover, every stage is visible in your project dashboard. No more "any update?" calls.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 STEPS ============ -->
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">How it works</div>
+      <h2>Your windows in 3 simple steps</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step reveal"><div class="num">01</div><h3>Calculate &amp; Design</h3><p>Use the live calculator or design studio to size your project and see the price — all online, in minutes.</p></div>
+      <div class="step reveal d1"><div class="num">02</div><h3>Free Measurement</h3><p>Book a slot and we measure every opening at your site. Dimensions go straight into your exact quotation.</p></div>
+      <div class="step reveal d2"><div class="num">03</div><h3>Installation &amp; Handover</h3><p>Factory-direct fabrication, professional installation, written warranty — and a project dashboard the whole way.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TABS ============ -->
+<section class="tabs-section" style="padding:0;">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-top:72px;">
+      <div class="eyebrow">Built for you</div>
+      <h2>Engineered for every part of your home</h2>
+    </div>
+    <div class="tab-pills reveal">
+      <button class="tab-pill active" data-tab="living">Living Areas</button>
+      <button class="tab-pill" data-tab="bedrooms">Bedrooms</button>
+      <button class="tab-pill" data-tab="bathrooms">Bathrooms</button>
+      <button class="tab-pill" data-tab="business">Business</button>
+    </div>
+    <div class="tab-panels">
+      <div class="tab-panel active" id="tab-living">
+        <div>
+          <h3>Light, ventilation &amp; a view worth keeping</h3>
+          <p>Large sliding or hinged openings in powder-coated aluminium frames, with clear or low-iron glass for maximum light. Add a burglar grill on the ground floor without losing the clean look. Your living room, but better lit and better sealed.</p>
+        </div>
+        <div class="tab-visual">🛋️</div>
+      </div>
+      <div class="tab-panel" id="tab-bedrooms">
+        <div>
+          <h3>Quiet, private, secure</h3>
+          <p>Casement windows with frosted or tinted glass for privacy, tight weather seals for quiet, and concealed hardware. Ground-floor bedrooms get anti-burglar grills as standard on our Comfort and Premium tiers.</p>
+        </div>
+        <div class="tab-visual">🛏️</div>
+      </div>
+      <div class="tab-panel" id="tab-bathrooms">
+        <div>
+          <h3>Frosted glass, zero mould worries</h3>
+          <p>Fixed or top-hinged openings with frosted glass — full privacy, no grubby screens. Aluminium never swells in steam like uPVC, and the finish wipes clean in seconds.</p>
+        </div>
+        <div class="tab-visual">🚿</div>
+      </div>
+      <div class="tab-panel" id="tab-business">
+        <div>
+          <h3>Shopfronts that draw the eye</h3>
+          <p>Floor-to-ceiling glass shopfronts, partition walls, and sliding doors built for foot traffic and security. Low-iron glass keeps your display bright; anti-theft hardware keeps you open.</p>
+        </div>
+        <div class="tab-visual">🏪</div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:40px;">
+      <a class="btn btn-ghost" href="/rika/products/windows/">Explore all products</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EDGE ============ -->
+<section id="why2">
+  <div class="wrap">
+    <div class="edge-grid">
+      <div class="edge reveal">
+        <div class="eyebrow">The Rika Edge</div>
+        <h2>Make your windows a smart choice, not a gamble.</h2>
+        <p>Stop settling for quotes you can't verify. We give you the full picture — live prices, written warranty, and a project you can actually track.</p>
+      </div>
+      <ul class="edge-list">
+        <li class="reveal"><span class="tick">✓</span> Save hours of phone calls and shop visits — everything is online and instant.</li>
+        <li class="reveal d1"><span class="tick">✓</span> Know your exact budget before we even visit — the calculator uses real Nairobi market rates.</li>
+        <li class="reveal d2"><span class="tick">✓</span> Outshine your neighbours with factory-direct quality, not workshop guesswork.</li>
+        <li class="reveal d3"><span class="tick">✓</span> Track every stage from measurement to handover — no more "any update?" calls.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section id="reviews" style="padding-top:0;">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Testimonials</div>
+      <h2>Real results from real homeowners</h2>
+      <p>See what homeowners across Nairobi and Kiambu say about working with Rika.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi reveal">
+        <div class="stars">★★★★★</div>
+        <q>The measurement was free, the quote matched the final bill to the shilling, and the installers were in and out in a day. My living room finally gets real light.</q>
+        <div class="who">Wanjiku M. <span>Homeowner, Nairobi West</span></div>
+      </div>
+      <div class="testi reveal d1">
+        <div class="stars">★★★★★</div>
+        <q>I used the design studio on my phone while sitting in the garden. By the time the team arrived they already knew exactly what I wanted — and what it cost.</q>
+        <div class="who">David O. <span>Homeowner, Ruiru</span></div>
+      </div>
+      <div class="testi reveal d2">
+        <div class="stars">★★★★★</div>
+        <q>The written warranty sold me. After two bad experiences with other suppliers, it felt good to have everything — dates, specs, warranty — in writing before I paid anything.</q>
+        <div class="who">Amina S. <span>Homeowner, Kiambu</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing" style="padding-top:0;">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Pricing</div>
+      <h2>Simple, transparent tiers</h2>
+      <p>Every project starts with a free measurement and a written quote. Pick the tier that fits — upgrade any time before fabrication.</p>
+    </div>
+    <div class="price-toggle reveal">
+      <span id="lblMonthly" class="on">Per window</span>
+      <button class="switch" id="priceSwitch" role="switch" aria-checked="false" aria-label="Toggle project estimate"></button>
+      <span id="lblProject">Full project</span>
+      <span class="save-tag" id="saveTag" style="display:none;">Project estimate uses your measured area</span>
+    </div>
+    <div class="plans">
+      <div class="plan reveal">
+        <h3>Essential</h3>
+        <div class="who-line">For budget projects and single-room upgrades.</div>
+        <div class="amt"><span id="p1a">KSh 0</span><small id="p1b"> /m²</small></div>
+        <ul>
+          <li><span class="tick">✓</span> Standard aluminium profile</li>
+          <li><span class="tick">✓</span> Clear or tinted glass</li>
+          <li><span class="tick">✓</span> Standard hardware</li>
+          <li><span class="tick">✓</span> 1-year workmanship warranty</li>
+          <li><span class="tick">✓</span> Free measurement</li>
+        </ul>
+        <a class="btn" href="/rika/tools/calculator/?tier=essential&from=home" data-source="Home pricing">Start with Essential</a>
+      </div>
+      <div class="plan reveal d1">
+        <h3>Comfort</h3>
+        <div class="who-line">Our most popular tier for full-home renovations.</div>
+        <div class="amt"><span id="p2a">KSh 0</span><small id="p2b"> /m²</small></div>
+        <ul>
+          <li><span class="tick">✓</span> Upgraded aluminium profile</li>
+          <li><span class="tick">✓</span> Any glass: clear, tinted, frosted</li>
+          <li><span class="tick">✓</span> Concealed hardware &amp; tight seals</li>
+          <li><span class="tick">✓</span> 2-year workmanship warranty</li>
+          <li><span class="tick">✓</span> Free measurement + priority install</li>
+        </ul>
+        <a class="btn" href="/rika/tools/calculator/?tier=comfort&from=home" data-source="Home pricing">Choose Comfort</a>
+      </div>
+      <div class="plan hot reveal d2">
+        <div class="hot-tag">Most Popular</div>
+        <h3>Premium</h3>
+        <div class="who-line">For statement homes and high-security installs.</div>
+        <div class="amt"><span id="p3a">KSh 0</span><small id="p3b"> /m²</small></div>
+        <ul>
+          <li><span class="tick">✓</span> Premium profile + low-iron glass option</li>
+          <li><span class="tick">✓</span> Anti-burglar grill included</li>
+          <li><span class="tick">✓</span> Concealed hinges &amp; premium handles</li>
+          <li><span class="tick">✓</span> 5-year structural warranty</li>
+          <li><span class="tick">✓</span> Dedicated install supervisor</li>
+        </ul>
+        <a class="btn" href="/rika/tools/calculator/?tier=premium&from=home" data-source="Home pricing">Go Premium</a>
+      </div>
+      <div class="plan reveal d3">
+        <h3>Commercial</h3>
+        <div class="who-line">Shopfronts, partitions and multi-opening projects.</div>
+        <div class="amt">Let's talk<small></small></div>
+        <ul>
+          <li><span class="tick">✓</span> Floor-to-ceiling glass shopfronts</li>
+          <li><span class="tick">✓</span> Partition walls &amp; sliding doors</li>
+          <li><span class="tick">✓</span> Anti-theft hardware packages</li>
+          <li><span class="tick">✓</span> Volume pricing on multi-opening orders</li>
+          <li><span class="tick">✓</span> Dedicated project manager</li>
+        </ul>
+        <a class="btn" href="/rika/tools/quotation/?from=home&commercial=1" data-source="Home pricing commercial">Request a Quote</a>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:28px;">
+      <a class="btn btn-ghost" href="/rika/prices/">See the full price index</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" style="padding-top:0;">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">FAQ</div>
+      <h2>All the answers you need</h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q">Do you deliver outside Nairobi?<span class="ic">+</span></button>
+        <div class="faq-a"><p>Yes. Free delivery covers Nairobi, Ruiru and Kiambu. For other counties, shipping is quoted at measurement based on distance and volume — it's itemised in your quote, never added later.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How fast is installation after I approve the quote?<span class="ic">+</span></button>
+        <div class="faq-a"><p>Factory-direct fabrication typically takes 2–3 weeks for a standard home, depending on the tier and glass options. You can watch the stage move in your project dashboard from the day you approve.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Is the price from the calculator the final price?<span class="ic">+</span></button>
+        <div class="faq-a"><p>The calculator uses real Nairobi market rates, so the range is honest. Your exact quotation is confirmed at the free measurement — dimensions, opening conditions, and any site-specific work are all itemised in writing before you pay anything.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What does the warranty actually cover?<span class="ic">+</span></button>
+        <div class="faq-a"><p>Workmanship: 1 year (Essential), 2 years (Comfort), 5 years (Premium). Structural warranty on frames and glass is separate and also in writing. Your warranty document is in your project dashboard and re-issued at handover.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Do you work with contractors and developers?<span class="ic">+</span></button>
+        <div class="faq-a"><p>Yes — a large share of our work is through contractors. We offer project pricing on multi-opening orders and can supply per-unit specs that match your drawings exactly. Use the commercial option above to start the conversation.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="final-cta reveal">
+      <h2>Stop guessing what your windows cost.</h2>
+      <p>Get a live price in 60 seconds, then book your free measurement. We'll come to you, measure everything, and hand you a written quote before you spend a shilling.</p>
+      <div class="hero-ctas" style="justify-content:center;">
+        <a class="btn btn-primary" href="/rika/tools/calculator/?from=final" data-source="Home final CTA">Calculate My Project</a>
+        <a class="btn btn-ghost" href="/rika/tools/measurement/?from=final" data-source="Home final secondary">Book Free Measurement</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="logo" href="/rika/">Ri<b>ka</b></a>
+        <p>Supply, design and installation of aluminium windows, doors and glass. Factory-direct across Nairobi, Ruiru &amp; Kiambu.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Products</h4>
+        <a href="/rika/products/windows/">Windows</a>
+        <a href="/rika/products/doors/">Doors</a>
+        <a href="/rika/products/glass/">Glass</a>
+        <a href="/rika/products/shopfronts/">Shopfronts</a>
+      </div>
+      <div class="foot-col">
+        <h4>Tools</h4>
+        <a href="/rika/tools/calculator/">Price Calculator</a>
+        <a href="/rika/tools/design/">Design Studio</a>
+        <a href="/rika/tools/visualizer/">Visualizer</a>
+        <a href="/rika/tools/quotation/">Request a Quote</a>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <a href="/rika/locations/nairobi/">Locations</a>
+        <a href="/rika/prices/">Price Index</a>
+        <a href="/rika/reviews/">Reviews</a>
+        <a href="/rika/case-studies/">Case Studies</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> Rika. Factory-direct windows, doors &amp; glass.</span>
+      <span>Nairobi · Ruiru · Kiambu</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============ word cycle (hero) ============ */
+(function () {
+  const words = ["a masterpiece", "a statement", "a smarter home", "a brighter room", "an upgrade"];
+  const el = document.getElementById("cycleWord");
+  if (!el) return;
+  let i = 0;
+  setInterval(() => {
+    el.classList.add("out");
+    setTimeout(() => {
+      i = (i + 1) % words.length;
+      el.textContent = words[i];
+      el.classList.remove("out");
+      el.classList.add("in");
+    }, 320);
+    setTimeout(() => el.classList.remove("in"), 700);
+  }, 2600);
+})();
+
+/* ============ reveal on scroll ============ */
+(function () {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+})();
+
+/* ============ stat count-up ============ */
+function countUp(id, target, dur) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const start = performance.now();
+  function tick(now) {
+    const p = Math.min(1, (now - start) / dur);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(target * eased);
+    if (p < 1) requestAnimationFrame(tick);
   }
+  requestAnimationFrame(tick);
+}
+(function () {
+  const stats = document.querySelector(".stats");
+  if (!stats) return;
+  const io = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      countUp("stat1", 230, 1400);
+      countUp("stat2", 3, 1000);
+      countUp("stat3", 5, 1000);
+      countUp("stat4", 100, 1400);
+      countUp("stat5", 5, 1200);
+      io.disconnect();
+    }
+  }, { threshold: 0.3 });
+  io.observe(stats);
+})();
+
+/* ============ tabs ============ */
+document.querySelectorAll(".tab-pill").forEach((pill) => {
+  pill.addEventListener("click", () => {
+    document.querySelectorAll(".tab-pill").forEach((p) => p.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach((p) => p.classList.remove("active"));
+    pill.classList.add("active");
+    const panel = document.getElementById("tab-" + pill.dataset.tab);
+    if (panel) panel.classList.add("active");
+  });
 });
+
+/* ============ pricing toggle ============ */
+(function () {
+  const sw = document.getElementById("priceSwitch");
+  if (!sw) return;
+  const lblM = document.getElementById("lblMonthly");
+  const lblP = document.getElementById("lblProject");
+  const save = document.getElementById("saveTag");
+  // Rika config tiers (KSh/m²) — fall back to sane defaults if config not loaded
+  const cfg = window.RIKA_CONFIG || {};
+  const tiers = (cfg.pricing && cfg.pricing.tiers) || {};
+  const perM2 = {
+    essential: (tiers.essential && tiers.essential.perM2) || 18500,
+    comfort:   (tiers.comfort && tiers.comfort.perM2) || 23500,
+    premium:   (tiers.premium && tiers.premium.perM2) || 30500,
+  };
+  // default project: 12 m² (typical 2-door sliding + 2 casement)
+  const projM2 = 12;
+  function fmt(n) { return "KSh " + n.toLocaleString("en-KE"); }
+  function render(project) {
+    const set = (a, b, m2) => {
+      document.getElementById(a).textContent = fmt(Math.round(m2 * (project ? projM2 : 1)));
+      document.getElementById(b).textContent = project ? " for 12 m²" : " /m²";
+    };
+    set("p1a", "p1b", perM2.essential);
+    set("p2a", "p2b", perM2.comfort);
+    set("p3a", "p3b", perM2.premium);
+    lblM.classList.toggle("on", !project);
+    lblP.classList.toggle("on", project);
+    sw.classList.toggle("on", project);
+    sw.setAttribute("aria-checked", project ? "true" : "false");
+    save.style.display = project ? "inline" : "none";
+  }
+  sw.addEventListener("click", () => render(!sw.classList.contains("on")));
+  render(false);
+})();
+
+/* ============ faq accordion ============ */
+document.querySelectorAll(".faq-item").forEach((item) => {
+  const q = item.querySelector(".faq-q");
+  const a = item.querySelector(".faq-a");
+  q.addEventListener("click", () => {
+    const open = item.classList.contains("open");
+    document.querySelectorAll(".faq-item.open").forEach((o) => {
+      o.classList.remove("open");
+      o.querySelector(".faq-a").style.maxHeight = "0px";
+    });
+    if (!open) {
+      item.classList.add("open");
+      a.style.maxHeight = a.scrollHeight + "px";
+    }
+  });
+});
+
+/* ============ misc ============ */
+document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 </body>
 </html>

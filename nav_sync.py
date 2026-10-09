@@ -32,6 +32,14 @@ DROPDOWNS = {
         ("/rika/tools/house-windows/", "Your House, Your Windows"),
         ("/rika/tools/house-map/", "House Window Map"),
         ("/rika/tools/visualizer/", "Visualizer"),
+        ("/rika/tools/measurement/", "Book a Measurement"),
+        ("/rika/tools/quotation/", "Request a Quotation"),
+    ],
+    "Learn": [
+        ("/rika/prices/", "Prices"),
+        ("/rika/guide/", "Buying Guide"),
+        ("/rika/costs/3-bedroom-house/", "Cost Guides"),
+        ("/rika/compare/", "Compare: Aluminium vs UPVC"),
     ],
 }
 
@@ -41,9 +49,7 @@ LINKS = [
     ("__DROPDOWN:Products__", None, None),
     ("__DROPDOWN:Tools__", None, None),
     ("/rika/locations/nairobi/", "Locations", "locations"),
-    ("/rika/costs/3-bedroom-house/", "Cost Guides", "costs"),
-    ("/rika/guide/", "Buying Guide", "guide"),
-    ("/rika/prices/", "Prices", "prices"),
+    ("__DROPDOWN:Learn__", None, None),
     ("/rika/reviews/", "Reviews", "reviews"),
     ("/rika/case-studies/", "Case Studies", "case-studies"),
 ]
@@ -98,13 +104,15 @@ def detect_active(path):
     if rel.endswith("/case-studies/index.html"):
         return "case-studies"
     if rel.endswith("/prices/index.html"):
-        return "prices"
+        return "learn"
+    if rel.endswith("/compare/index.html"):
+        return "learn"
     if re.search(r"/locations/", rel):
         return "locations"
     if re.search(r"/costs/", rel):
-        return "costs"
+        return "learn"
     if re.search(r"/guide/", rel):
-        return "guide"
+        return "learn"
     if rel == os.path.join(ROOT, "index.html"):
         return "home"
     # sub-pages without a top-level item (product/tool/category) — nothing active

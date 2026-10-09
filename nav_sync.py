@@ -32,6 +32,7 @@ DROPDOWNS = {
         ("/rika/tools/house-windows/", "Your House, Your Windows"),
         ("/rika/tools/house-map/", "House Window Map"),
         ("/rika/tools/visualizer/", "Visualizer"),
+        ("/rika/tools/build/", "Build My House Windows"),
         ("/rika/tools/measurement/", "Book a Measurement"),
         ("/rika/tools/quotation/", "Request a Quotation"),
     ],

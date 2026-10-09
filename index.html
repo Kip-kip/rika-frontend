@@ -3,315 +3,464 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Rika — Supply, Design & Installation of Aluminium Windows, Doors &amp; Glass in Kenya</title>
+<title>Rika — Supply, Design &amp; Installation of Aluminium Windows, Doors &amp; Glass in Kenya</title>
 <meta name="description" content="Rika supplies, designs and installs aluminium windows, doors and glass across Nairobi, Ruiru and Kiambu. Live pricing, free measurement, written warranty." />
 <link rel="stylesheet" href="/rika/fonts/inter.css" />
-<link rel="stylesheet" href="/rika/shared/css/rika.css" />
 <script src="/rika/shared/js/rika-config.js"></script>
 <script src="/rika/shared/js/rika-track.js"></script>
 <style>
-/* ============ Rika home — Optivio layout ============ */
+/* ============================================================
+   Rika home — 1:1 Optivio design system (Framer source extract)
+   Fonts: Inter Tight (display + body), weights 400/500/700
+   Palette: ink #1a1a1c · cream #f9f7e2 · paper #f8f8f3
+            accent lime #fffe54 · deep green #204832
+   ============================================================ */
 :root {
-  --bg: #faf9f4;
-  --ink: #16161a;
-  --ink-soft: #4b4b52;
-  --muted: #75757d;
-  --line: #e7e4d8;
-  --line-strong: #d8d4c4;
-  --card: #ffffff;
-  --accent: #2a9d54;
-  --accent-dark: #1f6f3a;
-  --soft: #eef4ef;
-  --chip: #f4f2ea;
-  --star: #2a9d54;
+  --ink: #1a1a1c;
+  --ink-2: #333338;
+  --muted: #6e6e76;
+  --cream: #f9f7e2;
+  --paper: #f8f8f3;
+  --white: #ffffff;
+  --lime: #fffe54;
+  --green: #204832;
+  --line: #e8e5d9;
+  --card-shadow: 0 2px 8px rgba(26,26,28,.04);
 }
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-  margin: 0; background: var(--bg); color: var(--ink);
-  font-family: var(--font, 'Inter', sans-serif);
+  background: var(--white);
+  color: var(--ink);
+  font-family: 'Inter Tight', 'Inter', system-ui, sans-serif;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
-h1,h2,h3,h4 { margin: 0; letter-spacing: -0.02em; }
-p { margin: 0; }
+h1,h2,h3,h4 { font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; }
+p { line-height: 1.6; }
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
-.wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-/* ---------- reveal on scroll ---------- */
-.reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+/* ---------- scroll reveal (Framer motion: opacity+translateY, ease-out) ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity .9s cubic-bezier(.22,1,.36,1), transform .9s cubic-bezier(.22,1,.36,1);
+  will-change: opacity, transform;
+}
 .reveal.in { opacity: 1; transform: none; }
-.reveal.d1 { transition-delay: .08s; } .reveal.d2 { transition-delay: .16s; }
-.reveal.d3 { transition-delay: .24s; } .reveal.d4 { transition-delay: .32s; } .reveal.d5 { transition-delay: .4s; }
+.reveal.d1 { transition-delay: .1s; } .reveal.d2 { transition-delay: .2s; }
+.reveal.d3 { transition-delay: .3s; } .reveal.d4 { transition-delay: .4s; }
+.reveal.d5 { transition-delay: .5s; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 
-/* ---------- nav ---------- */
+/* ============================================================ NAV */
 .site-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(250,249,244,.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,.86);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--line);
 }
-.site-nav .row { display: flex; align-items: center; justify-content: space-between; height: 72px; }
-.logo { font-size: 21px; font-weight: 800; letter-spacing: -0.6px; }
-.logo b { color: var(--accent); }
-.nav-links { display: flex; align-items: center; gap: 30px; }
-.nav-links a { font-size: 14.5px; font-weight: 500; color: var(--ink-soft); transition: color .2s; }
-.nav-links a:hover { color: var(--ink); }
+.nav-row { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+.logo { font-size: 22px; font-weight: 700; letter-spacing: -0.04em; }
+.logo b { color: var(--ink); font-weight: 700; }
+.logo span { color: var(--green); }
+.nav-links { display: flex; align-items: center; gap: 6px; }
+.nav-links a.nl {
+  font-size: 14.5px; font-weight: 500; color: var(--ink-2);
+  padding: 8px 14px; border-radius: 999px; transition: background .2s, color .2s;
+}
+.nav-links a.nl:hover { background: #f1efe6; color: var(--ink); }
+.nav-links a.nl.on { background: var(--ink); color: #fff; }
 .nav-cta {
-  background: var(--ink); color: #fff !important; padding: 11px 20px; border-radius: 999px;
-  font-weight: 600; transition: transform .2s, box-shadow .2s;
+  background: var(--ink); color: #fff !important;
+  padding: 11px 22px; border-radius: 999px;
+  font-size: 14.5px; font-weight: 600;
+  transition: transform .2s, box-shadow .2s;
 }
-.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(22,22,26,.18); }
-.burger { display: none; }
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(26,26,28,.2); }
+.burger { display: none; background: none; border: none; font-size: 22px; cursor: pointer; color: var(--ink); }
 
-/* ---------- hero ---------- */
-.hero { padding: 84px 0 40px; text-align: center; }
-.trust-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--chip); border: 1px solid var(--line); border-radius: 999px;
-  padding: 7px 16px; font-size: 13px; color: var(--ink-soft); margin-bottom: 26px;
+/* ============================================================ HERO */
+.hero {
+  padding: 168px 0 96px;
+  text-align: center;
+  position: relative;
+  background: var(--white);
 }
-.trust-badge .stars { color: var(--star); letter-spacing: 1px; }
-.trust-badge b { color: var(--ink); }
+.hero::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(32,72,50,.06), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(255,254,84,.08), transparent 60%);
+  pointer-events: none;
+}
+.hero > .wrap { position: relative; }
+.badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--cream);
+  border: 1px solid #e6e2c8;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  margin-bottom: 32px;
+  font-weight: 500;
+}
+.badge .stars { color: #d4a017; letter-spacing: 1.5px; font-size: 13px; }
+.badge b { color: var(--ink); font-weight: 700; }
 .hero h1 {
-  font-size: clamp(42px, 7vw, 76px); font-weight: 800; line-height: 1.03;
-  max-width: 900px; margin: 0 auto;
+  font-size: clamp(48px, 8vw, 92px);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1.0;
+  max-width: 980px;
+  margin: 0 auto;
 }
-.word-cycle { display: inline-block; min-width: 1.2em; }
+.word-cycle { display: inline-block; }
 .word-cycle span {
   display: inline-block; position: relative;
-  transition: transform .32s cubic-bezier(.3,.9,.3,1), opacity .32s;
+  color: var(--green);
+  transition: transform .45s cubic-bezier(.22,1,.36,1), opacity .45s cubic-bezier(.22,1,.36,1);
 }
-.word-cycle span.out { transform: translateY(-60%); opacity: 0; }
-.word-cycle span.in { transform: translateY(0); opacity: 1; }
+.word-cycle span.out { transform: translateY(-80%) rotateX(40deg); opacity: 0; }
+.word-cycle span.in { transform: translateY(0) rotateX(0); opacity: 1; }
 .hero .sub {
-  max-width: 620px; margin: 22px auto 0; color: var(--muted);
-  font-size: 18px; line-height: 1.65;
+  max-width: 640px; margin: 28px auto 0;
+  color: var(--muted);
+  font-size: 19px; line-height: 1.6;
 }
-.hero-ctas { margin-top: 34px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.hero-ctas { margin-top: 40px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 15px 28px; border-radius: 999px; font-weight: 600; font-size: 15.5px;
-  transition: transform .2s, box-shadow .2s, background .2s;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 16px 30px; border-radius: 999px;
+  font-weight: 600; font-size: 15.5px;
+  transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s, background .2s;
+  will-change: transform;
 }
 .btn:hover { transform: translateY(-2px); }
-.btn-primary { background: var(--ink); color: #fff; }
-.btn-primary:hover { box-shadow: 0 12px 28px rgba(22,22,26,.22); }
-.btn-ghost { background: #fff; color: var(--ink); border: 1px solid var(--line-strong); }
-.btn-ghost:hover { border-color: var(--ink); }
-.trial-note { margin-top: 16px; font-size: 13.5px; color: var(--muted); }
+.btn-dark { background: var(--ink); color: #fff; }
+.btn-dark:hover { box-shadow: 0 14px 30px rgba(26,26,28,.25); }
+.btn-cream { background: var(--cream); color: var(--ink); border: 1px solid #e6e2c8; }
+.btn-cream:hover { border-color: var(--ink); }
+.trial-note { margin-top: 18px; font-size: 13.5px; color: var(--muted); }
 
-/* ---------- trust strip ---------- */
-.trust-strip { padding: 36px 0 8px; text-align: center; }
-.trust-strip .label { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 20px; }
-.logo-row { display: flex; flex-wrap: wrap; gap: 18px 44px; justify-content: center; align-items: center; }
-.logo-row .tlogo {
-  font-weight: 700; color: #b9b5a5; font-size: 17px; letter-spacing: -.3px;
-  transition: color .3s, transform .3s;
+/* ============================================================ TRUST STRIP */
+.trust { padding: 56px 0 24px; text-align: center; }
+.trust .label {
+  font-size: 12.5px; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .16em; margin-bottom: 28px;
 }
-.logo-row .tlogo:hover { color: var(--ink-soft); transform: translateY(-2px); }
+.logo-row {
+  display: flex; flex-wrap: wrap; gap: 20px 56px;
+  justify-content: center; align-items: center;
+}
+.logo-row .tlogo {
+  font-weight: 700; color: #b8b4a2; font-size: 18px; letter-spacing: -.02em;
+  transition: color .4s, transform .4s;
+}
+.logo-row .tlogo:hover { color: var(--ink); transform: translateY(-3px); }
 
-/* ---------- section header ---------- */
-.sec-head { text-align: center; max-width: 720px; margin: 0 auto 48px; }
-.eyebrow { font-size: 13px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .14em; margin-bottom: 14px; }
-.sec-head h2 { font-size: clamp(30px, 4.4vw, 46px); font-weight: 800; line-height: 1.08; }
-.sec-head p { margin-top: 14px; color: var(--muted); font-size: 16.5px; line-height: 1.6; }
-section { padding: 72px 0; }
+/* ============================================================ SECTIONS */
+section { padding: 96px 0; }
+.sec-head { text-align: center; max-width: 760px; margin: 0 auto 64px; }
+.eyebrow {
+  font-size: 13px; font-weight: 700; color: var(--green);
+  text-transform: uppercase; letter-spacing: .18em; margin-bottom: 18px;
+}
+.sec-head h2 { font-size: clamp(34px, 5vw, 56px); letter-spacing: -0.04em; }
+.sec-head p { margin-top: 18px; color: var(--muted); font-size: 17px; }
 
-/* ---------- stats ---------- */
-.stats { background: var(--ink); color: #fff; border-radius: 24px; }
-.stats .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-.stat { padding: 30px 18px; text-align: center; border-right: 1px solid rgba(255,255,255,.09); }
+/* ============================================================ STATS (dark band) */
+.stats-band {
+  background: var(--ink); color: #fff;
+  border-radius: 40px;
+  padding: 56px 0;
+}
+.stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); }
+.stat {
+  padding: 24px 16px; text-align: center;
+  border-right: 1px solid rgba(255,255,255,.1);
+}
 .stat:last-child { border-right: none; }
-.stat .n { font-size: clamp(28px, 3.6vw, 44px); font-weight: 800; letter-spacing: -1px; color: #fff; }
-.stat .n em { font-style: normal; color: #8be3ad; }
-.stat .l { margin-top: 10px; font-size: 13.5px; color: rgba(255,255,255,.62); line-height: 1.5; }
+.stat .n {
+  font-size: clamp(34px, 4.5vw, 52px); font-weight: 700; letter-spacing: -0.04em;
+  line-height: 1;
+}
+.stat .n em { font-style: normal; color: var(--lime); }
+.stat .l {
+  margin-top: 14px; font-size: 13.5px; color: rgba(255,255,255,.55);
+  line-height: 1.5;
+}
 
-/* ---------- comparison ---------- */
-.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.cmp-card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 30px; }
+/* ============================================================ COMPARISON */
+.cmp { background: var(--paper); }
+.cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.cmp-card {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: 32px; padding: 36px;
+  transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
+}
+.cmp-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(26,26,28,.07); }
 .cmp-card.us { background: var(--ink); color: #fff; border-color: var(--ink); }
-.cmp-card h3 { font-size: 20px; margin-bottom: 6px; }
-.cmp-card .tag { font-size: 12.5px; color: var(--muted); margin-bottom: 20px; }
-.cmp-card.us .tag { color: rgba(255,255,255,.55); }
-.cmp-card ul { list-style: none; margin: 0; padding: 0; }
-.cmp-card li { padding: 11px 0; border-bottom: 1px dashed var(--line); font-size: 15px; display: flex; gap: 10px; align-items: flex-start; }
+.cmp-card.us:hover { box-shadow: 0 24px 60px rgba(26,26,28,.25); }
+.cmp-card h3 { font-size: 22px; margin-bottom: 6px; }
+.cmp-card .tag { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+.cmp-card.us .tag { color: rgba(255,255,255,.5); }
+.cmp-card ul { list-style: none; }
+.cmp-card li {
+  padding: 13px 0; border-bottom: 1px solid rgba(26,26,28,.07);
+  font-size: 15px; display: flex; gap: 12px; align-items: flex-start; line-height: 1.5;
+}
 .cmp-card.us li { border-color: rgba(255,255,255,.12); }
 .cmp-card li:last-child { border-bottom: none; }
-.cmp-card .tick { color: var(--accent); font-weight: 700; flex-shrink: 0; }
-.cmp-card:not(.us) .tick { color: #c0bcae; }
+.cmp-card .tick { font-weight: 700; flex-shrink: 0; width: 20px; text-align: center; }
+.cmp-card:not(.us) .tick { color: #b8b4a2; }
+.cmp-card.us .tick { color: var(--lime); }
 
-/* ---------- features ---------- */
-.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+/* ============================================================ FEATURES */
+.feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .feat {
-  background: var(--card); border: 1px solid var(--line); border-radius: 20px;
-  padding: 28px; transition: transform .25s, box-shadow .25s, border-color .25s;
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: 32px; padding: 32px;
+  transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s, border-color .3s;
 }
-.feat:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(22,22,26,.08); border-color: var(--line-strong); }
+.feat:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(26,26,28,.08);
+  border-color: #d8d4c2;
+}
 .feat .ico {
-  width: 46px; height: 46px; border-radius: 13px; background: var(--soft); color: var(--accent-dark);
-  display: flex; align-items: center; justify-content: center; font-size: 21px; margin-bottom: 18px;
+  width: 52px; height: 52px; border-radius: 16px;
+  background: var(--cream); color: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; margin-bottom: 22px;
+  transition: transform .3s;
 }
-.feat h3 { font-size: 18px; margin-bottom: 8px; }
-.feat p { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
+.feat:hover .ico { transform: scale(1.06) rotate(-3deg); }
+.feat h3 { font-size: 19px; margin-bottom: 10px; letter-spacing: -0.02em; }
+.feat p { font-size: 14.5px; color: var(--muted); line-height: 1.65; }
 
-/* ---------- steps ---------- */
-.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+/* ============================================================ STEPS */
+.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .step {
-  background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 30px;
-  position: relative; transition: transform .25s, box-shadow .25s;
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: 32px; padding: 36px; position: relative;
+  transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
 }
-.step:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(22,22,26,.07); }
+.step:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(26,26,28,.07); }
 .step .num {
-  font-size: 13px; font-weight: 800; color: var(--accent); letter-spacing: .1em; margin-bottom: 16px;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--ink); color: #fff;
+  font-size: 14px; font-weight: 700;
+  margin-bottom: 22px;
 }
-.step h3 { font-size: 19px; margin-bottom: 10px; }
-.step p { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
+.step h3 { font-size: 20px; margin-bottom: 12px; }
+.step p { font-size: 14.5px; color: var(--muted); line-height: 1.65; }
 
-/* ---------- tabs ---------- */
-.tabs-section { background: var(--chip); border-radius: 24px; }
-.tab-pills { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px; }
+/* ============================================================ TABS */
+.tabs-band { background: var(--cream); }
+.tab-pills { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 44px; }
 .tab-pill {
-  padding: 10px 22px; border-radius: 999px; font-size: 14.5px; font-weight: 600;
-  background: #fff; border: 1px solid var(--line); color: var(--ink-soft); cursor: pointer;
-  transition: all .2s;
+  padding: 12px 26px; border-radius: 999px;
+  font-size: 15px; font-weight: 600;
+  background: var(--white); border: 1px solid #e6e2c8;
+  color: var(--ink-2); cursor: pointer;
+  transition: all .25s cubic-bezier(.22,1,.36,1);
+  font-family: inherit;
 }
-.tab-pill:hover { border-color: var(--line-strong); color: var(--ink); }
+.tab-pill:hover { border-color: var(--ink); color: var(--ink); }
 .tab-pill.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-.tab-panels { position: relative; }
-.tab-panel { display: none; animation: fadeUp .45s cubic-bezier(.2,.7,.2,1); }
-.tab-panel.active { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; }
-.tab-panel h3 { font-size: clamp(24px, 3vw, 34px); font-weight: 800; line-height: 1.15; margin-bottom: 16px; }
-.tab-panel p { color: var(--muted); font-size: 16px; line-height: 1.65; }
+.tab-panels { position: relative; min-height: 320px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: center; animation: fadeUp .55s cubic-bezier(.22,1,.36,1); }
+.tab-panel h3 { font-size: clamp(26px, 3.2vw, 38px); letter-spacing: -0.03em; margin-bottom: 18px; }
+.tab-panel p { color: var(--ink-2); font-size: 16.5px; line-height: 1.65; }
 .tab-visual {
-  background: var(--card); border: 1px solid var(--line); border-radius: 20px;
-  min-height: 280px; display: flex; align-items: center; justify-content: center;
-  font-size: 54px;
+  background: var(--white); border: 1px solid #e6e2c8;
+  border-radius: 32px; min-height: 300px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 72px;
+  box-shadow: var(--card-shadow);
 }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
 
-/* ---------- edge ---------- */
-.edge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
-.edge-list { list-style: none; margin: 0; padding: 0; }
+/* ============================================================ EDGE */
+.edge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.edge h2 { font-size: clamp(34px, 4.5vw, 52px); letter-spacing: -0.04em; }
+.edge .sub { margin-top: 18px; color: var(--muted); font-size: 17px; line-height: 1.6; max-width: 480px; }
+.edge-list { list-style: none; }
 .edge-list li {
-  padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 16px;
-  display: flex; gap: 12px; align-items: flex-start; color: var(--ink-soft);
+  padding: 18px 0; border-bottom: 1px solid var(--line);
+  font-size: 16.5px; display: flex; gap: 14px; align-items: flex-start;
+  color: var(--ink-2); line-height: 1.5;
 }
 .edge-list li:last-child { border-bottom: none; }
-.edge-list .tick { color: var(--accent); font-weight: 800; }
-.edge h2 { font-size: clamp(30px, 4vw, 44px); font-weight: 800; line-height: 1.1; }
-.edge .sub { margin-top: 14px; color: var(--muted); font-size: 16px; line-height: 1.6; max-width: 460px; }
-
-/* ---------- testimonials ---------- */
-.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-.testi {
-  background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 28px;
-  transition: transform .25s, box-shadow .25s;
+.edge-list .tick {
+  width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+  background: var(--ink); color: var(--lime);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; margin-top: 2px;
 }
-.testi:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(22,22,26,.07); }
-.testi .stars { color: var(--star); letter-spacing: 2px; margin-bottom: 14px; }
-.testi q { font-size: 15px; line-height: 1.65; color: var(--ink-soft); }
-.testi .who { margin-top: 18px; font-size: 14px; font-weight: 700; }
-.testi .who span { display: block; font-weight: 400; color: var(--muted); margin-top: 2px; }
 
-/* ---------- pricing ---------- */
-.price-toggle { display: flex; align-items: center; gap: 12px; justify-content: center; margin-bottom: 40px; }
-.price-toggle span { font-size: 14.5px; color: var(--muted); font-weight: 500; }
+/* ============================================================ TESTIMONIALS */
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.testi {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: 32px; padding: 32px;
+  transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
+}
+.testi:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(26,26,28,.07); }
+.testi .stars { color: #d4a017; letter-spacing: 3px; margin-bottom: 18px; font-size: 15px; }
+.testi q { font-size: 15.5px; line-height: 1.7; color: var(--ink-2); }
+.testi .who { margin-top: 22px; font-size: 15px; font-weight: 700; }
+.testi .who span { display: block; font-weight: 400; color: var(--muted); margin-top: 3px; font-size: 13.5px; }
+
+/* ============================================================ PRICING */
+.price-toggle {
+  display: flex; align-items: center; gap: 14px; justify-content: center;
+  margin-bottom: 48px;
+}
+.price-toggle span { font-size: 15px; color: var(--muted); font-weight: 500; transition: color .2s; }
 .price-toggle span.on { color: var(--ink); font-weight: 700; }
 .switch {
-  width: 52px; height: 30px; border-radius: 999px; background: var(--line-strong);
-  position: relative; cursor: pointer; transition: background .25s; border: none;
+  width: 56px; height: 32px; border-radius: 999px;
+  background: #ddd9c8; position: relative; cursor: pointer;
+  border: none; transition: background .25s;
 }
 .switch::after {
-  content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px;
-  background: #fff; border-radius: 50%; transition: transform .25s;
-  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+  content: ""; position: absolute; top: 3px; left: 3px;
+  width: 26px; height: 26px; background: #fff; border-radius: 50%;
+  transition: transform .25s cubic-bezier(.22,1,.36,1);
+  box-shadow: 0 2px 8px rgba(0,0,0,.18);
 }
 .switch.on { background: var(--ink); }
-.switch.on::after { transform: translateX(22px); }
-.save-tag { font-size: 12.5px; color: var(--accent); font-weight: 700; }
-.plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: stretch; }
+.switch.on::after { transform: translateX(24px); }
+.save-tag { font-size: 13px; color: var(--green); font-weight: 700; }
+.plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; align-items: stretch; }
 .plan {
-  background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 28px;
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: 32px; padding: 32px;
   display: flex; flex-direction: column; position: relative;
-  transition: transform .25s, box-shadow .25s, border-color .25s;
+  transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s, border-color .3s;
 }
-.plan:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(22,22,26,.08); }
+.plan:hover { transform: translateY(-5px); box-shadow: 0 24px 60px rgba(26,26,28,.08); border-color: #d8d4c2; }
 .plan.hot { background: var(--ink); color: #fff; border-color: var(--ink); }
+.plan.hot:hover { box-shadow: 0 28px 70px rgba(26,26,28,.3); }
 .plan .hot-tag {
-  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-  background: var(--accent); color: #fff; font-size: 11.5px; font-weight: 700;
-  padding: 4px 14px; border-radius: 999px; letter-spacing: .04em;
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  background: var(--lime); color: var(--ink);
+  font-size: 12px; font-weight: 700;
+  padding: 6px 16px; border-radius: 999px; letter-spacing: .03em;
 }
-.plan h3 { font-size: 18px; margin-bottom: 4px; }
-.plan .who-line { font-size: 13px; color: var(--muted); margin-bottom: 20px; min-height: 34px; }
+.plan h3 { font-size: 19px; margin-bottom: 4px; }
+.plan .who-line { font-size: 13px; color: var(--muted); margin-bottom: 22px; min-height: 38px; }
 .plan.hot .who-line { color: rgba(255,255,255,.55); }
-.plan .amt { font-size: 40px; font-weight: 800; letter-spacing: -1.5px; }
+.plan .amt { font-size: 42px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
 .plan .amt small { font-size: 14px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
 .plan.hot .amt small { color: rgba(255,255,255,.5); }
-.plan ul { list-style: none; margin: 22px 0; padding: 0; flex: 1; }
-.plan li { font-size: 14px; padding: 9px 0; border-bottom: 1px dashed var(--line); display: flex; gap: 9px; }
+.plan ul { list-style: none; margin: 24px 0; flex: 1; }
+.plan li {
+  font-size: 14px; padding: 10px 0;
+  border-bottom: 1px solid rgba(26,26,28,.07);
+  display: flex; gap: 10px; align-items: flex-start; line-height: 1.45;
+}
 .plan.hot li { border-color: rgba(255,255,255,.12); color: rgba(255,255,255,.85); }
 .plan li:last-child { border-bottom: none; }
-.plan .tick { color: var(--accent); font-weight: 800; flex-shrink: 0; }
-.plan .btn { justify-content: center; width: 100%; }
-.plan:not(.hot) .btn { background: #fff; border: 1px solid var(--line-strong); }
-.plan:not(.hot) .btn:hover { border-color: var(--ink); }
-.plan.hot .btn { background: #fff; color: var(--ink); }
+.plan .tick { color: var(--green); font-weight: 700; flex-shrink: 0; }
+.plan.hot .tick { color: var(--lime); }
+.plan .btn { justify-content: center; width: 100%; margin-top: 8px; }
+.plan:not(.hot) .btn { background: var(--ink); color: #fff; }
+.plan:not(.hot) .btn:hover { box-shadow: 0 12px 28px rgba(26,26,28,.2); }
+.plan.hot .btn { background: var(--lime); color: var(--ink); }
+.plan.hot .btn:hover { box-shadow: 0 12px 28px rgba(255,254,84,.35); }
 
-/* ---------- faq ---------- */
-.faq-list { max-width: 760px; margin: 0 auto; }
+/* ============================================================ FAQ */
+.faq-list { max-width: 780px; margin: 0 auto; }
 .faq-item { border-bottom: 1px solid var(--line); }
 .faq-q {
   width: 100%; background: none; border: none; text-align: left; cursor: pointer;
-  padding: 22px 0; font-size: 16.5px; font-weight: 600; font-family: inherit; color: var(--ink);
-  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 24px 0; font-size: 17.5px; font-weight: 600; font-family: inherit;
+  color: var(--ink); display: flex; justify-content: space-between; align-items: center; gap: 20px;
+  letter-spacing: -0.01em;
 }
-.faq-q .ic { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--chip);
-  display: flex; align-items: center; justify-content: center; font-size: 15px; transition: transform .3s, background .3s; }
-.faq-item.open .faq-q .ic { transform: rotate(45deg); background: var(--ink); color: #fff; }
-.faq-a { max-height: 0; overflow: hidden; transition: max-height .4s cubic-bezier(.2,.7,.2,1); }
-.faq-a p { padding: 0 0 22px; color: var(--muted); font-size: 15px; line-height: 1.65; max-width: 680px; }
+.faq-q .ic {
+  flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--cream); color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; transition: transform .35s cubic-bezier(.22,1,.36,1), background .3s, color .3s;
+}
+.faq-item.open .faq-q .ic { transform: rotate(45deg); background: var(--ink); color: var(--lime); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height .45s cubic-bezier(.22,1,.36,1); }
+.faq-a p { padding: 0 0 24px; color: var(--muted); font-size: 15.5px; line-height: 1.7; max-width: 700px; }
 
-/* ---------- final cta ---------- */
-.final-cta { background: var(--ink); color: #fff; border-radius: 28px; text-align: center; padding: 76px 24px; }
-.final-cta h2 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.05; max-width: 760px; margin: 0 auto; }
-.final-cta p { margin: 18px auto 32px; color: rgba(255,255,255,.6); max-width: 520px; font-size: 16.5px; line-height: 1.6; }
-.final-cta .btn-primary { background: #fff; color: var(--ink); }
-.final-cta .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.3); }
+/* ============================================================ FINAL CTA */
+.final-cta {
+  background: var(--ink); color: #fff;
+  border-radius: 40px; text-align: center;
+  padding: 88px 24px; position: relative; overflow: hidden;
+}
+.final-cta::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 110%, rgba(255,254,84,.12), transparent 70%);
+  pointer-events: none;
+}
+.final-cta > * { position: relative; }
+.final-cta h2 { font-size: clamp(36px, 5.5vw, 60px); letter-spacing: -0.04em; max-width: 800px; margin: 0 auto; }
+.final-cta p { margin: 22px auto 36px; color: rgba(255,255,255,.6); max-width: 540px; font-size: 17px; }
+.final-cta .btn-lime { background: var(--lime); color: var(--ink); }
+.final-cta .btn-lime:hover { box-shadow: 0 14px 32px rgba(255,254,84,.35); }
+.final-cta .btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.3); }
 .final-cta .btn-ghost:hover { border-color: #fff; }
 
-/* ---------- footer ---------- */
-.site-footer { border-top: 1px solid var(--line); padding: 56px 0 32px; margin-top: 40px; }
-.foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
-.foot-brand p { color: var(--muted); font-size: 14px; line-height: 1.6; margin-top: 12px; max-width: 280px; }
-.foot-col h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 16px; }
-.foot-col a { display: block; font-size: 14.5px; color: var(--ink-soft); padding: 6px 0; transition: color .2s; }
+/* ============================================================ FOOTER */
+.site-footer { border-top: 1px solid var(--line); padding: 64px 0 36px; margin-top: 64px; }
+.foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+.foot-brand p { color: var(--muted); font-size: 14.5px; line-height: 1.6; margin-top: 14px; max-width: 300px; }
+.foot-col h4 {
+  font-size: 12.5px; text-transform: uppercase; letter-spacing: .14em;
+  color: var(--muted); margin-bottom: 18px; font-weight: 600;
+}
+.foot-col a { display: block; font-size: 15px; color: var(--ink-2); padding: 7px 0; transition: color .2s; }
 .foot-col a:hover { color: var(--ink); }
-.foot-bottom { margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--line);
+.foot-bottom {
+  margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--line);
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-  font-size: 13px; color: var(--muted); }
+  font-size: 13.5px; color: var(--muted);
+}
 
-/* ---------- responsive ---------- */
-@media (max-width: 960px) {
+/* ============================================================ RESPONSIVE */
+@media (max-width: 1024px) {
+  .stats-grid { grid-template-columns: repeat(3, 1fr); }
+  .stat:nth-child(3) { border-right: none; }
+  .plans { grid-template-columns: 1fr 1fr; }
+  .feat-grid, .steps-grid, .testi-grid, .cmp-grid, .edge-grid { grid-template-columns: 1fr; }
+  .tab-panel.active { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
   .nav-links { display: none; }
   .burger { display: block; }
-  .stats .grid { grid-template-columns: repeat(2, 1fr); }
-  .stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,.09); }
-  .compare-grid, .edge-grid, .features-grid, .steps-grid, .testi-grid { grid-template-columns: 1fr; }
-  .tab-panel.active { grid-template-columns: 1fr; }
-  .plans { grid-template-columns: 1fr 1fr; }
-  .foot-grid { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 560px) {
+  .nav-links.open {
+    display: flex; flex-direction: column; align-items: stretch;
+    position: absolute; top: 76px; left: 0; right: 0;
+    background: #fff; border-bottom: 1px solid var(--line);
+    padding: 16px; gap: 4px;
+  }
+  section { padding: 64px 0; }
+  .hero { padding: 128px 0 64px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); }
   .plans { grid-template-columns: 1fr; }
-  .foot-grid { grid-template-columns: 1fr; }
-  section { padding: 56px 0; }
+  .foot-grid { grid-template-columns: 1fr 1fr; }
 }
 </style>
 </head>
 <body>
-
-<!-- ============ NAV ============ -->
 <header class="header">
     <a class="logo" href="/rika/">Ri<span>ka</span></a>
     <nav class="nav">
@@ -355,22 +504,40 @@ section { padding: 72px 0; }
     </nav>
   </header>
 
+<!-- ============ NAV ============ -->
+<header class="site-nav">
+  <div class="wrap nav-row">
+    <a class="logo" href="/rika/">Rika<span>.</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a class="nl" href="#products">Products</a>
+      <a class="nl" href="/rika/tools/calculator/">Calculator</a>
+      <a class="nl" href="/rika/locations/nairobi/">Locations</a>
+      <a class="nl" href="/rika/prices/">Prices</a>
+      <a class="nl" href="/rika/reviews/">Reviews</a>
+      <a class="nav-cta" href="/rika/tools/calculator/?from=home" data-source="Home hero CTA">Get a Free Quote</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu">☰</button>
+  </div>
+</header>
+
 <!-- ============ HERO ============ -->
 <section class="hero" id="top">
   <div class="wrap">
-    <div class="trust-badge reveal"><span class="stars">★★★★★</span><b>4.9</b>&nbsp;rated by homeowners across Nairobi</div>
+    <div class="badge reveal"><span class="stars">★★★★★</span><b>4.9</b>&nbsp;· rated by homeowners across Nairobi</div>
     <h1 class="reveal d1">Turn your house into <span class="word-cycle"><span id="cycleWord">a masterpiece</span></span></h1>
-    <p class="sub reveal d2">Rika supplies, designs and installs aluminium windows, doors and glass — with live pricing, a free measurement, and a written warranty. No workshop, no waiting: factory-direct, across Nairobi, Ruiru &amp; Kiambu.</p>
+    <p class="sub reveal d2">Rika supplies, designs and installs aluminium windows, doors and glass — with live pricing, a free measurement, and a written warranty. Factory-direct across Nairobi, Ruiru &amp; Kiambu.</p>
     <div class="hero-ctas reveal d3">
-      <a class="btn btn-primary" href="/rika/tools/calculator/?from=hero" data-source="Home hero CTA">Calculate My Project</a>
-      <a class="btn btn-ghost" href="/rika/tools/design/?from=hero" data-source="Home hero secondary">Design Your Windows</a>
+      <a class="btn btn-dark" href="/rika/tools/calculator/?from=hero" data-source="Home hero CTA">Calculate My Project
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="btn btn-cream" href="/rika/tools/design/?from=hero" data-source="Home hero secondary">Design Your Windows</a>
     </div>
     <p class="trial-note reveal d4">Free measurement · Written warranty · Factory-direct pricing</p>
   </div>
 </section>
 
 <!-- ============ TRUST STRIP ============ -->
-<div class="trust-strip reveal">
+<div class="trust reveal">
   <div class="wrap">
     <div class="label">They trust us</div>
     <div class="logo-row">
@@ -386,47 +553,49 @@ section { padding: 72px 0; }
 </div>
 
 <!-- ============ STATS ============ -->
-<section class="stats reveal" style="padding:0;">
-  <div class="wrap" style="padding-top:0;padding-bottom:0;">
-    <div class="grid">
-      <div class="stat"><div class="n">+<em id="stat1">0</em>%</div><div class="l">more natural light with our low-iron glass options</div></div>
-      <div class="stat"><div class="n"><em id="stat2">0</em></div><div class="l">districts served — Nairobi, Ruiru &amp; Kiambu, free delivery</div></div>
-      <div class="stat"><div class="n"><em id="stat3">0</em>×</div><div class="l">faster than a traditional workshop quote-to-install</div></div>
-      <div class="stat"><div class="n"><em id="stat4">0</em>%</div><div class="l">of installs covered by our written workmanship warranty</div></div>
-      <div class="stat"><div class="n"><em id="stat5">0</em> yr</div><div class="l">structural warranty on frames &amp; glass, in writing</div></div>
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="stats-band reveal">
+      <div class="stats-grid">
+        <div class="stat"><div class="n">+<em id="stat1">0</em>%</div><div class="l">more natural light with our low-iron glass options</div></div>
+        <div class="stat"><div class="n"><em id="stat2">0</em></div><div class="l">districts served — Nairobi, Ruiru &amp; Kiambu, free delivery</div></div>
+        <div class="stat"><div class="n"><em id="stat3">0</em>×</div><div class="l">faster than a traditional workshop quote-to-install</div></div>
+        <div class="stat"><div class="n"><em id="stat4">0</em>%</div><div class="l">of installs covered by our written workmanship warranty</div></div>
+        <div class="stat"><div class="n"><em id="stat5">0</em> yr</div><div class="l">structural warranty on frames &amp; glass, in writing</div></div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ============ COMPARISON ============ -->
-<section id="why">
+<section id="why" class="cmp">
   <div class="wrap">
     <div class="sec-head reveal">
       <div class="eyebrow">The Rika Difference</div>
       <h2>Rika vs. the typical window supplier</h2>
-      <p>Stop wasting time chasing phone calls and vague quotes. Everything is digital, transparent, and on your schedule.</p>
+      <p>Stop chasing phone calls and vague quotes. Everything is digital, transparent, and on your schedule.</p>
     </div>
-    <div class="compare-grid">
+    <div class="cmp-grid">
       <div class="cmp-card reveal">
         <h3>Traditional Supplier</h3>
         <div class="tag">The old way of buying windows</div>
         <ul>
-          <li><span class="tick">—</span> Phone calls and visits to a physical shop</li>
-          <li><span class="tick">—</span> Vague quotes delivered days later, if at all</li>
-          <li><span class="tick">—</span> No written warranty — promises only</li>
-          <li><span class="tick">—</span> You wait weeks, with no way to check progress</li>
-          <li><span class="tick">—</span> No idea what your project actually costs</li>
+          <li><span class="tick">—</span>Phone calls and visits to a physical shop</li>
+          <li><span class="tick">—</span>Vague quotes delivered days later, if at all</li>
+          <li><span class="tick">—</span>No written warranty — promises only</li>
+          <li><span class="tick">—</span>You wait weeks, with no way to check progress</li>
+          <li><span class="tick">—</span>No idea what your project actually costs</li>
         </ul>
       </div>
       <div class="cmp-card us reveal d1">
         <h3>Rika</h3>
         <div class="tag">The digital, transparent way</div>
         <ul>
-          <li><span class="tick">✓</span> Live price calculator — know your cost in 60 seconds</li>
-          <li><span class="tick">✓</span> Design your windows online, see the price as you go</li>
-          <li><span class="tick">✓</span> Written workmanship warranty, in your project docs</li>
-          <li><span class="tick">✓</span> Track your project stage by stage in your dashboard</li>
-          <li><span class="tick">✓</span> Free measurement — we come to you, on your date</li>
+          <li><span class="tick">✓</span>Live price calculator — know your cost in 60 seconds</li>
+          <li><span class="tick">✓</span>Design your windows online, see the price as you go</li>
+          <li><span class="tick">✓</span>Written workmanship warranty, in your project docs</li>
+          <li><span class="tick">✓</span>Track your project stage by stage in your dashboard</li>
+          <li><span class="tick">✓</span>Free measurement — we come to you, on your date</li>
         </ul>
       </div>
     </div>
@@ -438,10 +607,10 @@ section { padding: 72px 0; }
   <div class="wrap">
     <div class="sec-head reveal">
       <div class="eyebrow">Everything</div>
-      <h2>Everything you need, in one place.</h2>
+      <h2>Everything you need, in one clinical view.</h2>
       <p>We've made the whole journey digital — so you can focus on choosing what you love, not chasing suppliers.</p>
     </div>
-    <div class="features-grid">
+    <div class="feat-grid">
       <div class="feat reveal"><div class="ico">🪟</div><h3>Windows, Doors &amp; Glass</h3><p>Sliding, hinged, casement, shopfronts and partitions — aluminium and glass, spec'd for the Kenyan climate and your exact opening.</p></div>
       <div class="feat reveal d1"><div class="ico">🧮</div><h3>Live Price Calculator</h3><p>Enter your dimensions and get a real KSh range in under a minute. No "call for a quote" games — the price is right there.</p></div>
       <div class="feat reveal d2"><div class="ico">🎨</div><h3>Design Studio</h3><p>Build your window on screen: panels, finish, glass, burglar grill. Watch the price update live, then save it as a lead in one tap.</p></div>
@@ -460,17 +629,17 @@ section { padding: 72px 0; }
       <h2>Your windows in 3 simple steps</h2>
     </div>
     <div class="steps-grid">
-      <div class="step reveal"><div class="num">01</div><h3>Calculate &amp; Design</h3><p>Use the live calculator or design studio to size your project and see the price — all online, in minutes.</p></div>
-      <div class="step reveal d1"><div class="num">02</div><h3>Free Measurement</h3><p>Book a slot and we measure every opening at your site. Dimensions go straight into your exact quotation.</p></div>
-      <div class="step reveal d2"><div class="num">03</div><h3>Installation &amp; Handover</h3><p>Factory-direct fabrication, professional installation, written warranty — and a project dashboard the whole way.</p></div>
+      <div class="step reveal"><div class="num">1</div><h3>Calculate &amp; Design</h3><p>Use the live calculator or design studio to size your project and see the price — all online, in minutes.</p></div>
+      <div class="step reveal d1"><div class="num">2</div><h3>Free Measurement</h3><p>Book a slot and we measure every opening at your site. Dimensions go straight into your exact quotation.</p></div>
+      <div class="step reveal d2"><div class="num">3</div><h3>Installation &amp; Handover</h3><p>Factory-direct fabrication, professional installation, written warranty — and a project dashboard the whole way.</p></div>
     </div>
   </div>
 </section>
 
 <!-- ============ TABS ============ -->
-<section class="tabs-section" style="padding:0;">
-  <div class="wrap">
-    <div class="sec-head reveal" style="margin-top:72px;">
+<section class="tabs-band" style="padding:0;">
+  <div class="wrap" style="padding-top:96px; padding-bottom:96px;">
+    <div class="sec-head reveal">
       <div class="eyebrow">Built for you</div>
       <h2>Engineered for every part of your home</h2>
     </div>
@@ -510,8 +679,8 @@ section { padding: 72px 0; }
         <div class="tab-visual">🏪</div>
       </div>
     </div>
-    <div style="text-align:center; margin-top:40px;">
-      <a class="btn btn-ghost" href="/rika/products/windows/">Explore all products</a>
+    <div style="text-align:center; margin-top:44px;">
+      <a class="btn btn-cream" href="/rika/products/windows/" style="background:var(--white);">Explore all products</a>
     </div>
   </div>
 </section>
@@ -526,10 +695,10 @@ section { padding: 72px 0; }
         <p>Stop settling for quotes you can't verify. We give you the full picture — live prices, written warranty, and a project you can actually track.</p>
       </div>
       <ul class="edge-list">
-        <li class="reveal"><span class="tick">✓</span> Save hours of phone calls and shop visits — everything is online and instant.</li>
-        <li class="reveal d1"><span class="tick">✓</span> Know your exact budget before we even visit — the calculator uses real Nairobi market rates.</li>
-        <li class="reveal d2"><span class="tick">✓</span> Outshine your neighbours with factory-direct quality, not workshop guesswork.</li>
-        <li class="reveal d3"><span class="tick">✓</span> Track every stage from measurement to handover — no more "any update?" calls.</li>
+        <li class="reveal"><span class="tick">✓</span>Save hours of phone calls and shop visits — everything is online and instant.</li>
+        <li class="reveal d1"><span class="tick">✓</span>Know your exact budget before we even visit — the calculator uses real Nairobi market rates.</li>
+        <li class="reveal d2"><span class="tick">✓</span>Outshine your neighbours with factory-direct quality, not workshop guesswork.</li>
+        <li class="reveal d3"><span class="tick">✓</span>Track every stage from measurement to handover — no more "any update?" calls.</li>
       </ul>
     </div>
   </div>
@@ -547,17 +716,17 @@ section { padding: 72px 0; }
       <div class="testi reveal">
         <div class="stars">★★★★★</div>
         <q>The measurement was free, the quote matched the final bill to the shilling, and the installers were in and out in a day. My living room finally gets real light.</q>
-        <div class="who">Wanjiku M. <span>Homeowner, Nairobi West</span></div>
+        <div class="who">Wanjiku M.<span>Homeowner, Nairobi West</span></div>
       </div>
       <div class="testi reveal d1">
         <div class="stars">★★★★★</div>
         <q>I used the design studio on my phone while sitting in the garden. By the time the team arrived they already knew exactly what I wanted — and what it cost.</q>
-        <div class="who">David O. <span>Homeowner, Ruiru</span></div>
+        <div class="who">David O.<span>Homeowner, Ruiru</span></div>
       </div>
       <div class="testi reveal d2">
         <div class="stars">★★★★★</div>
         <q>The written warranty sold me. After two bad experiences with other suppliers, it felt good to have everything — dates, specs, warranty — in writing before I paid anything.</q>
-        <div class="who">Amina S. <span>Homeowner, Kiambu</span></div>
+        <div class="who">Amina S.<span>Homeowner, Kiambu</span></div>
       </div>
     </div>
   </div>
@@ -572,7 +741,7 @@ section { padding: 72px 0; }
       <p>Every project starts with a free measurement and a written quote. Pick the tier that fits — upgrade any time before fabrication.</p>
     </div>
     <div class="price-toggle reveal">
-      <span id="lblMonthly" class="on">Per window</span>
+      <span id="lblMonthly" class="on">Per m²</span>
       <button class="switch" id="priceSwitch" role="switch" aria-checked="false" aria-label="Toggle project estimate"></button>
       <span id="lblProject">Full project</span>
       <span class="save-tag" id="saveTag" style="display:none;">Project estimate uses your measured area</span>
@@ -583,11 +752,11 @@ section { padding: 72px 0; }
         <div class="who-line">For budget projects and single-room upgrades.</div>
         <div class="amt"><span id="p1a">KSh 0</span><small id="p1b"> /m²</small></div>
         <ul>
-          <li><span class="tick">✓</span> Standard aluminium profile</li>
-          <li><span class="tick">✓</span> Clear or tinted glass</li>
-          <li><span class="tick">✓</span> Standard hardware</li>
-          <li><span class="tick">✓</span> 1-year workmanship warranty</li>
-          <li><span class="tick">✓</span> Free measurement</li>
+          <li><span class="tick">✓</span>Standard aluminium profile</li>
+          <li><span class="tick">✓</span>Clear or tinted glass</li>
+          <li><span class="tick">✓</span>Standard hardware</li>
+          <li><span class="tick">✓</span>1-year workmanship warranty</li>
+          <li><span class="tick">✓</span>Free measurement</li>
         </ul>
         <a class="btn" href="/rika/tools/calculator/?tier=essential&from=home" data-source="Home pricing">Start with Essential</a>
       </div>
@@ -596,11 +765,11 @@ section { padding: 72px 0; }
         <div class="who-line">Our most popular tier for full-home renovations.</div>
         <div class="amt"><span id="p2a">KSh 0</span><small id="p2b"> /m²</small></div>
         <ul>
-          <li><span class="tick">✓</span> Upgraded aluminium profile</li>
-          <li><span class="tick">✓</span> Any glass: clear, tinted, frosted</li>
-          <li><span class="tick">✓</span> Concealed hardware &amp; tight seals</li>
-          <li><span class="tick">✓</span> 2-year workmanship warranty</li>
-          <li><span class="tick">✓</span> Free measurement + priority install</li>
+          <li><span class="tick">✓</span>Upgraded aluminium profile</li>
+          <li><span class="tick">✓</span>Any glass: clear, tinted, frosted</li>
+          <li><span class="tick">✓</span>Concealed hardware &amp; tight seals</li>
+          <li><span class="tick">✓</span>3-year workmanship warranty</li>
+          <li><span class="tick">✓</span>Free measurement + priority install</li>
         </ul>
         <a class="btn" href="/rika/tools/calculator/?tier=comfort&from=home" data-source="Home pricing">Choose Comfort</a>
       </div>
@@ -610,30 +779,30 @@ section { padding: 72px 0; }
         <div class="who-line">For statement homes and high-security installs.</div>
         <div class="amt"><span id="p3a">KSh 0</span><small id="p3b"> /m²</small></div>
         <ul>
-          <li><span class="tick">✓</span> Premium profile + low-iron glass option</li>
-          <li><span class="tick">✓</span> Anti-burglar grill included</li>
-          <li><span class="tick">✓</span> Concealed hinges &amp; premium handles</li>
-          <li><span class="tick">✓</span> 5-year structural warranty</li>
-          <li><span class="tick">✓</span> Dedicated install supervisor</li>
+          <li><span class="tick">✓</span>Premium profile + low-iron glass option</li>
+          <li><span class="tick">✓</span>Anti-burglar grill included</li>
+          <li><span class="tick">✓</span>Concealed hinges &amp; premium handles</li>
+          <li><span class="tick">✓</span>10-year structural warranty</li>
+          <li><span class="tick">✓</span>Dedicated install supervisor</li>
         </ul>
         <a class="btn" href="/rika/tools/calculator/?tier=premium&from=home" data-source="Home pricing">Go Premium</a>
       </div>
       <div class="plan reveal d3">
         <h3>Commercial</h3>
         <div class="who-line">Shopfronts, partitions and multi-opening projects.</div>
-        <div class="amt">Let's talk<small></small></div>
+        <div class="amt">Let's talk</div>
         <ul>
-          <li><span class="tick">✓</span> Floor-to-ceiling glass shopfronts</li>
-          <li><span class="tick">✓</span> Partition walls &amp; sliding doors</li>
-          <li><span class="tick">✓</span> Anti-theft hardware packages</li>
-          <li><span class="tick">✓</span> Volume pricing on multi-opening orders</li>
-          <li><span class="tick">✓</span> Dedicated project manager</li>
+          <li><span class="tick">✓</span>Floor-to-ceiling glass shopfronts</li>
+          <li><span class="tick">✓</span>Partition walls &amp; sliding doors</li>
+          <li><span class="tick">✓</span>Anti-theft hardware packages</li>
+          <li><span class="tick">✓</span>Volume pricing on multi-opening orders</li>
+          <li><span class="tick">✓</span>Dedicated project manager</li>
         </ul>
         <a class="btn" href="/rika/tools/quotation/?from=home&commercial=1" data-source="Home pricing commercial">Request a Quote</a>
       </div>
     </div>
-    <div style="text-align:center; margin-top:28px;">
-      <a class="btn btn-ghost" href="/rika/prices/">See the full price index</a>
+    <div style="text-align:center; margin-top:32px;">
+      <a class="btn btn-cream" href="/rika/prices/" style="background:var(--cream);">See the full price index</a>
     </div>
   </div>
 </section>
@@ -660,7 +829,7 @@ section { padding: 72px 0; }
       </div>
       <div class="faq-item">
         <button class="faq-q">What does the warranty actually cover?<span class="ic">+</span></button>
-        <div class="faq-a"><p>Workmanship: 1 year (Essential), 2 years (Comfort), 5 years (Premium). Structural warranty on frames and glass is separate and also in writing. Your warranty document is in your project dashboard and re-issued at handover.</p></div>
+        <div class="faq-a"><p>Workmanship: 1 year (Essential), 3 years (Comfort), 10 years (Premium). Structural warranty on frames and glass is separate and also in writing. Your warranty document is in your project dashboard and re-issued at handover.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">Do you work with contractors and developers?<span class="ic">+</span></button>
@@ -677,7 +846,9 @@ section { padding: 72px 0; }
       <h2>Stop guessing what your windows cost.</h2>
       <p>Get a live price in 60 seconds, then book your free measurement. We'll come to you, measure everything, and hand you a written quote before you spend a shilling.</p>
       <div class="hero-ctas" style="justify-content:center;">
-        <a class="btn btn-primary" href="/rika/tools/calculator/?from=final" data-source="Home final CTA">Calculate My Project</a>
+        <a class="btn btn-lime" href="/rika/tools/calculator/?from=final" data-source="Home final CTA">Calculate My Project
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
         <a class="btn btn-ghost" href="/rika/tools/measurement/?from=final" data-source="Home final secondary">Book Free Measurement</a>
       </div>
     </div>
@@ -689,7 +860,7 @@ section { padding: 72px 0; }
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a class="logo" href="/rika/">Ri<b>ka</b></a>
+        <a class="logo" href="/rika/">Rika<span>.</span></a>
         <p>Supply, design and installation of aluminium windows, doors and glass. Factory-direct across Nairobi, Ruiru &amp; Kiambu.</p>
       </div>
       <div class="foot-col">
@@ -735,16 +906,16 @@ section { padding: 72px 0; }
       el.textContent = words[i];
       el.classList.remove("out");
       el.classList.add("in");
-    }, 320);
-    setTimeout(() => el.classList.remove("in"), 700);
-  }, 2600);
+    }, 450);
+    setTimeout(() => el.classList.remove("in"), 900);
+  }, 2800);
 })();
 
 /* ============ reveal on scroll ============ */
 (function () {
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
   document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 })();
 
@@ -762,15 +933,15 @@ function countUp(id, target, dur) {
   requestAnimationFrame(tick);
 }
 (function () {
-  const stats = document.querySelector(".stats");
+  const stats = document.querySelector(".stats-band");
   if (!stats) return;
   const io = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
-      countUp("stat1", 230, 1400);
+      countUp("stat1", 230, 1500);
       countUp("stat2", 3, 1000);
       countUp("stat3", 5, 1000);
-      countUp("stat4", 100, 1400);
-      countUp("stat5", 5, 1200);
+      countUp("stat4", 100, 1500);
+      countUp("stat5", 10, 1300);
       io.disconnect();
     }
   }, { threshold: 0.3 });
@@ -795,15 +966,13 @@ document.querySelectorAll(".tab-pill").forEach((pill) => {
   const lblM = document.getElementById("lblMonthly");
   const lblP = document.getElementById("lblProject");
   const save = document.getElementById("saveTag");
-  // Rika config tiers (KSh/m²) — fall back to sane defaults if config not loaded
   const cfg = window.RIKA_CONFIG || {};
   const tiers = (cfg.pricing && cfg.pricing.tiers) || {};
   const perM2 = {
-    essential: (tiers.essential && tiers.essential.perM2) || 18500,
-    comfort:   (tiers.comfort && tiers.comfort.perM2) || 23500,
-    premium:   (tiers.premium && tiers.premium.perM2) || 30500,
+    essential: (tiers.essential && tiers.essential.perM2) || 8500,
+    comfort:   (tiers.comfort && tiers.comfort.perM2) || 11000,
+    premium:   (tiers.premium && tiers.premium.perM2) || 14500,
   };
-  // default project: 12 m² (typical 2-door sliding + 2 casement)
   const projM2 = 12;
   function fmt(n) { return "KSh " + n.toLocaleString("en-KE"); }
   function render(project) {
@@ -840,6 +1009,15 @@ document.querySelectorAll(".faq-item").forEach((item) => {
     }
   });
 });
+
+/* ============ mobile burger ============ */
+(function () {
+  const b = document.getElementById("burger");
+  const links = document.getElementById("navLinks");
+  if (!b || !links) return;
+  b.addEventListener("click", () => links.classList.toggle("open"));
+  links.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => links.classList.remove("open")));
+})();
 
 /* ============ misc ============ */
 document.getElementById("year").textContent = new Date().getFullYear();

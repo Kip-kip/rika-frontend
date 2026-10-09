@@ -15,10 +15,10 @@
   .cs-wrap { max-width: 960px; margin: 0 auto; padding: 40px 16px 64px; }
   .cs-hero { margin-bottom: 32px; }
   .cs-hero h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
-  .cs-hero p { color: var(--ink-soft, #666); max-width: 640px; }
+  .cs-hero p { color: var(--muted); max-width: 640px; }
   .cs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
   .cs-card {
-    background: var(--card, #fafafa); border: 1px solid var(--line, #eee);
+    background: var(--surface2); border: 1px solid var(--border);
     border-radius: 12px; overflow: hidden;
   }
   .cs-thumb {
@@ -28,31 +28,65 @@
   }
   .cs-body { padding: 14px 16px 18px; }
   .cs-body h3 { font-size: 1.05rem; margin-bottom: 4px; }
-  .cs-loc { font-size: 0.82rem; color: var(--ink-soft, #777); margin-bottom: 8px; }
+  .cs-loc { font-size: 0.82rem; color: var(--muted); margin-bottom: 8px; }
   .cs-stages { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
   .cs-stages span {
-    background: #eef4ef; border: 1px solid #d5e5d9; border-radius: 20px;
-    padding: 2px 10px; font-size: 0.72rem; color: #2f6b3e;
+    background: var(--accent-soft); border: 1px solid var(--border); border-radius: 20px;
+    padding: 2px 10px; font-size: 0.72rem; color: var(--text);
   }
-  .cs-link { font-size: 0.85rem; font-weight: 600; color: var(--brand, #1a6b3c); text-decoration: none; }
+  .cs-link { font-size: 0.85rem; font-weight: 600; color: var(--accent); text-decoration: none; }
   .cs-cta {
     margin-top: 32px; text-align: center;
-    background: var(--card, #f5f7f5); border: 1px solid var(--line, #e2e8e2);
+    background: var(--surface2); border: 1px solid var(--border);
     border-radius: 14px; padding: 28px;
   }
   .cs-cta h2 { font-size: 1.3rem; margin-bottom: 8px; }
-  .cs-cta p { color: var(--ink-soft, #666); margin-bottom: 16px; }
+  .cs-cta p { color: var(--muted); margin-bottom: 16px; }
 </style>
 </head>
 <body>
+<header class="header">
+    <a class="logo" href="/rika/">Ri<span>ka</span></a>
+    <nav class="nav">
+      <a href="/rika/" class="nav-link">Home</a>
+      <div class="nav-drop">
+        <a class="nav-drop-toggle">Products <span class="caret">&#9662;</span></a>
+        <div class="nav-drop-menu">
+          <a href="/rika/products/windows/" class="nav-drop-item">Windows</a>
+          <a href="/rika/products/doors/" class="nav-drop-item">Doors</a>
+          <a href="/rika/products/glass/" class="nav-drop-item">Glass</a>
+          <a href="/rika/products/shopfronts/" class="nav-drop-item">Shopfronts</a>
+          <a href="/rika/products/partitions/" class="nav-drop-item">Partitions</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a class="nav-drop-toggle">Tools <span class="caret">&#9662;</span></a>
+        <div class="nav-drop-menu">
+          <a href="/rika/tools/calculator/" class="nav-drop-item">Calculator</a>
+          <a href="/rika/tools/design/" class="nav-drop-item">Design Studio</a>
+          <a href="/rika/tools/quiz/" class="nav-drop-item">Find Your Window</a>
+          <a href="/rika/tools/house-windows/" class="nav-drop-item">Your House, Your Windows</a>
+          <a href="/rika/tools/house-map/" class="nav-drop-item">House Window Map</a>
+          <a href="/rika/tools/visualizer/" class="nav-drop-item">Visualizer</a>
+        </div>
+      </div>
+      <a href="/rika/locations/nairobi/" class="nav-link">Locations</a>
+      <a href="/rika/costs/3-bedroom-house/" class="nav-link">Cost Guides</a>
+      <a href="/rika/guide/" class="nav-link">Buying Guide</a>
+      <a href="/rika/prices/" class="nav-link">Prices</a>
+      <a href="/rika/reviews/" class="nav-link">Reviews</a>
+      <a href="/rika/case-studies/" class="nav-link active">Case Studies</a>
+    </nav>
+  </header>
+
 <div class="cs-wrap">
   <div class="cs-hero">
     <h1>Our Projects</h1>
     <p>Every Rika install documented end to end — before photos, measurement, installation, and the finished result. No stock photos: these are real projects from our clients.</p>
   </div>
 
-  <div class="list-state" id="loading" style="background:#fafafa;border:1px solid #eee;border-radius:12px;padding:40px;text-align:center;color:#777;">Loading projects&hellip;</div>
-  <div class="list-state" id="empty" style="display:none;background:#fafafa;border:1px solid #eee;border-radius:12px;padding:40px;text-align:center;color:#777;">Case studies are being published. Check back soon — our first project journey is in production.</div>
+  <div class="list-state" id="loading" style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:40px;text-align:center;color:var(--muted);">Loading projects&hellip;</div>
+  <div class="list-state" id="empty" style="display:none;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:40px;text-align:center;color:var(--muted);">Case studies are being published. Check back soon — our first project journey is in production.</div>
   <div class="cs-grid" id="grid"></div>
 
   <div class="cs-cta">
@@ -69,7 +103,7 @@ const STAGE_LABELS = ['Before', 'Measurement', 'Installation', 'Finished'];
 
 function fmtDate(v) {
   if (!v) return '';
-  try { return new Date(v).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' }); }
+  try { return new Date(v).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year': 'numeric' }); }
   catch { return v; }
 }
 

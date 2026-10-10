@@ -1,6 +1,56 @@
 /* ============================================================
    Rika — shared design system
    ============================================================ */
+
+/* ============================================================
+   Sage & Cream palette (single source, site-wide)
+   Activated by data-theme="sage" on <html>. Re-points the base
+   :root vars so every page on the theme follows. The per-card
+   mixed-color treatment below is gated on the same attribute.
+   Palette: sages #A3B18A #8FA07D #6F8464 #556B4D #3E513B #2C3A2E
+            creams #FFF5E1 #F7ECD4 #EFD2C6 #E6D7B9 #DAC8A3 #CDBA93
+   ============================================================ */
+:root[data-theme="sage"] {
+  --ink: #3E513B;        /* Forest Sage — primary dark (headings, buttons, dark cards) */
+  --ink-2: #2C3A2E;      /* Deep Sage — nav dropdown border / dark hover */
+  --ink-3: #2C3A2E;      /* Deep Sage — dropdown item hover */
+  --muted: #6F8464;      /* Moss Sage — secondary text on dark surfaces */
+  --cream: #F7ECD4;      /* Ivory Cream — cream cards, pills */
+  --paper: #FFF5E1;      /* Cream — page/section background */
+  --white: #ffffff;
+  --lime: #A3B18A;       /* Sage — accent (CTA, icons, highlights) */
+  --green: #3E513B;      /* Forest Sage — secondary accent (logo span) */
+  --line: #E6D7B9;       /* Warm Cream — hairline borders */
+  --line-2: #DAC8A3;     /* Dark Cream — stronger cream borders */
+  --line-3: #DAC8A3;     /* Dark Cream — pricing card hover border */
+  --gold: #D4A017;       /* Star ratings (kept) */
+  --faint: #CDBA93;      /* Vintage Cream — big faded section numerals */
+  --cream-hover: #EFD2C6;/* Soft Cream — light hover fills */
+  --cream-dark: #DAC8A3;/* Dark Cream — progress/track bars */
+  --card-shadow: 0 2px 8px rgba(62,81,59,.06);
+
+  /* Ink tints re-pointed to Forest Sage */
+  --ink-04: rgba(62,81,59,.04);
+  --ink-06: rgba(62,81,59,.06);
+  --ink-07: rgba(62,81,59,.07);
+  --ink-08: rgba(62,81,59,.08);
+  --ink-10: rgba(62,81,59,.10);
+  --ink-18: rgba(44,58,46,.18);
+  --ink-20: rgba(62,81,59,.20);
+  --ink-25: rgba(62,81,59,.25);
+  --ink-30: rgba(62,81,59,.30);
+  --ink-40: rgba(44,58,46,.40);
+  --ink-55: rgba(44,58,46,.55);
+  --ink-82: rgba(44,58,46,.82);
+
+  /* Accent tints */
+  --lime-12: rgba(163,177,138,.12);
+  --lime-18: rgba(163,177,138,.18);
+  --lime-25: rgba(163,177,138,.25);
+  --lime-35: rgba(163,177,138,.35);
+  --green-12: rgba(62,81,59,.12);
+}
+
 :root {
   /* Brand */
   --accent: #3b82f6;
@@ -318,3 +368,77 @@ button {
 }
 
 h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
+
+/* ============================================================
+   Mixed-color card treatment (sage & cream palette)
+   Gated on [data-theme="sage"] so it only applies where the
+   palette vars exist. Cycles a solid palette color across each
+   card grid; the two dark-sage slots (deep/forest) re-point the
+   card's local --ink/--muted so all descendant text + chips flip
+   to cream and stay legible. Photo/image cards (.photo) are left
+   as-is.
+   ============================================================ */
+/* --- Home: tools grid (res-card) --- */
+[data-theme="sage"] .res-card:not(.photo):nth-child(1) { background: var(--faint);     border-color: var(--line-3); }
+[data-theme="sage"] .res-card:not(.photo):nth-child(2) { background: var(--ink-2);     border-color: var(--ink-2);  --ink: var(--cream); --muted: rgba(255,255,255,.75); }
+[data-theme="sage"] .res-card:not(.photo):nth-child(3) { background: var(--line-2);    border-color: var(--line-3); }
+[data-theme="sage"] .res-card:not(.photo):nth-child(4) { background: var(--green);     border-color: var(--ink-2);  --ink: var(--cream); --muted: rgba(255,255,255,.75); }
+[data-theme="sage"] .res-card:not(.photo):nth-child(5) { background: var(--cream);     border-color: var(--line-2); }
+[data-theme="sage"] .res-card:not(.photo):nth-child(6) { background: var(--paper);     border-color: var(--line);   }
+[data-theme="sage"] .res-card:not(.photo):nth-child(even) .chip { background: var(--cream); color: var(--ink-2); }
+
+/* --- Home: comparison (cmp-card) --- */
+[data-theme="sage"] .cmp-card:not(.us):nth-child(1) { background: var(--faint);  border-color: var(--line-3); }
+[data-theme="sage"] .cmp-card.us { background: var(--ink); border-color: var(--ink); --ink: var(--cream); --muted: rgba(255,255,255,.6); }
+
+/* --- Home: pricing plans (plan) --- */
+[data-theme="sage"] .plan:nth-child(1) { background: var(--paper);    border-color: var(--line);   }
+[data-theme="sage"] .plan:nth-child(2) { background: var(--line-2);   border-color: var(--line-3); }
+[data-theme="sage"] .plan.hot { background: var(--ink); border-color: var(--ink); --ink: var(--cream); --muted: rgba(255,255,255,.6); }
+[data-theme="sage"] .plan:nth-child(4) { background: var(--faint);    border-color: var(--line-3); }
+[data-theme="sage"] .plan.hot li { border-color: var(--white-12); }
+
+/* --- Home: steps (step) --- */
+[data-theme="sage"] .step:nth-child(1) { background: var(--line-2);   border-color: var(--line-3); }
+[data-theme="sage"] .step:nth-child(2) { background: var(--ink-2);    border-color: var(--ink-2); }
+[data-theme="sage"] .step:nth-child(2) h3 { color: var(--cream); }
+[data-theme="sage"] .step:nth-child(2) p { color: rgba(255,255,255,.75); }
+[data-theme="sage"] .step:nth-child(3) { background: var(--faint);    border-color: var(--line-3); }
+[data-theme="sage"] .step:nth-child(even) .num { background: var(--cream); color: var(--ink-2); }
+
+/* --- Home: testimonials (testi) --- */
+[data-theme="sage"] .testi:nth-child(1) { background: var(--cream);    border-color: var(--line-2); }
+[data-theme="sage"] .testi:nth-child(2) { background: var(--ink);      border-color: var(--ink); }
+[data-theme="sage"] .testi:nth-child(3) { background: var(--line-2);   border-color: var(--line-3); }
+[data-theme="sage"] .testi:nth-child(2) q, [data-theme="sage"] .testi:nth-child(2) .who { color: var(--cream); }
+[data-theme="sage"] .testi:nth-child(2) .who span { color: rgba(255,255,255,.7); }
+
+/* --- Product pages: prod-card grid --- */
+[data-theme="sage"] .prod-card:nth-child(1) { background: var(--paper);    border-color: var(--line);   }
+[data-theme="sage"] .prod-card:nth-child(2) { background: var(--line-2);   border-color: var(--line-3); }
+[data-theme="sage"] .prod-card:nth-child(3) { background: var(--ink-2);    border-color: var(--ink-2); --ink: var(--cream); --muted: rgba(255,255,255,.75); }
+[data-theme="sage"] .prod-card:nth-child(4) { background: var(--faint);    border-color: var(--line-3); }
+[data-theme="sage"] .prod-card:nth-child(5) { background: var(--cream);    border-color: var(--line-2); }
+
+/* --- Compare: tier-card grid --- */
+[data-theme="sage"] .tier-card:nth-child(1) { background: var(--paper);    border-color: var(--line);   }
+[data-theme="sage"] .tier-card.featured { background: var(--ink); border-color: var(--ink); --ink: var(--cream); --muted: rgba(255,255,255,.6); }
+[data-theme="sage"] .tier-card:nth-child(3) { background: var(--line-2);   border-color: var(--line-3); }
+[data-theme="sage"] .tier-card.featured .tier-badge { background: var(--cream); color: var(--ink); }
+
+/* --- Costs: cg-tier-card grid --- */
+[data-theme="sage"] .cg-tier-card:nth-child(1) { background: var(--paper);    border-color: var(--line);   }
+[data-theme="sage"] .cg-tier-card.featured { background: var(--ink); border-color: var(--ink); --ink: var(--cream); --muted: rgba(255,255,255,.6); }
+[data-theme="sage"] .cg-tier-card:nth-child(3) { background: var(--line-2);   border-color: var(--line-3); }
+[data-theme="sage"] .cg-tier-card.featured .ct-badge { background: var(--cream); color: var(--ink); }
+
+/* --- Locations: loc-price-card grid --- */
+[data-theme="sage"] .loc-price-card:nth-child(1) { background: var(--line-2); border-color: var(--line-3); }
+[data-theme="sage"] .loc-price-card:nth-child(2) { background: var(--ink-2);  border-color: var(--ink-2); --ink: var(--cream); --muted: rgba(255,255,255,.75); }
+[data-theme="sage"] .loc-price-card:nth-child(3) { background: var(--faint);  border-color: var(--line-3); }
+
+/* --- Locations: trust-card grid --- */
+[data-theme="sage"] .trust-card:nth-child(1) { background: var(--cream);    border-color: var(--line-2); }
+[data-theme="sage"] .trust-card:nth-child(2) { background: var(--line-2);   border-color: var(--line-3); }
+[data-theme="sage"] .trust-card:nth-child(3) { background: var(--ink-2);    border-color: var(--ink-2); --ink: var(--cream); --muted: rgba(255,255,255,.75); }
+[data-theme="sage"] .trust-card:nth-child(4) { background: var(--faint);    border-color: var(--line-3); }

@@ -51,6 +51,43 @@
   --green-12: rgba(62,81,59,.12);
 }
 
+:root[data-theme="charcoal"] {
+  --ink: #202624;
+  --ink-2: #181c1a;
+  --ink-3: #181c1a;
+  --muted: #5a635e;
+  --cream: #f4f2ec;
+  --paper: #fafaf8;
+  --white: #ffffff;
+  --lime: #b7c2b3;
+  --green: #202624;
+  --line: #e2e4e0;
+  --line-2: #d1d5d0;
+  --line-3: #d1d5d0;
+  --gold: #bfa044;
+  --faint: #d8dcd8;
+  --cream-hover: #eae8e4;
+  --cream-dark: #d1d5d0;
+  --card-shadow: 0 2px 8px rgba(32,38,36,.08);
+  --ink-04: rgba(32,38,36,.04);
+  --ink-06: rgba(32,38,36,.06);
+  --ink-07: rgba(32,38,36,.07);
+  --ink-08: rgba(32,38,36,.08);
+  --ink-10: rgba(32,38,36,.10);
+  --ink-18: rgba(32,38,36,.18);
+  --ink-20: rgba(32,38,36,.20);
+  --ink-25: rgba(32,38,36,.25);
+  --ink-30: rgba(32,38,36,.30);
+  --ink-40: rgba(32,38,36,.40);
+  --ink-55: rgba(32,38,36,.55);
+  --ink-82: rgba(32,38,36,.88);
+  --lime-12: rgba(183,194,179,.12);
+  --lime-18: rgba(183,194,179,.18);
+  --lime-25: rgba(183,194,179,.25);
+  --lime-35: rgba(183,194,179,.35);
+  --green-12: rgba(32,38,36,.12);
+}
+
 :root {
   /* Brand */
   --accent: #3b82f6;

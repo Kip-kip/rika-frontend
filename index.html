@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="sage">
+<html lang="en" data-theme="charcoal">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -283,14 +283,18 @@ img { max-width: 100%; display: block; }
 }
 /* scrolled state — floating deep-sage pill, inset from the edges */
 .header.scrolled {
-  top: 12px; left: 24px; right: 24px;
+  top: 12px;
+  left: 50%; right: auto;
+  width: calc(100% - 48px);
+  max-width: 1000px;
+  transform: translateX(-50%);
   padding: 10px 40px;
   background: var(--ink) !important;
   border: 1px solid var(--ink-2);
   border-radius: 999px;
   transition: top .35s, left .35s, right .35s, padding .35s, background .35s, border-radius .35s, box-shadow .35s;
 }
-.header:not(.scrolled) { transition: top .35s, left .35s, right .35s, padding .35s, background .35s, border-radius .35s; }
+.header:not(.scrolled) { transition: top .35s, left .35s, right .35s, padding .35s, background .35s, border-radius .35s, transform .35s; }
 .header:not(.scrolled) .logo,
 .header:not(.scrolled) .nav,
 .header:not(.scrolled) .nav-cta { transform: translateY(32px); transition: transform .35s; }

@@ -281,12 +281,24 @@ img { max-width: 100%; display: block; }
   background-repeat: no-repeat;
   background-position: center;
 }
-/* scrolled state */
+/* scrolled state — floating deep-sage pill, inset from the edges */
 .header.scrolled {
-  background: var(--ink-82) !important;
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--white-10);
+  top: 12px; left: 16px; right: 16px;
+  padding: 10px 40px;
+  background: var(--ink) !important;
+  border: 1px solid var(--ink-2);
+  border-radius: 999px;
+  transition: top .35s, left .35s, right .35s, padding .35s, background .35s, border-radius .35s, box-shadow .35s;
 }
+.header:not(.scrolled) { transition: top .35s, left .35s, right .35s, padding .35s, background .35s, border-radius .35s; }
+.header:not(.scrolled) .logo,
+.header:not(.scrolled) .nav,
+.header:not(.scrolled) .nav-cta { transform: translateY(32px); transition: transform .35s; }
+.header.scrolled .logo,
+.header.scrolled .nav,
+.header.scrolled .nav-cta { transform: none; }
+.header.scrolled .nav-cta { padding: 8px 18px; }
+.header.scrolled .nav-drop-menu { top: 48px; }
 /* push content under the fixed header */
 .hero { padding-top: 0; }
 .badge {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="sage">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,17 +16,54 @@
    Palette: ink #1a1a1c · cream #f9f7e2 · paper #f8f8f3
             accent lime #fffe54 · deep green #204832
    ============================================================ */
-:root {
-  --ink: #1a1a1c;
-  --ink-2: #333338;
-  --muted: #6e6e76;
-  --cream: #f9f7e2;
-  --paper: #f8f8f3;
+
+/* Future themes: define the same vars under [data-theme="sage"] { ... } and
+   toggle data-theme on <html> — every color above re-points in one place. */
+
+/* ============================================================
+   Sage & Cream theme (active) — single-source override
+   Palette: sages #A3B18A #8FA07D #6F8464 #556B4D #3E513B #2C3A2E
+            creams #FFF5E1 #F7ECD4 #EFD2C6 #E6D7B9 #DAC8A3 #CDBA93
+   ============================================================ */
+:root[data-theme="sage"] {
+  --ink: #3E513B;        /* Forest Sage — primary dark (headings, buttons, dark cards) */
+  --ink-2: #2C3A2E;      /* Deep Sage — nav dropdown border / dark hover */
+  --ink-3: #2C3A2E;      /* Deep Sage — dropdown item hover */
+  --muted: #6F8464;      /* Moss Sage — secondary text on dark surfaces */
+  --cream: #F7ECD4;      /* Ivory Cream — cream cards, pills */
+  --paper: #FFF5E1;      /* Cream — page/section background */
   --white: #ffffff;
-  --lime: #fffe54;
-  --green: #204832;
-  --line: #e8e5d9;
-  --card-shadow: 0 2px 8px rgba(26,26,28,.04);
+  --lime: #A3B18A;       /* Sage — accent (CTA, icons, highlights) */
+  --green: #3E513B;      /* Forest Sage — secondary accent (logo span) */
+  --line: #E6D7B9;       /* Warm Cream — hairline borders */
+  --line-2: #DAC8A3;     /* Dark Cream — stronger cream borders */
+  --line-3: #DAC8A3;     /* Dark Cream — pricing card hover border */
+  --gold: #D4A017;       /* Star ratings (kept) */
+  --faint: #CDBA93;      /* Vintage Cream — big faded section numerals */
+  --cream-hover: #EFD2C6;/* Soft Cream — light hover fills */
+  --cream-dark: #DAC8A3;/* Dark Cream — progress/track bars */
+  --card-shadow: 0 2px 8px rgba(62,81,59,.06);
+
+  /* Ink tints re-pointed to Forest Sage */
+  --ink-04: rgba(62,81,59,.04);
+  --ink-06: rgba(62,81,59,.06);
+  --ink-07: rgba(62,81,59,.07);
+  --ink-08: rgba(62,81,59,.08);
+  --ink-10: rgba(62,81,59,.10);
+  --ink-18: rgba(44,58,46,.18);
+  --ink-20: rgba(62,81,59,.20);
+  --ink-25: rgba(62,81,59,.25);
+  --ink-30: rgba(62,81,59,.30);
+  --ink-40: rgba(44,58,46,.40);
+  --ink-55: rgba(44,58,46,.55);
+  --ink-82: rgba(44,58,46,.82);
+
+  /* Accent tints */
+  --lime-12: rgba(163,177,138,.12);
+  --lime-18: rgba(163,177,138,.18);
+  --lime-25: rgba(163,177,138,.25);
+  --lime-35: rgba(163,177,138,.35);
+  --green-12: rgba(62,81,59,.12);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -61,7 +98,7 @@ img { max-width: 100%; display: block; }
 /* ============================================================ NAV */
 .site-nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(255,255,255,.86);
+  background: var(--white-86);
   backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--line);
 }
@@ -74,21 +111,21 @@ img { max-width: 100%; display: block; }
   font-size: 14.5px; font-weight: 500; color: var(--ink-2);
   padding: 8px 14px; border-radius: 999px; transition: background .2s, color .2s;
 }
-.nav-links a.nl:hover { background: #f1efe6; color: var(--ink); }
-.nav-links a.nl.on { background: var(--ink); color: #fff; }
+.nav-links a.nl:hover { background: var(--cream-hover); color: var(--ink); }
+.nav-links a.nl.on { background: var(--ink); color: var(--white); }
 .nav-cta {
-  background: var(--ink); color: #fff !important;
+  background: var(--ink); color: var(--white) !important;
   padding: 11px 22px; border-radius: 999px;
   font-size: 14.5px; font-weight: 600;
   transition: transform .2s, box-shadow .2s;
 }
-.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(26,26,28,.2); }
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 10px 24px var(--ink-20); }
 .burger { display: none; background: none; border: none; font-size: 22px; cursor: pointer; color: var(--ink); }
 
 /* ============================================================ HERO (1:1 Optivio) */
 .hero {
   position: relative;
-  background: #000;
+  background: var(--ink);
   border-radius: 40px;
   overflow: hidden;
   margin: 32px 32px 32px;
@@ -115,81 +152,81 @@ img { max-width: 100%; display: block; }
   margin-bottom: 28px;
 }
 .hero-badge .lbl {
-  font-size: 13.5px; font-weight: 500; color: rgba(255,255,255,.75);
+  font-size: 13.5px; font-weight: 500; color: var(--white-75);
   letter-spacing: .01em;
 }
 .hero-badge .stars-row {
   display: flex; align-items: center; gap: 6px;
 }
-.hero-badge .stars { color: #fffe54; letter-spacing: 2px; font-size: 15px; }
-.hero-badge .score { color: #fff; font-weight: 600; font-size: 15px; }
+.hero-badge .stars { color: var(--lime); letter-spacing: 2px; font-size: 15px; }
+.hero-badge .score { color: var(--white); font-weight: 600; font-size: 15px; }
 .hero h1 {
   font-size: clamp(44px, 7vw, 76px);
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 1.02;
-  color: #fff;
+  color: var(--white);
   margin: 0 0 22px;
 }
 .word-cycle span {
   display: inline-block;
-  color: #fffe54;
+  color: var(--lime);
   transition: transform .45s cubic-bezier(.22,1,.36,1), opacity .45s cubic-bezier(.22,1,.36,1);
 }
 .word-cycle span.out { transform: translateY(-70%) rotateX(45deg); opacity: 0; }
 .word-cycle span.in  { transform: translateY(0) rotateX(0); opacity: 1; }
 .hero .sub {
-  color: rgba(255,255,255,.62);
+  color: var(--white-62);
   font-size: 18px; line-height: 1.55;
   max-width: 560px; margin: 0 auto 36px;
 }
 /* email-capture pill */
 .email-pill {
   display: flex; align-items: center;
-  background: rgba(252,252,252,.2);
+  background: var(--offwhite-20);
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,.12);
+  border: 1px solid var(--white-12);
   border-radius: 999px;
   padding: 8px 8px 8px 28px;
   max-width: 520px; margin: 0 auto;
-  box-shadow: 0 20px 50px rgba(0,0,0,.4);
+  box-shadow: 0 20px 50px var(--ink-40);
 }
 .email-pill input {
   flex: 1; background: none; border: none; outline: none;
-  color: #fff; font-family: inherit; font-size: 15px;
+  color: var(--white); font-family: inherit; font-size: 15px;
   min-width: 0;
 }
-.email-pill input::placeholder { color: rgba(255,255,255,.55); }
+.email-pill input::placeholder { color: var(--white-55); }
 .email-pill .go {
   width: 48px; height: 48px; flex-shrink: 0;
   border-radius: 50%; border: none; cursor: pointer;
-  background: #fffe54; color: #1a1a1c;
+  background: var(--lime); color: var(--ink);
   display: flex; align-items: center; justify-content: center;
   transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s;
 }
-.email-pill .go:hover { transform: scale(1.06); box-shadow: 0 0 0 6px rgba(255,254,84,.18); }
+.email-pill .go:hover { transform: scale(1.06); box-shadow: 0 0 0 6px var(--lime-18); }
 .hero-note {
-  margin-top: 18px; font-size: 13px; color: rgba(255,255,255,.5);
+  margin-top: 18px; font-size: 13px; color: var(--white-50);
 }
 /* trusted-by strip inside hero bottom */
 .trusted-strip {
   position: relative; z-index: 2;
-  border-top: 1px solid rgba(255,255,255,.1);
+  border-top: 1px solid var(--white-10);
   padding: 28px 0 36px;
   text-align: center;
 }
 .trusted-strip .lbl {
-  font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.55);
+  font-size: 12.5px; font-weight: 600; color: var(--white-55);
   text-transform: uppercase; letter-spacing: .16em; margin-bottom: 24px;
 }
 .trusted-strip .row {
   display: flex; flex-wrap: wrap; gap: 16px 48px; justify-content: center;
 }
 .trusted-strip .tlogo {
-  font-weight: 700; color: rgba(255,255,255,.4); font-size: 17px; letter-spacing: -.02em;
+  font-weight: 700; color: var(--white-40); font-size: 17px; letter-spacing: -.02em;
   transition: color .4s;
 }
-.trusted-strip .tlogo:hover { color: #fff; }
+.trusted-strip .tlogo:hover { color: var(--white); }
 /* ============ NAV over hero (1:1 Optivio) ============ */
 /* The canonical .header (from rika.css) is overridden on the home hero:
    transparent over the black hero, white text, dark-on-scroll. */
@@ -203,39 +240,39 @@ img { max-width: 100%; display: block; }
   z-index: 200;
   transition: background .35s, backdrop-filter .35s, border-color .35s;
 }
-.header .logo { color: #fff; font-size: 22px; }
-.header .logo span { color: #fff; }
+.header .logo { color: var(--white); font-size: 22px; }
+.header .logo span { color: var(--white); }
 .header .nav { display: flex; align-items: center; gap: 8px; margin-left: auto; margin-right: 28px; }
 .header .nav a, .header .nav .nav-drop-toggle {
-  color: rgba(255,255,255,.85) !important;
+  color: var(--white-85) !important;
   font-size: 15px;
   padding: 9px 14px;
   background: none !important;
 }
-.header .nav a:hover { color: #fff !important; background: rgba(255,255,255,.08) !important; }
-.header .nav a.active { color: #fffe54 !important; background: transparent !important; }
+.header .nav a:hover { color: var(--white) !important; background: var(--white-08) !important; }
+.header .nav a.active { color: var(--lime) !important; background: transparent !important; }
 .header .nav-drop-menu {
-  background: #111; border-color: #2a2a2e;
-  color: #fff;
+  background: var(--ink); border-color: var(--ink-2);
+  color: var(--white);
 }
-.header .nav-drop-item { color: rgba(255,255,255,.75); }
-.header .nav-drop-item:hover { background: #222; color: #fff; }
+.header .nav-drop-item { color: var(--white-75); }
+.header .nav-drop-item:hover { background: var(--ink-3); color: var(--white); }
 .header .nav-cta {
   display: inline-flex; align-items: center; gap: 8px;
-  background: #fffe54; color: #1a1a1c;
+  background: var(--lime); color: var(--ink);
   font-size: 14px; font-weight: 600;
   padding: 10px 20px; border-radius: 999px;
   transition: transform .2s, box-shadow .2s;
-  box-shadow: inset 0 0 0 2px rgba(32,72,50,.12), 0 0 0 0 transparent;
+  box-shadow: inset 0 0 0 2px var(--green-12), 0 0 0 0 transparent;
 }
-.header .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255,254,84,.25); }
+.header .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 20px var(--lime-25); }
 .header .nav-cta-arrow { font-size: 16px; line-height: 1; }
 /* black circular icon chip on the right, like the "Review capabilities" pill */
 .header .nav-cta::after {
   content: "";
   width: 26px; height: 26px;
   border-radius: 50%;
-  background: #1a1a1c;
+  background: var(--ink);
   margin-left: 4px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cg fill='%23fffe54'%3E%3Ccircle cx='3' cy='3' r='1.3'/%3E%3Ccircle cx='7' cy='3' r='1.3'/%3E%3Ccircle cx='11' cy='3' r='1.3'/%3E%3Ccircle cx='3' cy='7' r='1.3'/%3E%3Ccircle cx='7' cy='7' r='1.3'/%3E%3Ccircle cx='11' cy='7' r='1.3'/%3E%3Ccircle cx='3' cy='11' r='1.3'/%3E%3Ccircle cx='7' cy='11' r='1.3'/%3E%3Ccircle cx='11' cy='11' r='1.3'/%3E%3C/g%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -243,16 +280,16 @@ img { max-width: 100%; display: block; }
 }
 /* scrolled state */
 .header.scrolled {
-  background: rgba(10,10,12,.82) !important;
+  background: var(--ink-82) !important;
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255,255,255,.1);
+  border-bottom: 1px solid var(--white-10);
 }
 /* push content under the fixed header */
 .hero { padding-top: 0; }
 .badge {
   display: inline-flex; align-items: center; gap: 10px;
   background: var(--cream);
-  border: 1px solid #e6e2c8;
+  border: 1px solid var(--line-2);
   border-radius: 999px;
   padding: 8px 18px;
   font-size: 13.5px;
@@ -260,7 +297,7 @@ img { max-width: 100%; display: block; }
   margin-bottom: 32px;
   font-weight: 500;
 }
-.badge .stars { color: #d4a017; letter-spacing: 1.5px; font-size: 13px; }
+.badge .stars { color: var(--gold); letter-spacing: 1.5px; font-size: 13px; }
 .badge b { color: var(--ink); font-weight: 700; }
 .hero h1 {
   font-size: clamp(48px, 8vw, 92px);
@@ -292,9 +329,9 @@ img { max-width: 100%; display: block; }
   will-change: transform;
 }
 .btn:hover { transform: translateY(-2px); }
-.btn-dark { background: var(--ink); color: #fff; }
-.btn-dark:hover { box-shadow: 0 14px 30px rgba(26,26,28,.25); }
-.btn-cream { background: var(--cream); color: var(--ink); border: 1px solid #e6e2c8; }
+.btn-dark { background: var(--ink); color: var(--white); }
+.btn-dark:hover { box-shadow: 0 14px 30px var(--ink-25); }
+.btn-cream { background: var(--cream); color: var(--ink); border: 1px solid var(--line-2); }
 .btn-cream:hover { border-color: var(--ink); }
 .trial-note { margin-top: 18px; font-size: 13.5px; color: var(--muted); }
 
@@ -309,7 +346,7 @@ img { max-width: 100%; display: block; }
   justify-content: center; align-items: center;
 }
 .logo-row .tlogo {
-  font-weight: 700; color: #b8b4a2; font-size: 18px; letter-spacing: -.02em;
+  font-weight: 700; color: var(--faint); font-size: 18px; letter-spacing: -.02em;
   transition: color .4s, transform .4s;
 }
 .logo-row .tlogo:hover { color: var(--ink); transform: translateY(-3px); }
@@ -326,14 +363,14 @@ section { padding: 96px 0; }
 
 /* ============================================================ STATS (dark band) */
 .stats-band {
-  background: var(--ink); color: #fff;
+  background: var(--ink); color: var(--white);
   border-radius: 40px;
   padding: 56px 0;
 }
 .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); }
 .stat {
   padding: 24px 16px; text-align: center;
-  border-right: 1px solid rgba(255,255,255,.1);
+  border-right: 1px solid var(--white-10);
 }
 .stat:last-child { border-right: none; }
 .stat .n {
@@ -342,9 +379,46 @@ section { padding: 96px 0; }
 }
 .stat .n em { font-style: normal; color: var(--lime); }
 .stat .l {
-  margin-top: 14px; font-size: 13.5px; color: rgba(255,255,255,.55);
+  margin-top: 14px; font-size: 13.5px; color: var(--white-55);
   line-height: 1.5;
 }
+
+
+/* ============================================================ RESULTS / TOOLS (Optivio cards) */
+.res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.res-card {
+  background: var(--cream); border: 1px solid var(--line);
+  border-radius: 32px; padding: 36px;
+  transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
+  display: block; text-decoration: none; color: inherit;
+}
+.res-card:hover { transform: translateY(-6px); box-shadow: 0 24px 60px var(--ink-10); }
+.res-card .chip {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--ink); color: var(--lime);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 28px;
+}
+.res-card .chip svg { width: 24px; height: 24px; }
+.res-card h3 { font-size: 20px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 10px; color: var(--ink); }
+.res-card p { font-size: 14.5px; color: var(--muted); line-height: 1.65; }
+.res-card.photo { background: none; border: none; padding: 0; overflow: hidden; position: relative; }
+.res-card.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.res-card.photo::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, var(--ink-04) 40%, var(--ink-55));
+}
+.res-card.photo .cap {
+  position: absolute; left: 28px; right: 28px; bottom: 24px; z-index: 1;
+  color: var(--white); font-weight: 700; font-size: 16px; letter-spacing: -.01em;
+}
+.pill-tag {
+  display: inline-block; background: var(--cream); border: 1px solid var(--line);
+  padding: 6px 14px; border-radius: 100px;
+  font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 16px;
+}
+@media (max-width: 1024px) { .res-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .res-grid { grid-template-columns: 1fr; } }
 
 /* ============================================================ COMPARISON */
 .cmp { background: var(--paper); }
@@ -354,21 +428,21 @@ section { padding: 96px 0; }
   border-radius: 32px; padding: 36px;
   transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
 }
-.cmp-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(26,26,28,.07); }
-.cmp-card.us { background: var(--ink); color: #fff; border-color: var(--ink); }
-.cmp-card.us:hover { box-shadow: 0 24px 60px rgba(26,26,28,.25); }
+.cmp-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px var(--ink-07); }
+.cmp-card.us { background: var(--ink); color: var(--white); border-color: var(--ink); }
+.cmp-card.us:hover { box-shadow: 0 24px 60px var(--ink-25); }
 .cmp-card h3 { font-size: 22px; margin-bottom: 6px; }
 .cmp-card .tag { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
-.cmp-card.us .tag { color: rgba(255,255,255,.5); }
+.cmp-card.us .tag { color: var(--white-50); }
 .cmp-card ul { list-style: none; }
 .cmp-card li {
-  padding: 13px 0; border-bottom: 1px solid rgba(26,26,28,.07);
+  padding: 13px 0; border-bottom: 1px solid var(--ink-07);
   font-size: 15px; display: flex; gap: 12px; align-items: flex-start; line-height: 1.5;
 }
-.cmp-card.us li { border-color: rgba(255,255,255,.12); }
+.cmp-card.us li { border-color: var(--white-12); }
 .cmp-card li:last-child { border-bottom: none; }
 .cmp-card .tick { font-weight: 700; flex-shrink: 0; width: 20px; text-align: center; }
-.cmp-card:not(.us) .tick { color: #b8b4a2; }
+.cmp-card:not(.us) .tick { color: var(--faint); }
 .cmp-card.us .tick { color: var(--lime); }
 
 /* ============================================================ FEATURES */
@@ -380,8 +454,8 @@ section { padding: 96px 0; }
 }
 .feat:hover {
   transform: translateY(-6px);
-  box-shadow: 0 24px 60px rgba(26,26,28,.08);
-  border-color: #d8d4c2;
+  box-shadow: 0 24px 60px var(--ink-08);
+  border-color: var(--line-3);
 }
 .feat .ico {
   width: 52px; height: 52px; border-radius: 16px;
@@ -401,11 +475,11 @@ section { padding: 96px 0; }
   border-radius: 32px; padding: 36px; position: relative;
   transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
 }
-.step:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(26,26,28,.07); }
+.step:hover { transform: translateY(-5px); box-shadow: 0 20px 50px var(--ink-07); }
 .step .num {
   display: inline-flex; align-items: center; justify-content: center;
   width: 40px; height: 40px; border-radius: 50%;
-  background: var(--ink); color: #fff;
+  background: var(--ink); color: var(--white);
   font-size: 14px; font-weight: 700;
   margin-bottom: 22px;
 }
@@ -418,20 +492,20 @@ section { padding: 96px 0; }
 .tab-pill {
   padding: 12px 26px; border-radius: 999px;
   font-size: 15px; font-weight: 600;
-  background: var(--white); border: 1px solid #e6e2c8;
+  background: var(--white); border: 1px solid var(--line-2);
   color: var(--ink-2); cursor: pointer;
   transition: all .25s cubic-bezier(.22,1,.36,1);
   font-family: inherit;
 }
 .tab-pill:hover { border-color: var(--ink); color: var(--ink); }
-.tab-pill.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+.tab-pill.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
 .tab-panels { position: relative; min-height: 320px; }
 .tab-panel { display: none; }
 .tab-panel.active { display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: center; animation: fadeUp .55s cubic-bezier(.22,1,.36,1); }
 .tab-panel h3 { font-size: clamp(26px, 3.2vw, 38px); letter-spacing: -0.03em; margin-bottom: 18px; }
 .tab-panel p { color: var(--ink-2); font-size: 16.5px; line-height: 1.65; }
 .tab-visual {
-  background: var(--white); border: 1px solid #e6e2c8;
+  background: var(--white); border: 1px solid var(--line-2);
   border-radius: 32px; min-height: 300px;
   display: flex; align-items: center; justify-content: center;
   font-size: 72px;
@@ -464,8 +538,8 @@ section { padding: 96px 0; }
   border-radius: 32px; padding: 32px;
   transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
 }
-.testi:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(26,26,28,.07); }
-.testi .stars { color: #d4a017; letter-spacing: 3px; margin-bottom: 18px; font-size: 15px; }
+.testi:hover { transform: translateY(-5px); box-shadow: 0 20px 50px var(--ink-07); }
+.testi .stars { color: var(--gold); letter-spacing: 3px; margin-bottom: 18px; font-size: 15px; }
 .testi q { font-size: 15.5px; line-height: 1.7; color: var(--ink-2); }
 .testi .who { margin-top: 22px; font-size: 15px; font-weight: 700; }
 .testi .who span { display: block; font-weight: 400; color: var(--muted); margin-top: 3px; font-size: 13.5px; }
@@ -479,14 +553,14 @@ section { padding: 96px 0; }
 .price-toggle span.on { color: var(--ink); font-weight: 700; }
 .switch {
   width: 56px; height: 32px; border-radius: 999px;
-  background: #ddd9c8; position: relative; cursor: pointer;
+  background: var(--cream-dark); position: relative; cursor: pointer;
   border: none; transition: background .25s;
 }
 .switch::after {
   content: ""; position: absolute; top: 3px; left: 3px;
-  width: 26px; height: 26px; background: #fff; border-radius: 50%;
+  width: 26px; height: 26px; background: var(--white); border-radius: 50%;
   transition: transform .25s cubic-bezier(.22,1,.36,1);
-  box-shadow: 0 2px 8px rgba(0,0,0,.18);
+  box-shadow: 0 2px 8px var(--ink-18);
 }
 .switch.on { background: var(--ink); }
 .switch.on::after { transform: translateX(24px); }
@@ -498,9 +572,9 @@ section { padding: 96px 0; }
   display: flex; flex-direction: column; position: relative;
   transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s, border-color .3s;
 }
-.plan:hover { transform: translateY(-5px); box-shadow: 0 24px 60px rgba(26,26,28,.08); border-color: #d8d4c2; }
-.plan.hot { background: var(--ink); color: #fff; border-color: var(--ink); }
-.plan.hot:hover { box-shadow: 0 28px 70px rgba(26,26,28,.3); }
+.plan:hover { transform: translateY(-5px); box-shadow: 0 24px 60px var(--ink-08); border-color: var(--line-3); }
+.plan.hot { background: var(--ink); color: var(--white); border-color: var(--ink); }
+.plan.hot:hover { box-shadow: 0 28px 70px var(--ink-30); }
 .plan .hot-tag {
   position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
   background: var(--lime); color: var(--ink);
@@ -509,25 +583,25 @@ section { padding: 96px 0; }
 }
 .plan h3 { font-size: 19px; margin-bottom: 4px; }
 .plan .who-line { font-size: 13px; color: var(--muted); margin-bottom: 22px; min-height: 38px; }
-.plan.hot .who-line { color: rgba(255,255,255,.55); }
+.plan.hot .who-line { color: var(--white-55); }
 .plan .amt { font-size: 42px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
 .plan .amt small { font-size: 14px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
-.plan.hot .amt small { color: rgba(255,255,255,.5); }
+.plan.hot .amt small { color: var(--white-50); }
 .plan ul { list-style: none; margin: 24px 0; flex: 1; }
 .plan li {
   font-size: 14px; padding: 10px 0;
-  border-bottom: 1px solid rgba(26,26,28,.07);
+  border-bottom: 1px solid var(--ink-07);
   display: flex; gap: 10px; align-items: flex-start; line-height: 1.45;
 }
-.plan.hot li { border-color: rgba(255,255,255,.12); color: rgba(255,255,255,.85); }
+.plan.hot li { border-color: var(--white-12); color: var(--white-85); }
 .plan li:last-child { border-bottom: none; }
 .plan .tick { color: var(--green); font-weight: 700; flex-shrink: 0; }
 .plan.hot .tick { color: var(--lime); }
 .plan .btn { justify-content: center; width: 100%; margin-top: 8px; }
-.plan:not(.hot) .btn { background: var(--ink); color: #fff; }
-.plan:not(.hot) .btn:hover { box-shadow: 0 12px 28px rgba(26,26,28,.2); }
+.plan:not(.hot) .btn { background: var(--ink); color: var(--white); }
+.plan:not(.hot) .btn:hover { box-shadow: 0 12px 28px var(--ink-20); }
 .plan.hot .btn { background: var(--lime); color: var(--ink); }
-.plan.hot .btn:hover { box-shadow: 0 12px 28px rgba(255,254,84,.35); }
+.plan.hot .btn:hover { box-shadow: 0 12px 28px var(--lime-35); }
 
 /* ============================================================ FAQ */
 .faq-list { max-width: 780px; margin: 0 auto; }
@@ -550,22 +624,22 @@ section { padding: 96px 0; }
 
 /* ============================================================ FINAL CTA */
 .final-cta {
-  background: var(--ink); color: #fff;
+  background: var(--ink); color: var(--white);
   border-radius: 40px; text-align: center;
   padding: 88px 24px; position: relative; overflow: hidden;
 }
 .final-cta::before {
   content: ""; position: absolute; inset: 0;
-  background: radial-gradient(ellipse 70% 50% at 50% 110%, rgba(255,254,84,.12), transparent 70%);
+  background: radial-gradient(ellipse 70% 50% at 50% 110%, var(--lime-12), transparent 70%);
   pointer-events: none;
 }
 .final-cta > * { position: relative; }
 .final-cta h2 { font-size: clamp(36px, 5.5vw, 60px); letter-spacing: -0.04em; max-width: 800px; margin: 0 auto; }
-.final-cta p { margin: 22px auto 36px; color: rgba(255,255,255,.6); max-width: 540px; font-size: 17px; }
+.final-cta p { margin: 22px auto 36px; color: var(--white-60); max-width: 540px; font-size: 17px; }
 .final-cta .btn-lime { background: var(--lime); color: var(--ink); }
-.final-cta .btn-lime:hover { box-shadow: 0 14px 32px rgba(255,254,84,.35); }
-.final-cta .btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.3); }
-.final-cta .btn-ghost:hover { border-color: #fff; }
+.final-cta .btn-lime:hover { box-shadow: 0 14px 32px var(--lime-35); }
+.final-cta .btn-ghost { background: transparent; color: var(--white); border: 1px solid var(--white-30); }
+.final-cta .btn-ghost:hover { border-color: var(--white); }
 
 /* ============================================================ FOOTER */
 .site-footer { border-top: 1px solid var(--line); padding: 64px 0 36px; margin-top: 64px; }
@@ -597,13 +671,13 @@ section { padding: 96px 0; }
   .nav-links.open {
     display: flex; flex-direction: column; align-items: stretch;
     position: absolute; top: 76px; left: 0; right: 0;
-    background: #fff; border-bottom: 1px solid var(--line);
+    background: var(--white); border-bottom: 1px solid var(--line);
     padding: 16px; gap: 4px;
   }
   section { padding: 64px 0; }
   .hero { padding: 128px 0 64px; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .stat { border-right: none; border-bottom: 1px solid var(--white-10); }
   .plans { grid-template-columns: 1fr; }
   .foot-grid { grid-template-columns: 1fr 1fr; }
 }
@@ -611,16 +685,46 @@ section { padding: 96px 0; }
 </head>
 <body>
 <header class="header">
-    <a class="logo" href="/rika/"><svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="13" y1="13" x2="13" y2="3"/><line x1="13" y1="13" x2="21.6" y2="7.8"/><line x1="13" y1="13" x2="21.6" y2="18.2"/><line x1="13" y1="13" x2="13" y2="23"/><line x1="13" y1="13" x2="4.4" y2="18.2"/><line x1="13" y1="13" x2="4.4" y2="7.8"/></g></svg><span class="logo-word">Rika</span></a>
+    <a class="logo" href="/rika/">Ri<span>ka</span></a>
     <nav class="nav">
       <a href="/rika/" class="nav-link">Home</a>
-      <a href="/rika/products/windows/" class="nav-link">Products</a>
-      <a href="/rika/tools/quotation/" class="nav-link">Tools</a>
+      <div class="nav-drop">
+        <a class="nav-drop-toggle" data-section="products">Products <span class="caret">&#9662;</span></a>
+        <div class="nav-drop-menu">
+          <a href="/rika/products/windows/" class="nav-drop-item">Windows</a>
+          <a href="/rika/products/doors/" class="nav-drop-item">Doors</a>
+          <a href="/rika/products/glass/" class="nav-drop-item">Glass</a>
+          <a href="/rika/products/shopfronts/" class="nav-drop-item">Shopfronts</a>
+          <a href="/rika/products/partitions/" class="nav-drop-item">Partitions</a>
+        </div>
+      </div>
+      <div class="nav-drop">
+        <a class="nav-drop-toggle" data-section="tools">Tools <span class="caret">&#9662;</span></a>
+        <div class="nav-drop-menu">
+          <a href="/rika/tools/calculator/" class="nav-drop-item">Calculator</a>
+          <a href="/rika/tools/design/" class="nav-drop-item">Design Studio</a>
+          <a href="/rika/tools/quiz/" class="nav-drop-item">Find Your Window</a>
+          <a href="/rika/tools/house-windows/" class="nav-drop-item">Your House, Your Windows</a>
+          <a href="/rika/tools/house-map/" class="nav-drop-item">House Window Map</a>
+          <a href="/rika/tools/visualizer/" class="nav-drop-item">Visualizer</a>
+          <a href="/rika/tools/build/" class="nav-drop-item">Build My House Windows</a>
+          <a href="/rika/tools/measurement/" class="nav-drop-item">Book a Measurement</a>
+          <a href="/rika/tools/quotation/" class="nav-drop-item">Request a Quotation</a>
+        </div>
+      </div>
       <a href="/rika/locations/nairobi/" class="nav-link">Locations</a>
-      <a href="/rika/prices/" class="nav-link">Pricing</a>
+      <a href="/rika/prices/" class="nav-link">Prices</a>
+      <div class="nav-drop">
+        <a class="nav-drop-toggle" data-section="guides">Guides <span class="caret">&#9662;</span></a>
+        <div class="nav-drop-menu">
+          <a href="/rika/guide/" class="nav-drop-item">Buying Guide</a>
+          <a href="/rika/costs/3-bedroom-house/" class="nav-drop-item">Cost Guides</a>
+          <a href="/rika/compare/" class="nav-drop-item">Compare: Aluminium vs UPVC</a>
+        </div>
+      </div>
+      <a href="/rika/reviews/" class="nav-link">Reviews</a>
       <a href="/rika/case-studies/" class="nav-link">Case Studies</a>
     </nav>
-    <a class="nav-cta" href="/rika/tools/quotation/">Get a Free Quote</a>
   </header>
 
 
@@ -674,6 +778,49 @@ section { padding: 96px 0; }
   </div>
 </section>
 
+
+<!-- ============ RESULTS / TOOLS ============ -->
+<section id="results" style="padding-top:0;">
+  <div class="wrap" style="max-width:1440px; padding:0 40px;">
+    <div class="sec-head reveal" style="text-align:left; max-width:720px; margin:0 0 64px;">
+      <div class="pill-tag">Do it yourself</div>
+      <h2>Your windows, designed &amp; priced online</h2>
+      <p>Size, design and price your windows with our tools — on your time, before we ever pick up the phone.</p>
+    </div>
+    <div class="res-grid">
+      <a class="res-card reveal" href="/rika/tools/calculator/">
+        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg></div>
+        <h3>Price it in 60 seconds</h3>
+        <p>Enter your dimensions in the live calculator and get a real KSh range instantly. No “call for a quote” games.</p>
+      </a>
+      <a class="res-card reveal d1" href="/rika/tools/design/">
+        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="4"/></svg></div>
+        <h3>Design Studio</h3>
+        <p>Build your window on screen — panels, finish, glass, burglar grill — and watch the price update live.</p>
+      </a>
+      <a class="res-card reveal d2" href="/rika/tools/visualizer/">
+        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 16l5-5 4 4 3-3 6 6"/><path d="M3 20h18"/><circle cx="9" cy="8" r="2"/></svg></div>
+        <h3>See it on your house</h3>
+        <p>Upload a photo, mark the opening, and see Rika windows fitted in place — before/after on your own home.</p>
+      </a>
+      <a class="res-card reveal" href="/rika/tools/measure/">
+        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-5.1 7-11a7 7 0 10-14 0c0 5.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+        <h3>Free measurement</h3>
+        <p>Book a slot and our team measures every opening at your site — Nairobi, Ruiru &amp; Kiambu. Free delivery.</p>
+      </a>
+      <div class="res-card photo reveal d1">
+        <img src="/rika/assets/house-windows.jpg" alt="Modern home with large Rika windows" loading="lazy" />
+        <div class="cap">Your house, your windows</div>
+      </div>
+      <a class="res-card reveal d2" href="/rika/guides/warranty/">
+        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v5c0 5-3.4 8.3-7 10-3.6-1.7-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>10-year warranty</h3>
+        <p>Frames and glass covered in writing, in your project docs — not a promise, a document you can hold us to.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ============ COMPARISON ============ -->
 <section id="why" class="cmp">
   <div class="wrap">
@@ -709,24 +856,6 @@ section { padding: 96px 0; }
   </div>
 </section>
 
-<!-- ============ FEATURES ============ -->
-<section id="products" style="padding-top:0;">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="eyebrow">Everything</div>
-      <h2>Everything you need, in one clinical view.</h2>
-      <p>We've made the whole journey digital — so you can focus on choosing what you love, not chasing suppliers.</p>
-    </div>
-    <div class="feat-grid">
-      <div class="feat reveal"><div class="ico">🪟</div><h3>Windows, Doors &amp; Glass</h3><p>Sliding, hinged, casement, shopfronts and partitions — aluminium and glass, spec'd for the Kenyan climate and your exact opening.</p></div>
-      <div class="feat reveal d1"><div class="ico">🧮</div><h3>Live Price Calculator</h3><p>Enter your dimensions and get a real KSh range in under a minute. No "call for a quote" games — the price is right there.</p></div>
-      <div class="feat reveal d2"><div class="ico">🎨</div><h3>Design Studio</h3><p>Build your window on screen: panels, finish, glass, burglar grill. Watch the price update live, then save it as a lead in one tap.</p></div>
-      <div class="feat reveal"><div class="ico">📷</div><h3>Photo Visualizer</h3><p>Upload a photo of your house, mark the opening, and see Rika windows fitted in place before we ever visit. Before/after, on your home.</p></div>
-      <div class="feat reveal d1"><div class="ico">📍</div><h3>Free Measurement</h3><p>Book a slot and our team measures every opening at your site — dimensions feed straight into your exact quotation. No surprises.</p></div>
-      <div class="feat reveal d2"><div class="ico">📑</div><h3>Track Your Project</h3><p>From measurement to handover, every stage is visible in your project dashboard. No more "any update?" calls.</p></div>
-    </div>
-  </div>
-</section>
 
 <!-- ============ 3 STEPS ============ -->
 <section style="padding-top:0;">

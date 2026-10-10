@@ -380,65 +380,56 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
    ============================================================ */
 /* --- Home: tools grid (res-card) --- */
 [data-theme="sage"] .res-card:not(.photo):nth-child(1) { background: var(--faint);     border-color: var(--line-3); }
-[data-theme="sage"] .res-card:not(.photo):nth-child(2) { background: var(--ink-2);     border-color: var(--ink-2);  --ink: var(--cream); --muted: rgba(255,255,255,.75); }
+[data-theme="sage"] .res-card:not(.photo):nth-child(2) { background: var(--ink-2);     border-color: var(--ink-2); }
 [data-theme="sage"] .res-card:not(.photo):nth-child(3) { background: var(--line-2);    border-color: var(--line-3); }
-[data-theme="sage"] .res-card:not(.photo):nth-child(4) { background: var(--green);     border-color: var(--ink-2);  --ink: var(--cream); --muted: rgba(255,255,255,.75); }
+[data-theme="sage"] .res-card:not(.photo):nth-child(4) { background: var(--green);     border-color: var(--ink-2); }
 [data-theme="sage"] .res-card:not(.photo):nth-child(5) { background: var(--cream);     border-color: var(--line-2); }
 [data-theme="sage"] .res-card:not(.photo):nth-child(6) { background: var(--paper);     border-color: var(--line);   }
-[data-theme="sage"] .res-card:not(.photo):nth-child(even) .chip { background: var(--cream); color: var(--ink-2); }
 
 /* --- Home: comparison (cmp-card) --- */
 [data-theme="sage"] .cmp-card:not(.us):nth-child(1) { background: var(--faint);  border-color: var(--line-3); }
-[data-theme="sage"] .cmp-card.us { background: var(--ink); border-color: var(--ink); --ink: var(--cream); --muted: rgba(255,255,255,.6); }
+[data-theme="sage"] .cmp-card.us { background: var(--ink); border-color: var(--ink); }
 
 /* --- Home: pricing plans (plan) --- */
 [data-theme="sage"] .plan:nth-child(1) { background: var(--paper);    border-color: var(--line);   }
 [data-theme="sage"] .plan:nth-child(2) { background: var(--line-2);   border-color: var(--line-3); }
-[data-theme="sage"] .plan.hot { background: var(--ink); border-color: var(--ink); --ink: var(--cream); --muted: rgba(255,255,255,.6); }
+[data-theme="sage"] .plan.hot { background: var(--ink); border-color: var(--ink); }
 [data-theme="sage"] .plan:nth-child(4) { background: var(--faint);    border-color: var(--line-3); }
-[data-theme="sage"] .plan.hot li { border-color: var(--white-12); }
 
 /* --- Home: steps (step) --- */
 [data-theme="sage"] .step:nth-child(1) { background: var(--line-2);   border-color: var(--line-3); }
 [data-theme="sage"] .step:nth-child(2) { background: var(--ink-2);    border-color: var(--ink-2); }
-[data-theme="sage"] .step:nth-child(2) h3 { color: var(--cream); }
-[data-theme="sage"] .step:nth-child(2) p { color: rgba(255,255,255,.75); }
 [data-theme="sage"] .step:nth-child(3) { background: var(--faint);    border-color: var(--line-3); }
-[data-theme="sage"] .step:nth-child(even) .num { background: var(--cream); color: var(--ink-2); }
 
 /* --- Home: testimonials (testi) --- */
 [data-theme="sage"] .testi:nth-child(1) { background: var(--cream);    border-color: var(--line-2); }
 [data-theme="sage"] .testi:nth-child(2) { background: var(--ink);      border-color: var(--ink); }
 [data-theme="sage"] .testi:nth-child(3) { background: var(--line-2);   border-color: var(--line-3); }
-[data-theme="sage"] .testi:nth-child(2) q, [data-theme="sage"] .testi:nth-child(2) .who { color: var(--cream); }
-[data-theme="sage"] .testi:nth-child(2) .who span { color: rgba(255,255,255,.7); }
 
 /* --- Product pages: prod-card grid --- */
 [data-theme="sage"] .prod-card:nth-child(1) { background: var(--paper);    border-color: var(--line);   }
 [data-theme="sage"] .prod-card:nth-child(2) { background: var(--line-2);   border-color: var(--line-3); }
-[data-theme="sage"] .prod-card:nth-child(3) { background: var(--ink-2);    border-color: var(--ink-2); --ink: var(--cream); --muted: rgba(255,255,255,.75); }
+[data-theme="sage"] .prod-card:nth-child(3) { background: var(--ink-2);    border-color: var(--ink-2); }
 [data-theme="sage"] .prod-card:nth-child(4) { background: var(--faint);    border-color: var(--line-3); }
 [data-theme="sage"] .prod-card:nth-child(5) { background: var(--cream);    border-color: var(--line-2); }
 
 /* --- Compare: tier-card grid --- */
 [data-theme="sage"] .tier-card:nth-child(1) { background: var(--paper);    border-color: var(--line);   }
-[data-theme="sage"] .tier-card.featured { background: var(--ink); border-color: var(--ink); --ink: var(--cream); --muted: rgba(255,255,255,.6); }
+[data-theme="sage"] .tier-card.featured { background: var(--ink); border-color: var(--ink); }
 [data-theme="sage"] .tier-card:nth-child(3) { background: var(--line-2);   border-color: var(--line-3); }
-[data-theme="sage"] .tier-card.featured .tier-badge { background: var(--cream); color: var(--ink); }
 
 /* --- Costs: cg-tier-card grid --- */
 [data-theme="sage"] .cg-tier-card:nth-child(1) { background: var(--paper);    border-color: var(--line);   }
-[data-theme="sage"] .cg-tier-card.featured { background: var(--ink); border-color: var(--ink); --ink: var(--cream); --muted: rgba(255,255,255,.6); }
+[data-theme="sage"] .cg-tier-card.featured { background: var(--ink); border-color: var(--ink); }
 [data-theme="sage"] .cg-tier-card:nth-child(3) { background: var(--line-2);   border-color: var(--line-3); }
-[data-theme="sage"] .cg-tier-card.featured .ct-badge { background: var(--cream); color: var(--ink); }
 
 /* --- Locations: loc-price-card grid --- */
 [data-theme="sage"] .loc-price-card:nth-child(1) { background: var(--line-2); border-color: var(--line-3); }
-[data-theme="sage"] .loc-price-card:nth-child(2) { background: var(--ink-2);  border-color: var(--ink-2); --ink: var(--cream); --muted: rgba(255,255,255,.75); }
+[data-theme="sage"] .loc-price-card:nth-child(2) { background: var(--ink-2);  border-color: var(--ink-2); }
 [data-theme="sage"] .loc-price-card:nth-child(3) { background: var(--faint);  border-color: var(--line-3); }
 
 /* --- Locations: trust-card grid --- */
 [data-theme="sage"] .trust-card:nth-child(1) { background: var(--cream);    border-color: var(--line-2); }
 [data-theme="sage"] .trust-card:nth-child(2) { background: var(--line-2);   border-color: var(--line-3); }
-[data-theme="sage"] .trust-card:nth-child(3) { background: var(--ink-2);    border-color: var(--ink-2); --ink: var(--cream); --muted: rgba(255,255,255,.75); }
+[data-theme="sage"] .trust-card:nth-child(3) { background: var(--ink-2);    border-color: var(--ink-2); }
 [data-theme="sage"] .trust-card:nth-child(4) { background: var(--faint);    border-color: var(--line-3); }

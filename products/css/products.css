@@ -8,15 +8,15 @@
 .prod-hero {
   padding: 56px 0 40px;
   background:
-    radial-gradient(1200px 400px at 80% -10%, rgba(59, 130, 246, 0.18), transparent 60%),
-    var(--surface);
-  border-bottom: 1px solid var(--border);
+    radial-gradient(1200px 400px at 80% -10%, var(--lime-18), transparent 60%),
+    var(--paper);
+  border-bottom: 1px solid var(--line);
 }
 .prod-eyebrow {
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 12px;
-  color: var(--accent);
+  color: var(--muted);
   font-weight: 700;
   margin-bottom: 8px;
 }
@@ -90,14 +90,14 @@
 }
 .prod-card {
   display: block;
-  background: var(--surface-2, #14171f);
+  background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
   transition: border-color 0.15s, transform 0.15s;
 }
 .prod-card:hover {
-  border-color: var(--accent);
+  border-color: var(--muted);
   transform: translateY(-2px);
 }
 .prod-card-img {
@@ -144,7 +144,7 @@
   gap: 20px;
   padding: 24px;
   border-radius: var(--radius);
-  background: linear-gradient(120deg, rgba(59, 130, 246, 0.18), rgba(37, 99, 235, 0.08));
+  background: linear-gradient(120deg, var(--lime-25), var(--lime-12));
   border: 1px solid var(--border);
   margin-bottom: 28px;
   flex-wrap: wrap;
@@ -180,7 +180,7 @@
   content: '+';
   position: absolute;
   right: 0;
-  color: var(--accent);
+  color: var(--muted);
   font-size: 18px;
 }
 .faq details[open] summary::after {

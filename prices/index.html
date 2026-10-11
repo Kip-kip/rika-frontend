@@ -197,10 +197,63 @@
 /* push page content under the fixed header */
 .prod-hero { padding-top: 150px; }
 @media (max-width: 768px) {
-  .header { padding: 28px 24px 0; }
-  .header .nav { gap: 4px; }
-  .header .nav a, .header .nav .nav-drop-toggle { font-size: 13px; padding: 8px 10px; }
-  .prod-hero { padding-top: 110px; }
+  .header { padding: 28px 20px 0; }
+  .prod-hero { padding-top: 96px; }
+}
+
+/* --- Mobile nav: burger + slide-down panel --- */
+.burger {
+  display: none;
+  margin-left: auto;
+  background: none; border: none; cursor: pointer;
+  font-size: 26px; line-height: 1; color: var(--ink);
+  padding: 4px 10px;
+}
+.header.scrolled .burger { color: var(--white); }
+@media (max-width: 768px) {
+  .burger { display: block; }
+  .header .nav {
+    display: none;
+    position: absolute;
+    top: 76px; left: 0; right: 0;
+    flex-direction: column; gap: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--line);
+    padding: 8px 0 16px;
+    box-shadow: 0 20px 40px var(--ink-10);
+    margin: 0;
+  }
+  .header .nav.open { display: flex; }
+  .header .nav a, .header .nav .nav-drop-toggle {
+    padding: 14px 24px; font-size: 16px; opacity: 1;
+    border-radius: 0; background: none !important;
+  }
+  .header .nav a:hover { background: var(--ink-04) !important; }
+  .header .nav a.active { background: var(--lime-12) !important; color: var(--green) !important; }
+  .header .nav-drop { width: 100%; }
+  .header .nav-drop-menu {
+    display: none;
+    position: static;
+    background: var(--cream);
+    border: none; border-radius: 0;
+    margin: 0 12px 8px 12px;
+    padding: 8px 0;
+    box-shadow: none;
+  }
+  .header .nav-drop.open .nav-drop-menu, .header .nav-drop:hover .nav-drop-menu { display: flex; }
+  .header .nav-drop-item { padding: 12px 24px 12px 36px; font-size: 15px; }
+  .header .nav-drop-item:hover { background: var(--cream-hover); }
+}
+
+/* --- Mobile tables + CTA --- */
+@media (max-width: 768px) {
+  .prod-body { padding: 48px 16px 32px; }
+  .prod-table { display: block; overflow-x: auto; }
+  .prod-table td, .prod-table th { white-space: normal; }
+  .prod-table td:last-child, .prod-table th:last-child { white-space: normal; }
+  .cta-band { flex-direction: column; align-items: flex-start; padding: 32px 24px; gap: 24px; }
+  .prod-actions { justify-content: flex-start; }
+  .prod-actions .btn { width: 100%; }
 }
 </style>
 <script src="shared/js/rika-track.js"></script>
@@ -213,13 +266,29 @@
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 })();
+
+/* mobile burger + dropdown toggles */
+(function () {
+  const burger = document.getElementById("burger");
+  const nav = document.querySelector(".header .nav");
+  if (burger && nav) {
+    burger.addEventListener("click", () => nav.classList.toggle("open"));
+    nav.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => nav.classList.remove("open")));
+  }
+  document.querySelectorAll(".header .nav-drop-toggle").forEach((t) => {
+    t.addEventListener("click", (e) => {
+      if (window.innerWidth <= 768) { e.preventDefault(); t.parentElement.classList.toggle("open"); }
+    });
+  });
+})();
 </script>
 </head>
 <body>
   <div class="app">
   <header class="header">
     <a class="logo" href="/rika/">Ri<span>ka</span></a>
-    <nav class="nav">
+    <button class="burger" id="burger" aria-label="Menu">&equiv;</button>
+    <nav class="nav" id="navLinks">
       <a href="/rika/" class="nav-link">Home</a>
       <div class="nav-drop">
         <a class="nav-drop-toggle" data-section="products">Products <span class="caret">&#9662;</span></a>

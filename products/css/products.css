@@ -9,8 +9,8 @@
   padding: 56px 0 40px;
   background:
     radial-gradient(1200px 400px at 80% -10%, var(--lime-18), transparent 60%),
-    var(--paper);
-  border-bottom: 1px solid var(--line);
+    var(--surface);
+  border-bottom: 1px solid var(--border);
 }
 .prod-eyebrow {
   text-transform: uppercase;

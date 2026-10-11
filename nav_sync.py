@@ -75,7 +75,8 @@ def render_header(active):
     parts = []
     parts.append('<header class="header">')
     parts.append('    <a class="logo" href="/rika/">Ri<span>ka</span></a>')
-    parts.append('    <nav class="nav">')
+    parts.append('    <button class="burger" id="burger" aria-label="Menu">&equiv;</button>')
+    parts.append('    <nav class="nav" id="navLinks">')
     for href, label, key in LINKS:
         if href.startswith("__DROPDOWN:"):
             dlabel = href.split(":", 1)[1].rstrip("_")

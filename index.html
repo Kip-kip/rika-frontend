@@ -739,28 +739,74 @@ section { padding: 96px 0; }
   .feat-grid, .steps-grid, .testi-grid, .cmp-grid, .edge-grid { grid-template-columns: 1fr; }
   .tab-panel.active { grid-template-columns: 1fr; }
 }
+/* ============ MOBILE: burger + slide-down nav ============ */
+.burger { display: none; }
 @media (max-width: 768px) {
-  .nav-links { display: none; }
-  .burger { display: block; }
-  .nav-links.open {
-    display: flex; flex-direction: column; align-items: stretch;
-    position: absolute; top: 76px; left: 0; right: 0;
-    background: var(--white); border-bottom: 1px solid var(--line);
-    padding: 16px; gap: 4px;
+  .header { padding: 24px 20px 0; }
+  .burger {
+    display: block;
+    margin-left: auto;
+    background: none; border: none; cursor: pointer;
+    font-size: 26px; line-height: 1; color: var(--white);
+    padding: 4px 10px;
   }
-  section { padding: 64px 0; }
-  .hero { padding: 128px 0 64px; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .stat { border-right: none; border-bottom: 1px solid var(--white-10); }
+  .header.scrolled .burger { color: var(--white); }
+  .header .nav {
+    display: none;
+    position: absolute;
+    top: 72px; left: 0; right: 0;
+    flex-direction: column; gap: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--line);
+    padding: 8px 0 16px;
+    box-shadow: 0 20px 40px var(--ink-10);
+    margin: 0;
+  }
+  .header .nav.open { display: flex; }
+  .header .nav a, .header .nav .nav-drop-toggle {
+    padding: 14px 24px; font-size: 16px; opacity: 1;
+    border-radius: 0; background: none !important;
+    color: var(--ink);
+  }
+  .header .nav a:hover { background: var(--ink-04) !important; }
+  .header .nav a.active { background: var(--lime-12) !important; color: var(--green) !important; }
+  .header .nav-drop { width: 100%; }
+  .header .nav-drop-menu {
+    display: none;
+    position: static;
+    background: var(--cream);
+    border: none; border-radius: 0;
+    margin: 0 12px 8px;
+    padding: 8px 0;
+    box-shadow: none;
+  }
+  .header .nav-drop.open .nav-drop-menu, .header .nav-drop:hover .nav-drop-menu { display: flex; }
+  .header .nav-drop-item { padding: 12px 24px 12px 36px; font-size: 15px; }
+  .header .nav-drop-item:hover { background: var(--cream-hover); }
+
+  section { padding: 56px 0; }
+  .hero { margin: 16px 12px 0; border-radius: 24px; }
+  .hero-inner { padding: 120px 16px 64px; }
+  .hero h1 { font-size: clamp(34px, 9vw, 48px); }
+  .hero-ctas { flex-direction: column; align-items: stretch; }
+  .email-pill { flex-direction: column; align-items: stretch; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 0; }
+  .stat { border-right: none; border-bottom: 1px solid var(--white-10); padding: 16px 8px; }
   .plans { grid-template-columns: 1fr; }
-  .foot-grid { grid-template-columns: 1fr 1fr; }
+  .foot-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stat .n { font-size: 26px; }
+  .stat .l { font-size: 13px; }
 }
 </style>
 </head>
 <body>
 <header class="header">
     <a class="logo" href="/rika/">Ri<span>ka</span></a>
-    <nav class="nav">
+    <button class="burger" id="burger" aria-label="Menu">&equiv;</button>
+    <nav class="nav" id="navLinks">
       <a href="/rika/" class="nav-link">Home</a>
       <div class="nav-drop">
         <a class="nav-drop-toggle" data-section="products">Products <span class="caret">&#9662;</span></a>
@@ -1387,13 +1433,20 @@ document.querySelectorAll(".faq-item").forEach((item) => {
   });
 })();
 
-/* ============ mobile burger ============ */
+/* ============ mobile burger + dropdown toggles ============ */
 (function () {
   const b = document.getElementById("burger");
   const links = document.getElementById("navLinks");
-  if (!b || !links) return;
-  b.addEventListener("click", () => links.classList.toggle("open"));
-  links.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => links.classList.remove("open")));
+  if (b && links) {
+    b.addEventListener("click", () => links.classList.toggle("open"));
+    links.querySelectorAll("a:not(.nav-drop-toggle)").forEach((a) =>
+      a.addEventListener("click", () => links.classList.remove("open")));
+  }
+  document.querySelectorAll(".nav-drop-toggle").forEach((t) => {
+    t.addEventListener("click", (e) => {
+      if (window.innerWidth <= 768) { e.preventDefault(); t.parentElement.classList.toggle("open"); }
+    });
+  });
 })();
 
 /* ============ nav over hero: scroll state ============ */

@@ -20,6 +20,9 @@
   --white: #ffffff;
   --lime: #A3B18A;       /* Sage — accent (CTA, icons, highlights) */
   --green: #3E513B;      /* Forest Sage — secondary accent (logo span) */
+  --sage-soft: #E3E8DD;    /* Muted sage — card fills */
+  --sage-line: #C8D1BF;    /* Muted sage — card borders */
+  --sage-icon: #7A8B6F;    /* Muted sage — icon strokes */
   --line: #E6D7B9;       /* Warm Cream — hairline borders */
   --line-2: #DAC8A3;     /* Dark Cream — stronger cream borders */
   --line-3: #DAC8A3;     /* Dark Cream — pricing card hover border */
@@ -61,6 +64,9 @@
   --white: #ffffff;
   --lime: #b7c2b3;
   --green: #202624;
+  --sage-soft: #E3E8DD;    /* Muted sage — card fills */
+  --sage-line: #C8D1BF;    /* Muted sage — card borders */
+  --sage-icon: #7A8B6F;    /* Muted sage — icon strokes */
   --line: #e2e4e0;
   --line-2: #d1d5d0;
   --line-3: #d1d5d0;

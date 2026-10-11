@@ -35,6 +35,9 @@
   --white: #ffffff;
   --lime: #A3B18A;       /* Sage — accent (CTA, icons, highlights) */
   --green: #3E513B;      /* Forest Sage — secondary accent (logo span) */
+  --sage-soft: #E3E8DD;    /* Muted sage — card fills */
+  --sage-line: #C8D1BF;    /* Muted sage — card borders */
+  --sage-icon: #7A8B6F;    /* Muted sage — icon strokes */
   --line: #E6D7B9;       /* Warm Cream — hairline borders */
   --line-2: #DAC8A3;     /* Dark Cream — stronger cream borders */
   --line-3: #DAC8A3;     /* Dark Cream — pricing card hover border */
@@ -542,7 +545,7 @@ section { padding: 96px 0; }
   content: ""; position: absolute; left: 36px; right: 36px; bottom: 0;
   height: 3px; background: var(--lime-25); border-radius: 0 0 32px 32px;
 }
-.step.step-sage { background: #e3e8dd; border-color: #c8d1bf; }
+.step.step-sage { background: var(--sage-soft); border-color: var(--sage-line); }
 
 /* ============================================================ TABS */
 .tabs-band { background: var(--cream); }
@@ -569,7 +572,7 @@ section { padding: 96px 0; }
   box-shadow: var(--card-shadow);
   color: var(--ink);
 }
-.tab-visual svg { width: 200px; height: 200px; color: #7a8b6f; }
+.tab-visual svg { width: 200px; height: 200px; color: var(--sage-icon); }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
 
 /* ============================================================ EDGE */
@@ -608,7 +611,7 @@ section { padding: 96px 0; }
 /* colour variants */
 /* light cream that stays light in both themes (charcoal re-points --paper to dark) */
 .testi.tint-cream { background: var(--cream); border-color: var(--line); }
-.testi.tint-sage { background: #e3e8dd; border-color: #c8d1bf; }
+.testi.tint-sage { background: var(--sage-soft); border-color: var(--sage-line); }
 .testi.tint-cream .qmark { color: var(--ink); }
 .testi.tint-cream q { color: var(--ink-2); }
 .testi.tint-cream .who-name { color: var(--ink); }

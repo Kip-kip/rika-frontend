@@ -835,23 +835,6 @@ section { padding: 96px 0; }
   </div>
 </section>
 
-<!-- ============ CASE STUDIES ============ -->
-<section id="projects" style="padding-top:0;">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="eyebrow">Recent installs</div>
-      <h2>Real projects, documented end to end</h2>
-      <p>Before photos, measurement, installation, and the finished result — no stock photos. These are real Rika projects.</p>
-    </div>
-    <div class="cs-home">
-      <div class="cs-home-grid" id="csGrid"></div>
-      <div style="text-align:center;">
-        <a class="cs-home-more" href="/rika/case-studies/">View all projects &rarr;</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============ COMPARISON ============ -->
 <section id="why" class="cmp">
   <div class="wrap">
@@ -1276,46 +1259,6 @@ document.querySelectorAll(".faq-item").forEach((item) => {
     }
   });
 });
-
-/* ============ case studies loader JS marker ============ */
-.cs-home { margin-top: 56px; }
-.cs-home-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 28px; }
-.cs-home-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; text-decoration: none; transition: transform .3s, box-shadow .3s; display: block; }
-.cs-home-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px var(--ink-10); }
-.cs-home-thumb { aspect-ratio: 16/10; object-fit: cover; width: 100%; display: block; background: var(--surface2); }
-.cs-home-card h3 { font-size: 1.05rem; margin: 14px 16px 4px; color: var(--text); }
-.cs-home-loc { font-size: .82rem; color: var(--muted); padding: 0 16px 6px; }
-.cs-home-stages { display: flex; flex-wrap: wrap; gap: 5px; padding: 0 16px 14px; }
-.cs-home-stages span { background: var(--accent-soft); border: 1px solid var(--border); border-radius: 20px; padding: 2px 10px; font-size: .72rem; color: var(--text); }
-.cs-home-empty { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 32px; text-align: center; color: var(--muted); font-size: .95rem; }
-.cs-home-more { display: inline-block; font-weight: 600; font-size: .9rem; color: var(--accent); text-decoration: none; }
-.cs-home-more:hover { text-decoration: underline; }
-
-/* ============ case studies: load published projects ============ */
-(function () {
-  const grid = document.getElementById("csGrid");
-  if (!grid) return;
-  const STAGE_LABELS = { Measurement: "Measurement", Design: "Design", Approval: "Approval", Fabrication: "Fabrication", Installation: "Installation", Handover: "Finished" };
-  function card(s) {
-    const stages = (s.stages && s.stages.length) ? s.stages : ["Installation"];
-    return `<a class="cs-home-card reveal" href="/rika/case-studies/${encodeURIComponent(s.project)}/">
-      <h3>${s.name || "Rika project"}</h3>
-      <div class="cs-home-loc">${(s.stage || "In progress").replace(/^./, c => c.toUpperCase())} · ${s.photo_count || 1} photo${s.photo_count === 1 ? "" : "s"}</div>
-      <div class="cs-home-stages">${stages.map(st => `<span>${STAGE_LABELS[st] || st}</span>`).join("")}</div>
-    </a>`;
-  }
-  fetch("/rika/api/case-studies").then(r => r.json()).then(j => {
-    const m = j.message || j;
-    const studies = (m && m.studies) || [];
-    grid.innerHTML = studies.length
-      ? studies.map(card).join("")
-      : `<div class="cs-home-empty">Case studies are being published. Check back soon — our first project journey is in production.</div>`;
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .1 });
-    grid.querySelectorAll(".cs-home-card").forEach(el => io.observe(el));
-  }).catch(() => {
-    grid.innerHTML = `<div class="cs-home-empty">Case studies are being published. Check back soon.</div>`;
-  });
-})();
 
 /* ============ mobile burger ============ */
 (function () {

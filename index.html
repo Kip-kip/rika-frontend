@@ -404,34 +404,6 @@ section { padding: 96px 0; }
 
 
 /* ============================================================ RESULTS / TOOLS (Optivio cards) */
-/* ============ tools marquee ============ */
-.toolstrip-wrap { overflow: hidden; margin: 0 -40px; padding: 4px 0; }
-.toolstrip { display: flex; gap: 20px; width: max-content; animation: toolstrip 45s linear infinite; }
-@keyframes toolstrip { to { transform: translateX(-50%); } }
-.toolstrip-wrap:hover .toolstrip { animation-play-state: paused; }
-.tcard {
-  flex: 0 0 auto; width: 300px; border-radius: 14px; padding: 28px 24px;
-  display: flex; flex-direction: column; text-decoration: none;
-  background: var(--surface2); border: 1px solid var(--border);
-}
-.tcard .chip { margin-bottom: auto; }
-.tcard h3 { font-size: 1.15rem; margin: 28px 0 6px; color: var(--text); }
-.tcard p { font-size: .88rem; color: var(--muted); line-height: 1.5; }
-.tcard.feature {
-  width: 260px; padding: 0; overflow: hidden; position: relative;
-  background: var(--green); border-color: var(--ink-2);
-}
-.tcard.feature .tphoto {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background: url("/rika/assets/house-windows.jpg") center/cover no-repeat;
-}
-.tcard.feature .tcap {
-  position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 20px;
-  background: linear-gradient(transparent, rgba(0,0,0,.65));
-  color: #fff; font-weight: 600; font-size: .95rem;
-}
-@media (max-width: 700px) { .tcard { width: 240px; } .tcard.feature { width: 200px; } }
-
 .res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .res-card {
   background: var(--cream); border: 1px solid var(--line);
@@ -818,105 +790,47 @@ section { padding: 96px 0; }
       <h2>Your windows, designed &amp; priced online</h2>
       <p>Size, design and price your windows with our tools — on your time, before we ever pick up the phone.</p>
     </div>
-    <div class="toolstrip-wrap">
-    <div class="toolstrip">
-      <a class="tcard" href="/rika/tools/calculator/">
+    <div class="res-grid tools-grid">
+      <a class="res-card reveal" href="/rika/tools/calculator/" style="background: var(--faint); border-color: var(--line-3);">
         <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg></div>
         <h3>Price Calculator</h3>
         <p>Enter your dimensions and get a real KSh range instantly.</p>
       </a>
-      <a class="tcard feature" href="/rika/tools/design/">
-        <span class="tphoto"></span>
-        <span class="tcap">Design Studio</span>
+      <a class="res-card reveal d1" href="/rika/tools/design/" style="background: var(--ink-2); border-color: var(--ink-3);">
+        <div class="chip" style="background: var(--cream); color: var(--ink-2);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="4"/></svg></div>
+        <h3>Design Studio</h3>
+        <p>Build your window on screen — panels, finish, glass — watch the price update live.</p>
       </a>
-      <a class="tcard" href="/rika/tools/visualizer/">
+      <a class="res-card reveal d2" href="/rika/tools/visualizer/" style="background: var(--line-2); border-color: var(--line-3);">
         <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 16l5-5 4 4 3-3 6 6"/><path d="M3 20h18"/><circle cx="9" cy="8" r="2"/></svg></div>
         <h3>Visualizer</h3>
         <p>Upload a photo, mark the opening, and see Rika windows fitted in place.</p>
       </a>
-      <a class="tcard" href="/rika/tools/design/">
-        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="4"/></svg></div>
-        <h3>Design Studio</h3>
-        <p>Build your window on screen — panels, finish, glass — watch the price update live.</p>
-      </a>
-      <a class="tcard" href="/rika/tools/measure/">
-        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-5.1 7-11a7 7 0 10-14 0c0 5.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+      <a class="res-card reveal d3" href="/rika/tools/measure/" style="background: var(--green); border-color: var(--ink-2);">
+        <div class="chip" style="background: var(--cream); color: var(--green);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-5.1 7-11a7 7 0 10-14 0c0 5.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
         <h3>Free Measurement</h3>
         <p>Book a slot and our team measures every opening at your site. Free delivery.</p>
       </a>
-      <a class="tcard" href="/rika/tools/quiz/">
+      <a class="res-card reveal" href="/rika/tools/quiz/" style="background: var(--faint); border-color: var(--line-3);">
         <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 9l1.5-1.5M9 6.5v.01M15 9l1.5-1.5M15 6.5v.01"/><path d="M21 12a9 9 0 11-9-9"/><path d="M12 3v3"/></svg></div>
         <h3>Find Your Window</h3>
         <p>A quick quiz that matches your style, budget, and room to the right window.</p>
       </a>
-      <a class="tcard" href="/rika/tools/quotation/">
-        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9l-6-6z"/><path d="M14 3v6h6M9 13h6M9 17h6"/></svg></div>
+      <a class="res-card reveal d1" href="/rika/tools/quotation/" style="background: var(--ink-2); border-color: var(--ink-3);">
+        <div class="chip" style="background: var(--cream); color: var(--ink-2);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9l-6-6z"/><path d="M14 3v6h6M9 13h6M9 17h6"/></svg></div>
         <h3>Free Quotation</h3>
         <p>Send us your opening details and get a written quote back — no obligation.</p>
       </a>
-      <a class="tcard feature" href="/rika/tools/house-map/">
-        <span class="tphoto" style="background-image: url('/rika/assets/house-windows.jpg'); background-position: left top;"></span>
-        <span class="tcap">House Window Map</span>
-      </a>
-      <a class="tcard" href="/rika/tools/house-map/">
+      <a class="res-card reveal d2" href="/rika/tools/house-map/" style="background: var(--line-2); border-color: var(--line-3);">
         <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 12h3M13 12h3M8 8h.01M13 8h.01"/></svg></div>
         <h3>House Window Map</h3>
         <p>Plan every opening in your house on one map — rooms, sizes, and specs.</p>
       </a>
-      <a class="tcard" href="/rika/tools/build/">
-        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg></div>
+      <a class="res-card reveal d3" href="/rika/tools/build/" style="background: var(--green); border-color: var(--ink-2);">
+        <div class="chip" style="background: var(--cream); color: var(--green);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg></div>
         <h3>Build My House Windows</h3>
         <p>Design a whole house — every room, every opening — and see the full project cost.</p>
       </a>
-      <a class="tcard" href="/rika/tools/calculator/">
-        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg></div>
-        <h3>Price Calculator</h3>
-        <p>Enter your dimensions and get a real KSh range instantly.</p>
-      </a>
-      <a class="tcard feature" href="/rika/tools/design/">
-        <span class="tphoto"></span>
-        <span class="tcap">Design Studio</span>
-      </a>
-      <a class="tcard" href="/rika/tools/visualizer/">
-        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 16l5-5 4 4 3-3 6 6"/><path d="M3 20h18"/><circle cx="9" cy="8" r="2"/></svg></div>
-        <h3>Visualizer</h3>
-        <p>Upload a photo, mark the opening, and see Rika windows fitted in place.</p>
-      </a>
-      <a class="tcard" href="/rika/tools/design/">
-        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="4"/></svg></div>
-        <h3>Design Studio</h3>
-        <p>Build your window on screen — panels, finish, glass — watch the price update live.</p>
-      </a>
-      <a class="tcard" href="/rika/tools/measure/">
-        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-5.1 7-11a7 7 0 10-14 0c0 5.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
-        <h3>Free Measurement</h3>
-        <p>Book a slot and our team measures every opening at your site. Free delivery.</p>
-      </a>
-      <a class="tcard" href="/rika/tools/quiz/">
-        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 9l1.5-1.5M9 6.5v.01M15 9l1.5-1.5M15 6.5v.01"/><path d="M21 12a9 9 0 11-9-9"/><path d="M12 3v3"/></svg></div>
-        <h3>Find Your Window</h3>
-        <p>A quick quiz that matches your style, budget, and room to the right window.</p>
-      </a>
-      <a class="tcard" href="/rika/tools/quotation/">
-        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9l-6-6z"/><path d="M14 3v6h6M9 13h6M9 17h6"/></svg></div>
-        <h3>Free Quotation</h3>
-        <p>Send us your opening details and get a written quote back — no obligation.</p>
-      </a>
-      <a class="tcard feature" href="/rika/tools/house-map/">
-        <span class="tphoto" style="background-image: url('/rika/assets/house-windows.jpg'); background-position: left top;"></span>
-        <span class="tcap">House Window Map</span>
-      </a>
-      <a class="tcard" href="/rika/tools/house-map/">
-        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 12h3M13 12h3M8 8h.01M13 8h.01"/></svg></div>
-        <h3>House Window Map</h3>
-        <p>Plan every opening in your house on one map — rooms, sizes, and specs.</p>
-      </a>
-      <a class="tcard" href="/rika/tools/build/">
-        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg></div>
-        <h3>Build My House Windows</h3>
-        <p>Design a whole house — every room, every opening — and see the full project cost.</p>
-      </a>
-    </div>
     </div>
   </div>
 </section>

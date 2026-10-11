@@ -140,8 +140,80 @@
   .cta-band { padding: 32px 24px; }
   .prod-table th, .prod-table td { padding-left: 4px; padding-right: 4px; }
 }
+
+/* ============================================================
+   Prices page navbar — exact homepage look & behavior
+   Fixed + transparent at top (charcoal ink over the light hero),
+   morphs into the floating charcoal pill on scroll (scrollY > 40).
+   ============================================================ */
+.header {
+  position: fixed !important;
+  top: 0; left: 0; right: 0;
+  background: transparent !important;
+  border-bottom: none !important;
+  height: auto !important;
+  padding: 56px 80px 0;
+  z-index: 200;
+  transition: background .35s, backdrop-filter .35s, border-color .35s;
+}
+.header .logo { color: var(--ink); font-size: 22px; }
+.header .logo span { color: var(--green); }
+.header .nav { display: flex; align-items: center; gap: 8px; margin-left: auto; margin-right: 28px; }
+.header .nav a, .header .nav .nav-drop-toggle {
+  color: var(--ink) !important; opacity: .85;
+  font-size: 15px;
+  padding: 9px 14px;
+  background: none !important;
+}
+.header .nav a:hover { color: var(--ink) !important; opacity: 1; background: var(--ink-07) !important; }
+.header .nav a.active { color: var(--green) !important; background: transparent !important; opacity: 1; }
+.header .nav-drop-menu {
+  background: var(--white); border-color: var(--line);
+  color: var(--ink);
+}
+.header .nav-drop-item { color: var(--ink); opacity: .85; }
+.header .nav-drop-item:hover { background: var(--ink-06); color: var(--ink); opacity: 1; }
+/* scrolled state — floating charcoal pill, inset from the edges */
+.header.scrolled {
+  top: 12px;
+  left: 50%; right: auto;
+  width: calc(100% - 48px);
+  max-width: 1000px;
+  transform: translateX(-50%);
+  padding: 10px 40px;
+  background: var(--ink) !important;
+  border: 1px solid var(--ink-2);
+  border-radius: 999px;
+  transition: top .35s, left .35s, right .35s, padding .35s, background .35s, border-radius .35s, box-shadow .35s;
+}
+.header:not(.scrolled) { transition: top .35s, left .35s, right .35s, padding .35s, background .35s, border-radius .35s, transform .35s; }
+.header:not(.scrolled) .logo, .header:not(.scrolled) .nav { transform: translateY(32px); transition: transform .35s; }
+.header.scrolled .logo, .header.scrolled .nav { transform: none; }
+.header.scrolled .logo, .header.scrolled .logo span { color: var(--white); }
+.header.scrolled .nav a, .header.scrolled .nav .nav-drop-toggle { color: var(--white) !important; opacity: .85; }
+.header.scrolled .nav a:hover { color: var(--white) !important; opacity: 1; background: var(--lime-25) !important; }
+.header.scrolled .nav a.active { color: var(--lime) !important; background: transparent !important; opacity: 1; }
+.header.scrolled .nav-drop-menu { top: 48px; }
+/* push page content under the fixed header */
+.prod-hero { padding-top: 150px; }
+@media (max-width: 768px) {
+  .header { padding: 28px 24px 0; }
+  .header .nav { gap: 4px; }
+  .header .nav a, .header .nav .nav-drop-toggle { font-size: 13px; padding: 8px 10px; }
+  .prod-hero { padding-top: 110px; }
+}
 </style>
 <script src="shared/js/rika-track.js"></script>
+<script>
+/* nav over hero: scroll state (identical to homepage) */
+(function () {
+  const h = document.querySelector(".header");
+  if (!h) return;
+  const onScroll = () => h.classList.toggle("scrolled", window.scrollY > 40);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+})();
+</script>
 </head>
 <body>
   <div class="app">

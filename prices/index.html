@@ -11,6 +11,136 @@
 <link rel="stylesheet" href="/rika/shared/css/rika-ui.css" />
   <link rel="stylesheet" href="/rika/shared/css/booking.css" />
   <link rel="stylesheet" href="/rika/products/css/products.css" />
+<style>
+/* ============================================================
+   Prices page — homepage design language
+   Centred hero, cream table cards, charcoal CTA band.
+   All colors from the 3-brand palette + its tints.
+   ============================================================ */
+
+/* --- Hero: centred, sage wash, homepage rhythm --- */
+.prod-hero {
+  padding: 120px 0 72px;
+  background:
+    radial-gradient(1100px 380px at 50% -10%, var(--lime-12), transparent 62%),
+    var(--white);
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+}
+.prod-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  font-size: 13px;
+  color: var(--green);
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+.prod-hero h1 {
+  font-size: clamp(36px, 5.2vw, 58px);
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin: 0 auto 20px;
+  max-width: 860px;
+  color: var(--ink);
+}
+.prod-sub {
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 640px;
+  margin: 0 auto 32px;
+}
+.prod-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* --- Body --- */
+.prod-body { padding: 64px 24px 40px; max-width: 1080px; margin: 0 auto; }
+.prod-section { margin-bottom: 32px; }
+
+/* --- Table cards: homepage cream card --- */
+.prod-section.card {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  padding: 40px;
+  box-shadow: var(--card-shadow);
+}
+.prod-section .card-title {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.prod-section .card-title::after {
+  content: ""; display: block; width: 44px; height: 3px;
+  background: var(--lime); border-radius: 2px; margin-top: 14px;
+}
+
+/* --- Table --- */
+.prod-table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 24px; }
+.prod-table th {
+  color: var(--muted); font-weight: 600; font-size: 12.5px;
+  text-transform: uppercase; letter-spacing: .05em;
+  text-align: left; padding: 0 10px 14px;
+  border-bottom: 1px solid var(--ink-10);
+}
+.prod-table td {
+  text-align: left; padding: 16px 10px;
+  border-bottom: 1px solid var(--ink-06);
+  vertical-align: top;
+  color: var(--ink);
+}
+.prod-table tr:last-child td { border-bottom: none; }
+.prod-table tr { transition: background .15s; }
+.prod-table tbody tr:hover { background: var(--ink-04); }
+.prod-table td a { color: var(--ink); font-weight: 600; }
+.prod-table td a:hover { color: var(--green); }
+.prod-table td:last-child, .prod-table th:last-child { text-align: right; white-space: nowrap; }
+.prod-table td strong { font-weight: 700; }
+.prod-table .card-desc { color: var(--muted); font-size: 14px; font-weight: 400; white-space: normal; }
+
+/* --- CTA band: homepage charcoal rounded band --- */
+.cta-band {
+  background: var(--ink);
+  color: var(--white);
+  border-radius: 32px;
+  padding: 48px;
+  margin-top: 8px;
+  display: flex; gap: 32px; align-items: center; justify-content: space-between;
+  flex-wrap: wrap;
+}
+.cta-band h2 { font-size: clamp(24px, 3.4vw, 34px); letter-spacing: -0.03em; margin: 0 0 10px; }
+.cta-band p { color: var(--white); opacity: .7; font-size: 15px; line-height: 1.6; margin: 0; max-width: 560px; }
+.cta-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* --- Buttons: homepage charcoal + cream pills --- */
+.prod-hero .btn, .cta-band .btn {
+  border-radius: 999px; padding: 14px 28px; font-size: 15px; font-weight: 600;
+  transition: transform .2s, box-shadow .2s, background .2s, border-color .2s;
+}
+.prod-hero .btn:hover, .cta-band .btn:hover { transform: translateY(-2px); }
+.btn-primary { background: var(--ink); color: var(--white); border: 1px solid var(--ink); }
+.btn-primary:hover { background: var(--ink-2); box-shadow: 0 12px 28px var(--ink-20); }
+.btn-ghost { background: var(--white); color: var(--ink); border: 1px solid var(--line-2); }
+.btn-ghost:hover { border-color: var(--ink); background: var(--cream-hover); }
+.btn-success { background: var(--lime); color: var(--ink); border: 1px solid var(--lime); }
+.btn-success:hover { box-shadow: 0 12px 28px var(--lime-25); }
+
+/* --- Footnote --- */
+.prod-body .card-desc:last-child { margin-top: 20px; }
+
+@media (max-width: 700px) {
+  .prod-hero { padding: 96px 24px 56px; }
+  .prod-section.card { padding: 28px 22px; border-radius: 24px; }
+  .cta-band { padding: 32px 24px; }
+  .prod-table th, .prod-table td { padding-left: 4px; padding-right: 4px; }
+}
+</style>
 <script src="shared/js/rika-track.js"></script>
 </head>
 <body>
@@ -65,8 +195,8 @@
         <h1>What Aluminium Windows &amp; Glass Actually Cost in Kenya</h1>
         <p class="prod-sub">Rika's live price table — per-m² rates for every product we fit, updated as market rates move. These are our starting prices; your exact figure depends on size, glass and add-ons, and is confirmed at a free site measurement. No hidden fees, no "call for price" games.</p>
         <div class="prod-actions">
-          <a class="btn btn-primary" href="/rika/tools/calculator/">💰 Get My Exact Price</a>
-          <button class="btn btn-ghost" data-book-measurement data-source="Prices page">📅 Book a Free Measurement</button>
+          <a class="btn btn-primary" href="/rika/tools/calculator/">Get My Exact Price</a>
+          <button class="btn btn-ghost" data-book-measurement data-source="Prices page">Book a Free Measurement</button>
         </div>
       </div>
     </section>
@@ -145,11 +275,11 @@
       <section class="cta-band">
         <div>
           <h2>Why these numbers are trustworthy</h2>
-          <p>We anchor our rates to real Nairobi market data (Lasi Interiors, fetched 2026) and update this table as rates move. Your final quote is a range — the firm figure is confirmed on site, and it will never be higher than what we agreed.</p>
+          <p>We anchor our rates to real Nairobi market data and update this table as rates move. Your final quote is a range — the firm figure is confirmed on site, and it will never be higher than what we agreed.</p>
         </div>
         <div class="cta-actions">
-          <a class="btn btn-primary" href="/rika/tools/calculator/">💰 Run the Calculator</a>
-          <a class="btn btn-success" id="waQuote" target="_blank" rel="noopener">💬 Chat on WhatsApp</a>
+          <a class="btn btn-primary" href="/rika/tools/calculator/">Run the Calculator</a>
+          <a class="btn btn-success" id="waQuote" target="_blank" rel="noopener">Chat on WhatsApp</a>
         </div>
       </section>
 

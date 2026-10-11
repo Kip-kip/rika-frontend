@@ -463,7 +463,7 @@ section { padding: 96px 0; }
 }
 .pill-tag {
   display: inline-block; background: var(--cream); border: 1px solid var(--line);
-  padding: 6px 14px; border-radius: 100px;
+  padding: 6px 14px; border-radius: 8px;
   font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 16px;
 }
 @media (max-width: 1024px) { .res-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -539,7 +539,7 @@ section { padding: 96px 0; }
 .tabs-band { background: var(--cream); }
 .tab-pills { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 44px; }
 .tab-pill {
-  padding: 12px 26px; border-radius: 999px;
+  padding: 12px 26px; border-radius: 8px;
   font-size: 15px; font-weight: 600;
   background: var(--white); border: 1px solid var(--line-2);
   color: var(--ink-2); cursor: pointer;
@@ -584,14 +584,31 @@ section { padding: 96px 0; }
 .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .testi {
   background: var(--white); border: 1px solid var(--line);
-  border-radius: 32px; padding: 32px;
+  border-radius: 16px; padding: 32px 28px;
+  display: flex; flex-direction: column;
   transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
 }
 .testi:hover { transform: translateY(-5px); box-shadow: 0 20px 50px var(--ink-07); }
-.testi .stars { color: var(--gold); letter-spacing: 3px; margin-bottom: 18px; font-size: 15px; }
+.testi .qmark { font-size: 40px; line-height: 1; color: var(--ink); opacity: .25; margin-bottom: 12px; font-family: Georgia, serif; }
 .testi q { font-size: 15.5px; line-height: 1.7; color: var(--ink-2); }
-.testi .who { margin-top: 22px; font-size: 15px; font-weight: 700; }
-.testi .who span { display: block; font-weight: 400; color: var(--muted); margin-top: 3px; font-size: 13.5px; }
+.testi .who { margin-top: auto; padding-top: 22px; display: flex; align-items: center; gap: 12px; }
+.testi .avatar { width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; background: var(--green); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.testi .who-name { font-size: 15px; font-weight: 700; }
+.testi .who-role { display: block; font-weight: 400; color: var(--muted); margin-top: 3px; font-size: 13.5px; }
+/* photo testimonial card */
+.testi.photo-card {
+  background: var(--green); border-color: var(--ink-2); padding: 0; overflow: hidden; position: relative;
+  min-height: 380px;
+}
+.testi.photo-card .pimg {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: url("/rika/assets/house-windows.jpg") center/cover no-repeat;
+}
+.testi.photo-card .pcap {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 20px 24px;
+  background: linear-gradient(transparent, rgba(0,0,0,.7));
+  color: #fff; font-weight: 600; font-size: 15px;
+}
 
 /* ============================================================ PRICING */
 .price-toggle {
@@ -1013,19 +1030,32 @@ section { padding: 96px 0; }
     </div>
     <div class="testi-grid">
       <div class="testi reveal">
-        <div class="stars">★★★★★</div>
+        <div class="qmark">&ldquo;</div>
         <q>The measurement was free, the quote matched the final bill to the shilling, and the installers were in and out in a day. My living room finally gets real light.</q>
-        <div class="who">Wanjiku M.<span>Homeowner, Nairobi West</span></div>
+        <div class="who">
+          <span class="avatar">W</span>
+          <div><div class="who-name">Wanjiku M.</div><span class="who-role">Homeowner, Nairobi West</span></div>
+        </div>
       </div>
-      <div class="testi reveal d1">
-        <div class="stars">★★★★★</div>
-        <q>I used the design studio on my phone while sitting in the garden. By the time the team arrived they already knew exactly what I wanted — and what it cost.</q>
-        <div class="who">David O.<span>Homeowner, Ruiru</span></div>
+      <div class="testi photo-card reveal d1">
+        <span class="pimg"></span>
+        <span class="pcap">David O. — Homeowner, Ruiru</span>
       </div>
       <div class="testi reveal d2">
-        <div class="stars">★★★★★</div>
+        <div class="qmark">&ldquo;</div>
+        <q>I used the design studio on my phone while sitting in the garden. By the time the team arrived they already knew exactly what I wanted — and what it cost.</q>
+        <div class="who">
+          <span class="avatar">D</span>
+          <div><div class="who-name">David O.</div><span class="who-role">Homeowner, Ruiru</span></div>
+        </div>
+      </div>
+      <div class="testi reveal">
+        <div class="qmark">&ldquo;</div>
         <q>The written warranty sold me. After two bad experiences with other suppliers, it felt good to have everything — dates, specs, warranty — in writing before I paid anything.</q>
-        <div class="who">Amina S.<span>Homeowner, Kiambu</span></div>
+        <div class="who">
+          <span class="avatar">A</span>
+          <div><div class="who-name">Amina S.</div><span class="who-role">Homeowner, Kiambu</span></div>
+        </div>
       </div>
     </div>
   </div>

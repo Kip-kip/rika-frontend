@@ -158,9 +158,9 @@
   </div>
 
   <script type="module">
-    import { formatKsh, waLink } from '/rika/shared/js/rika-config.js';
+    import { RIKA_CONFIG, formatKsh, waLink } from '/rika/shared/js/rika-config.js';
     document.querySelectorAll('[data-price]').forEach((el) => {
-      const p = window.RIKA_CONFIG?.pricing?.products?.[el.dataset.key];
+      const p = RIKA_CONFIG.pricing.products[el.dataset.key];
       if (p) el.textContent = formatKsh(p.unitPrice);
     });
     const wa = document.querySelectorAll('#waStyle');

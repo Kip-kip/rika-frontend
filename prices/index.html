@@ -435,7 +435,8 @@
   </div>
 
   <script type="module">
-    import { RIKA_CONFIG, formatKsh, waLink } from '/rika/shared/js/rika-config.js';
+    import { RIKA_CONFIG, formatKsh, waLink, initPricingConfig } from '/rika/shared/js/rika-config.js';
+    await initPricingConfig(); // live prices from Frappe (static fallback if API down)
 
     // Windows/doors table
     document.querySelectorAll('[data-price]').forEach((el) => {

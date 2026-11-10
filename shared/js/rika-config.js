@@ -12,7 +12,7 @@
 // To change a price later: edit it in this file ONLY.
 // ------------------------------------------------------------
 
-export const RIKA_CONFIG = {
+export const RIKA_CONFIG = {  // static fallback — overridden by initPricingConfig()
   currency: 'KSh',
 
   whatsapp: {
@@ -82,6 +82,15 @@ export const RIKA_CONFIG = {
   },
 };
 
+// --- Category-aware product lookup (live API has 16 products across 5 categories,
+//     several sharing the same product_key — e.g. "sliding" in window AND door).
+//     flatProducts: { "sliding": {...}, ... } for backwards-compat (last-write-wins,
+//     mirrors the static config which also has no category awareness).
+//     catProducts:  { "window": {"sliding": {...}, ...}, "door": {...}, ... } for
+//     pages that know their category.
+export const flatProducts = {};
+export const catProducts = {};
+
 // --- Helpers (pure functions, no DOM) ---
 
 export function formatKsh(n) {
@@ -98,4 +107,55 @@ export function formatRange(total) {
 export function waLink(presetText) {
   const n = RIKA_CONFIG.whatsapp.number;
   return `https://wa.me/${n}?text=${encodeURIComponent(presetText)}`;
+}
+
+// ============================================================
+// Live pricing — fetched from /rika/api/pricing-config
+// (Rika Pricing Config DocType, editable in Frappe admin).
+// The static values above are the fallback if the API is down.
+// ============================================================
+export function initPricingConfig() {
+  const mapApiToConfig = (api) => {
+    const c = api.config;
+    // Build both the flat (backwards-compat) and category-aware product maps.
+    // Category-aware is the source of truth for pages that know their category;
+    // flat is a fallback for tools that don't (calculator, quiz, etc.).
+    const products = {};
+    for (const [cat, cd] of Object.entries(c.pricing.categories || {})) {
+      catProducts[cat] = {};
+      for (const [key, p] of Object.entries(cd.products || {})) {
+        const entry = { label: p.label, unitPrice: p.unitPrice, blurb: p.blurb || '' };
+        catProducts[cat][key] = entry;
+        products[key] = entry; // flat: last category wins (window, door, glass, shopfront, partition)
+      }
+    }
+    // Reset flatProducts to the new flat map (clear old keys first)
+    Object.keys(flatProducts).forEach((k) => delete flatProducts[k]);
+    Object.assign(flatProducts, products);
+    // Mutate in place so every importer (rika-price.js, calculator,
+    // configurator, product pages) sees the same live object.
+    Object.keys(RIKA_CONFIG.pricing.products).forEach((k) => delete RIKA_CONFIG.pricing.products[k]);
+    Object.assign(RIKA_CONFIG.pricing.products, flatProducts);
+    Object.keys(RIKA_CONFIG.pricing.tiers).forEach((k) => delete RIKA_CONFIG.pricing.tiers[k]);
+    Object.assign(RIKA_CONFIG.pricing.tiers, c.pricing.tiers || {});
+    Object.keys(RIKA_CONFIG.pricing.addOns).forEach((k) => delete RIKA_CONFIG.pricing.addOns[k]);
+    Object.assign(RIKA_CONFIG.pricing.addOns, c.pricing.addOns || {});
+    RIKA_CONFIG.pricing.rangeWidth = c.pricing.rangeWidth ?? RIKA_CONFIG.pricing.rangeWidth;
+    RIKA_CONFIG.currency = c.currency || RIKA_CONFIG.currency;
+    if (c.whatsapp && c.whatsapp.number) RIKA_CONFIG.whatsapp.number = c.whatsapp.number;
+    if (c.disclaimer) RIKA_CONFIG.disclaimer = c.disclaimer;
+  };
+
+  return fetch('/rika/api/pricing-config', { cache: 'no-store' })
+    .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then((api) => {
+      const payload = api.message || api; // API wraps in {message: {...}}
+      if (!payload.ok) throw new Error(payload.error || 'config not found');
+      mapApiToConfig(payload);
+      if (typeof document !== 'undefined') document.dispatchEvent(new CustomEvent('rika:pricing-loaded'));
+    })
+    .catch((e) => {
+      // Static fallback is already in place — log and move on.
+      console.warn('[rika] pricing fetch failed, using static fallback:', e.message);
+    });
 }

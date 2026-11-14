@@ -51,7 +51,7 @@ function tplCasement(f, g, ga) {
 
 export const DESIGNS = {
   fixed:    { label: 'Fixed',     gen: tplFixed },
-  sliding2: { label: '2-Panel',   gen: (f) => slidingPanels(2, f) },
+  sliding2: { label: 'Sliding',   gen: (f) => slidingPanels(2, f) },
   sliding3: { label: '3-Panel',   gen: (f) => slidingPanels(3, f) },
   sliding4: { label: '4-Panel',   gen: (f) => slidingPanels(4, f) },
   casement: { label: 'Casement',  gen: tplCasement },
